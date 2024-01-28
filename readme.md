@@ -95,7 +95,15 @@ You can find my [Figma wireframe design here](https://www.figma.com/file/g2XzHo2
 * Python
 
 ### Frameworks, Libraries & Programs Used
- 
+
+* Materialize CSS
+    * Google's CSS framework.
+* SQLAlchemy
+    * A Python SQL relational database framework.
+    * For creating and manipulating data within the Postgres database.
+* Postgres
+    * A database management system.
+    * Used to store data, such as recipes, for MyRecipe within SQL tables.
 * Google Fonts
     * Easy access to many fonts supplied from a CDN that is close to the user, increasing download speed.
     * The @font-faces are in my stylesheet. This is quicker than the browser making two requests, the first being for the aforementioned stylesheet containing each @font-face.
