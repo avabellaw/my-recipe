@@ -82,10 +82,9 @@ Please find the research I conducted for this project [here](docs/research/resea
 
 I have created my wireframe in Figma. To see the comments I've made, you will need to view the wireframe logged into an account such as a Google account.
 
-You can find my [Figma wireframe design here]()
+You can find my [Figma wireframe design here](https://www.figma.com/file/g2XzHo2jGnEIlY4wayi499/MyRecipe)
 
 ### Surface Plane
-
 
 ## Technologies Used
 
