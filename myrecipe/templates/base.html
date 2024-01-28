@@ -18,9 +18,9 @@
 <body>
     <header>
         <nav>
-            <div class="nav-wrapper red lighten-4">
-                <a href="{{ url_for('home') }}" class="brand-logo">MyRecipe</a>
-                <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <div class="nav-wrapper">
+                <a href="{{ url_for('home') }}" class="brand-logo left">MyRecipe</a>
+                <ul id="nav-mobile" class="right">
                     <li><a href="{{ url_for('home') }}">Home</a></li>
                     <li><a class="waves-effect waves-light btn" id="login-btn">Login</a></li>
                 </ul>
@@ -39,6 +39,14 @@
 
     <!-- Materialize JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <!-- Materialize initialization JS -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var elems = document.querySelectorAll('.sidenav');
+            M.Sidenav.init(elems);
+        });
+    </script>
 </body>
 
 </html>

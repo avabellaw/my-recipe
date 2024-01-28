@@ -1,7 +1,11 @@
 /* Navbar */
 
+nav, nav > .nav-wrapper {
+    background-color: #ffa96c;
+}
+
 nav > .nav-wrapper a {
-    color: black;
+    color: rgb(0, 0, 0);
 }
 
 nav > .nav-wrapper ul a {
@@ -10,16 +14,18 @@ nav > .nav-wrapper ul a {
 
 #login-btn {
     margin-right: 0;
-    background-color: #fdb7b7;
+    background-color: #ffc87f;
     text-transform: capitalize;
+    border-radius: 10%;
 }
 
 #login-btn:hover {
-    background-color: #ff9393;
+    background-color: #ffcd61;
 }
 
 nav > .nav-wrapper{
-    padding: 0 1rem;
+    margin: 0 1rem;
+    position: relative;
 }
 
 /* End of Navbar */
