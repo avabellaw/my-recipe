@@ -84,6 +84,8 @@ I have created my wireframe in Figma. To see the comments I've made, you will ne
 
 You can find my [Figma wireframe design here](https://www.figma.com/file/g2XzHo2jGnEIlY4wayi499/MyRecipe)
 
+For the mapping out the database structure, [I created an entity relationship diagram using lucid.app](https://lucid.app/documents/view/b86f4c01-76f8-480c-be3f-36c04e2dae36)
+
 ### Surface Plane
 
 I want to have an attractive design that doesn't overwhelm the user. I will do this by adding lots of whitespace and not overcrowding pages with recipes.
