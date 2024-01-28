@@ -86,6 +86,9 @@ You can find my [Figma wireframe design here](https://www.figma.com/file/g2XzHo2
 
 ### Surface Plane
 
+I want to have an attractive design that doesn't overwhelm the user. I will do this by adding lots of whitespace and not overcrowding pages with recipes.
+I will use a simple and light colour scheme.
+
 ## Technologies Used
 
 ### Languages Used
@@ -96,6 +99,8 @@ You can find my [Figma wireframe design here](https://www.figma.com/file/g2XzHo2
 
 ### Frameworks, Libraries & Programs Used
 
+* Flask
+    * Python web framework.
 * Materialize CSS
     * Google's CSS framework.
 * SQLAlchemy
