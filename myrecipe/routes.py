@@ -4,4 +4,4 @@ from myrecipe import db, app
 
 @app.route("/")
 def home():
-    return "helloworld"
+    return render_template("index.html")
