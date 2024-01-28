@@ -1,0 +1,30 @@
+# Research performed for MyRecipe
+
+There are 3 websites that I predominatly used for research.
+
+## [BBC Good Food](https://www.bbcgoodfood.com/recipes)
+
+Simple, bright design by a familiar brand in Britain.
+
+**Pros**
+
+* I like the simple navigation with the search bar always being easily accessible.
+* The "Sign in | Register" buttons in the top-right make it obvious how to register for an account and login.
+* The various categories at the top of the page.
+* Recipes are instantly available, categorized by popularity, category, seasonal and so on.
+
+**Cons**
+
+* Very cluttered feeling, especially before closing the advert to "Download the app".
+* I'm personally not a fan of the colour scheme, especially mixing green with pink.
+
+## [allrecipes](https://www.allrecipes.com/recipes/1947/everyday-cooking/quick-and-easy/)
+
+**Pros**
+
+* Consistent colour scheme.
+* Login button in the top-right.
+    * I am a fan of prioritising the login over registering, as you will likely signup only once on a website.
+    * The ability to signup is on the login page which is intuitive for this choice.
+* Instant recipes on the homepage.
+    * Big images, nicely presented

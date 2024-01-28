@@ -1,6 +1,6 @@
-# **MyRecipies** - Milestone Project 3
+# **MyRecipe** - Milestone Project 3
 
-"MyRecipies" is a place to discover new recipes, and share your own. You can also use other people's recipes as a template for creating your own version.
+"MyRecipe" is a place to discover new recipes, and share your own. You can also use other people's recipes as a template for creating your own version.
 
 This project demonstrates my ability to use Python, Flask, and SQLAlchemy. It also includes the use of Google's CSS framework "Materialize".
 It builds on my knowledge gained from previous modules and showcases my skills in creating a website that incorporates database functionilty.
