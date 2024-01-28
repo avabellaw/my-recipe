@@ -36,9 +36,10 @@ Another bright and simple design with a lot more whitespace.
     * Big images, nicely presented
 * I love the "popular searches" feature of the search bar.
     ![allrecipes search bar](allrecipes-search-bar.webp)
+* I like that there are two ways to search (the navbar and further down the page).
 
 **Cons**
-* Search bar is quite low down on the homepage.
+* Search bar is quite low down on the homepage, however, there's also a second search icon in the nav.
 
 ## [Jamie Oliver's website](https://www.jamieoliver.com/)
 
@@ -51,6 +52,7 @@ This website is by a famous chef within the UK.
 * Lovely colours and shading.
 * Intuitive login/signup design in top-right.
 * 5 stand out categories in the top navigation bar.
+* I really like how the search functionality is a search icon that, when clicked, is a dropdown extension of the nav bar.
 
 **Cons**
 * Lack of contrast, between the white text and light-green background, isn't great for accessibility.
