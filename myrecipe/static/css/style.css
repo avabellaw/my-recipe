@@ -4,6 +4,10 @@ nav, nav > .nav-wrapper {
     background-color: #ffa96c;
 }
 
+nav > .nav-wrapper{
+    position: relative;
+}
+
 nav > .nav-wrapper a {
     color: rgb(0, 0, 0);
 }
@@ -21,11 +25,6 @@ nav > .nav-wrapper ul a {
 
 #login-btn:hover {
     background-color: #ffcd61;
-}
-
-nav > .nav-wrapper{
-    margin: 0 1rem;
-    position: relative;
 }
 
 /* End of Navbar */
