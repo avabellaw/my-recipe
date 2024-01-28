@@ -4,12 +4,17 @@ nav > .nav-wrapper a {
     color: black;
 }
 
-nav ul a.btn {
-    margin-right: 0;
-    background-color: #ffb5b5;
+nav > .nav-wrapper ul a {
+    font-size: 1.2em;
 }
 
-nav ul a.btn:hover {
+#login-btn {
+    margin-right: 0;
+    background-color: #fdb7b7;
+    text-transform: capitalize;
+}
+
+#login-btn:hover {
     background-color: #ff9393;
 }
 
