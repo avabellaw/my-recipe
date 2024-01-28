@@ -6,7 +6,7 @@ There are 3 websites that I predominatly used for research.
 
 Simple, bright design by a familiar brand in Britain.
 
-[BBC Good Food homepage](bbc-good-food.webp)
+![BBC Good Food homepage](bbc-good-food.webp)
 
 **Pros**
 
@@ -24,7 +24,7 @@ Simple, bright design by a familiar brand in Britain.
 
 Another bright and simple design with a lot more whitespace.
 
-[allrecipes homepage](allrecipes.webp)
+![allrecipes homepage](allrecipes.webp)
 
 **Pros**
 
@@ -35,6 +35,25 @@ Another bright and simple design with a lot more whitespace.
 * Instant recipes on the homepage.
     * Big images, nicely presented
 * I love the "popular searches" feature of the search bar.
+    ![allrecipes search bar](allrecipes-search-bar.webp)
 
 **Cons**
 * Search bar is quite low down on the homepage.
+
+## [Jamie Oliver's website](https://www.jamieoliver.com/)
+
+This website is by a famous chef within the UK.
+
+![Jamie Oliver's website](jamie-oliver.webp)
+
+**Pros**
+
+* Lovely colours and shading.
+* Intuitive login/signup design in top-right.
+* 5 stand out categories in the top navigation bar.
+
+**Cons**
+* Lack of contrast, between the white text and light-green background, isn't great for accessibility.
+* Popup asking you to signup for his cookbook is obnoxious.
+* One section with broken CSS.
+    ![Jamie Oliver website, broken css](jamie-oliver-broken.webp)
