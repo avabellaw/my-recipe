@@ -1,25 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Discover new recipes and perfect them, or share your own.">
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
-
     <!-- Materialize -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
+
     <title>MyRecipe</title>
 </head>
+
 <body>
     <header>
         <nav>
-            <h1>MyRecipe</h1>
-            <ul>
-                <li><a href="{{ url_for('home') }}">Home</a></li>
-            </ul>
+            <div class="nav-wrapper red lighten-4">
+                <a href="{{ url_for('home') }}" class="brand-logo">MyRecipe</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="{{ url_for('home') }}">Home</a></li>
+                    <li><a class="waves-effect waves-light btn">Login</a></li>
+                </ul>
+            </div>
         </nav>
     </header>
 
@@ -29,10 +34,11 @@
     </section>
 
     <footer>
-        
+
     </footer>
 
     <!-- Materialize JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
+
 </html>

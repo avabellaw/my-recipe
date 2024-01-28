@@ -1,3 +1,21 @@
-nav {
-    display: flex;
+/* Navbar */
+
+nav > .nav-wrapper a {
+    color: black;
 }
+
+nav ul a.btn {
+    margin-right: 0;
+    background-color: #ffb5b5;
+}
+
+nav ul a.btn:hover {
+    background-color: #ff9393;
+}
+
+nav > .nav-wrapper{
+    padding: 0 1rem;
+}
+
+/* End of Navbar */
+
