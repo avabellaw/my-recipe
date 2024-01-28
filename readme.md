@@ -76,7 +76,7 @@ The footer will contain a link to the about page and links to socials.
 
 #### Research
 
-
+Please find the research I conducted for this project [here](docs/research/research.md)
 
 ### Skeleton Plane
 
