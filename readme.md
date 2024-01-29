@@ -214,7 +214,14 @@ $ git clone https://github.com/avabellaw/my-recipe
 
 ### Code
 
-"# type: ignore" will ignore errors - Otherwise there is an error for unexpected arguments when using models [https://stackoverflow.com/questions/58936116/pycharm-warns-about-unexpected-arguments-for-sqlalchemy-user-model] 
+* "# type: ignore" will ignore errors [https://stackoverflow.com/questions/58936116/pycharm-warns-about-unexpected-arguments-for-sqlalchemy-user-model] 
+    * Otherwise there is an error for unexpected arguments when using models.
+
+* For registering users [https://www.youtube.com/watch?v=71EU8gnZqZQ]
+    * I originally just inputted new users into the database.
+    * I watched this video to learn about how to properly handle user registration in Flask.
+    * Taught me how to encrypt and check encrypted password.
+    * Taught me how to keep track of whether user is logged in within Flask using LoginManager. 
 
 ### Media
 
