@@ -34,9 +34,15 @@ nav > .nav-wrapper ul a {
 #account-dropdown {
     min-width: 10rem;
     display: flex;
-    justify-content: space-evenly;
 }
 
+#account-dropdown_person-icon {
+    margin-right: 0.5rem;
+}
+
+i.right.arrow-dropdown-icon {
+    margin-left: auto;
+}
 
 /* End of Navbar */
 
