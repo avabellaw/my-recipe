@@ -55,7 +55,8 @@ def register():
 @app.route("/my-recipes")
 @login_required
 def my_recipes():
-    return render_template("my-recipes.html")
+    recipes = Recipes.query.filter_by(user_id=current_user.id).all()
+    return render_template("my-recipes.html", recipes=recipes)
 
 @app.route("/add-recipe", methods=["GET", "POST"])
 @login_required

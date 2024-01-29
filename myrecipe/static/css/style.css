@@ -74,3 +74,11 @@ i.right.arrow-dropdown-icon {
 
 /* End of Homepage */
 
+/* My recipes page */
+
+.recipe-card > .card > .card-image > img {
+    max-width: 200px;
+}
+
+/* End of My recipes page */
+
