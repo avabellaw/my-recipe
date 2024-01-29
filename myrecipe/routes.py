@@ -15,13 +15,13 @@ def load_user(user_id):
 
 @app.route("/")
 def home():
-    # current_user.is_authenticated from stackoverflow [https://stackoverflow.com/questions/20419228/flask-login-check-if-user-is-authenticated-without-decorator]
-    if current_user.is_authenticated:
-        return render_template("index.html", username=current_user.username)
     return render_template("index.html")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for("home"))
+    
     if request.method == "POST":
         user = get_user(request.form.get("username"))
         if validate_login(user, request.form.get("password")):
@@ -37,6 +37,9 @@ def logout():
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
+    if current_user.is_authenticated:
+        return redirect(url_for("home"))
+    
     if request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")
