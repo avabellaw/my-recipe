@@ -3,7 +3,7 @@ from flask_login import login_user, logout_user, login_required, current_user, L
 from flask_bcrypt import Bcrypt
 from requests import get
 from myrecipe import db, app
-from myrecipe.models import Users
+from myrecipe.models import Users, Recipes
 
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
@@ -57,10 +57,24 @@ def register():
 def my_recipes():
     return render_template("my-recipes.html")
 
-@app.route("/add-recipe")
+@app.route("/add-recipe", methods=["GET", "POST"])
 @login_required
 def add_recipe():
+    if request.method == "POST":
+        title = request.form.get("title")
+        desc = request.form.get("desc")
+        ingredients = request.form.get("ingredients")
+        instructions = request.form.get("instructions")
+        recipe = Recipes(user_id=current_user.id, title=title, desc=desc, ingredients=ingredients, instructions=instructions) # type: ignore
+        
+        if validate_recipe(recipe):
+            db.session.add(recipe)
+            db.session.commit()
+            return redirect(url_for("my_recipes"))
     return render_template("add-recipe.html")
+
+def validate_recipe(recipe):
+    return True
 
 def get_user(username):
     return Users.query.filter_by(username=username).first()
