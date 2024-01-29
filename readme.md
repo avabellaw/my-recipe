@@ -214,6 +214,8 @@ $ git clone https://github.com/avabellaw/my-recipe
 
 ### Code
 
+"# type: ignore" will ignore errors - Otherwise there is an error for unexpected arguments when using models [https://stackoverflow.com/questions/58936116/pycharm-warns-about-unexpected-arguments-for-sqlalchemy-user-model] 
+
 ### Media
 
 #### Images

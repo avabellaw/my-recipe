@@ -15,7 +15,7 @@ def register():
     if request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")
-        user = Users(username=username, password=password)
+        user = Users(username=username, password=password) # type: ignore
         db.session.add(user)
         db.session.commit()
         print("Submitted")
