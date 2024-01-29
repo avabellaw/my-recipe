@@ -22,6 +22,17 @@
 
 <body>
     <header>
+        <!-- Account menu dropdown items when logged in -->
+        {% if current_user.is_authenticated %}
+        <ul id="dropdown1" class="dropdown-content">
+            <li><a href="#!">one</a></li>
+            <li><a href="#!">two</a></li>
+            <li class="divider"></li>
+            <li><a href="#!">three</a></li>
+        </ul>
+        {% endif %}
+
+        <!-- Navbar -->
         <nav>
             <div class="nav-wrapper">
                 <div class="container">
@@ -29,9 +40,16 @@
                     <ul id="nav-mobile" class="right">
                         <li><a href="{{ url_for('home') }}">Home</a></li>
                         {% if current_user.is_authenticated %}
-                            <li><a href="{{ url_for('login') }}" class="waves-effect waves-light btn" id="login-btn">{{ username }}</a></li>
+                        <!-- Dropdown Trigger -->
+                        <li>
+                            <a class="dropdown-trigger waves-effect waves-light" href="#!" data-target="dropdown1">{{
+                                username }}
+                                <i class="material-icons right">arrow_drop_down</i>
+                            </a>
+                        </li>
                         {% else %}
-                            <li><a href="{{ url_for('login') }}" class="waves-effect waves-light btn" id="login-btn">Login</a></li>
+                        <li><a href="{{ url_for('login') }}" class="waves-effect waves-light btn"
+                                id="login-btn">Login</a></li>
                         {% endif %}
                     </ul>
                 </div>
@@ -56,8 +74,18 @@
     <!-- Materialize initialization JS -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            var elems = document.querySelectorAll('.sidenav');
+            let elems = document.querySelectorAll('.sidenav');
             M.Sidenav.init(elems);
+
+            let dropdowns = document.querySelectorAll('.dropdown-trigger');
+
+            // Add dropdown options from stackoverflow [https://stackoverflow.com/questions/50051540/materialize-dropdown-options]
+            let dropdownOptions = { 
+                // Make dropdown appear below dropdown trigger from stackoverflow [https://stackoverflow.com/questions/57773699/how-to-make-materializecss-dropdown-appear-below-selectbox]
+                coverTrigger: false 
+            }
+
+            M.Dropdown.init(dropdowns, dropdownOptions);
         });
     </script>
 </body>
