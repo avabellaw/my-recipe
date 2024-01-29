@@ -1,6 +1,16 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h2>Home</h2>
-    <p>Welcome to MyRecipe, a place to discover new recipes and perfect them, or share your own.</p>
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col s12">
+                <img id="hero_image" class="responsive-img"
+                    src="{{ url_for('static', filename='images/bright-dishes.webp') }}">
+
+                <p id="hero_tagline">Discover new recipes and make them yours.</p>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}

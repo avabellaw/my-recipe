@@ -50,3 +50,18 @@ i.right.arrow-dropdown-icon {
 
 /* End of Navbar */
 
+/* Homepage */
+
+#hero_tagline {
+    font-size: 1.5em;
+    text-align: center;
+}
+
+#hero_image {
+    max-height: 75vh;
+    margin: auto;
+    display: block;
+}
+
+/* End of Homepage */
+
