@@ -12,6 +12,9 @@
     <!-- CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
 
+    <!-- Add favicon  -->
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
     <title>MyRecipe</title>
 </head>
 
@@ -31,8 +34,10 @@
     </header>
 
     <section>
-        {% block content %}
-        {% endblock %}
+        <div class="container">
+            {% block content %}
+            {% endblock %}
+        </div>
     </section>
 
     <footer>
