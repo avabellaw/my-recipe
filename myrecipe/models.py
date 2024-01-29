@@ -1,7 +1,7 @@
 from myrecipe import db
-from sqlalchemy.orm import Mapped, mapped_column
+from flask_login import UserMixin
 
-class Users(db.Model):
-    id: Mapped[int] = mapped_column(db.Integer, primary_key=True)
-    username: Mapped[str] = mapped_column(db.String(25), unique=True, nullable=False)
-    password: Mapped[str] = mapped_column(db.String(), nullable=False)
+class Users(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(25), unique=True, nullable=False)
+    password = db.Column(db.String(), nullable=False)
