@@ -1,3 +1,12 @@
+/* General page styles */
+
+.page-header {
+    text-transform: capitalize;
+    text-align: center;
+}
+
+/* End of general page styles */
+
 /* Navbar */
 
 nav, nav > .nav-wrapper {
