@@ -27,5 +27,16 @@ nav > .nav-wrapper ul a {
     background-color: #ffcd61;
 }
 
+#account-dropdown_menu {
+    text-transform: capitalize;
+}
+
+#account-dropdown {
+    min-width: 10rem;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+
 /* End of Navbar */
 
