@@ -56,6 +56,10 @@ def register():
 @login_required
 def my_recipes():
     recipes = Recipes.query.filter_by(user_id=current_user.id).all()
+    
+    for recipe in recipes:
+        # Type ignore is because the linter doesn't recognize that Users contains the field username
+        recipe.created_by = Users.query.filter_by(id=recipe.user_id).first().username # type: ignore
     return render_template("my-recipes.html", recipes=recipes)
 
 @app.route("/add-recipe", methods=["GET", "POST"])
