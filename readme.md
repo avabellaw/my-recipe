@@ -223,6 +223,10 @@ $ git clone https://github.com/avabellaw/my-recipe
     * Taught me how to encrypt and check encrypted password.
     * Taught me how to keep track of whether user is logged in within Flask using LoginManager. 
 
+* bcrypt wasn't able to check_password "Invalid salt".
+    * This is because postgres already encodes the hash.
+    * I decode the hash to utf-8 before adding [https://stackoverflow.com/questions/34548846/flask-bcrypt-valueerror-invalid-salt]
+
 ### Media
 
 #### Images

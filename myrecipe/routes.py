@@ -15,6 +15,7 @@ def load_user(user_id):
 
 @app.route("/")
 def home():
+    # current_user.is_authenticated from stackoverflow [https://stackoverflow.com/questions/20419228/flask-login-check-if-user-is-authenticated-without-decorator]
     if current_user.is_authenticated:
         return render_template("index.html", username=current_user.username)
     return render_template("index.html")
