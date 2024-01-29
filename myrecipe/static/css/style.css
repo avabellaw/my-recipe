@@ -31,9 +31,13 @@ nav > .nav-wrapper ul a {
     text-transform: capitalize;
 }
 
-#account-dropdown {
+#account-dropdown > a{
     min-width: 10rem;
     display: flex;
+}
+
+#account-dropdown {
+    background-color: rgb(0,0,0,0.05);
 }
 
 #account-dropdown_person-icon {

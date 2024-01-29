@@ -41,8 +41,8 @@
                         <li><a href="{{ url_for('home') }}">Home</a></li>
                         {% if current_user.is_authenticated %}
                         <!-- Dropdown Trigger -->
-                        <li>
-                            <a id="account-dropdown" class="dropdown-trigger waves-effect waves-light" href="#!"
+                        <li id="account-dropdown">
+                            <a class="dropdown-trigger waves-effect waves-light" href="#!"
                                 data-target="account-dropdown_menu">
                                 <i id="account-dropdown_person-icon" class="material-icons">person</i>
                                 {{username}}
