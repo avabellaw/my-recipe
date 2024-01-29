@@ -15,6 +15,8 @@ def load_user(user_id):
 
 @app.route("/")
 def home():
+    if current_user.is_authenticated:
+        return render_template("index.html", username=current_user.username)
     return render_template("index.html")
 
 @app.route("/login", methods=["GET", "POST"])
