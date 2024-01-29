@@ -26,7 +26,7 @@
         {% if current_user.is_authenticated %}
         <ul id="account-dropdown_menu" class="dropdown-content">
             <li><a href="#">Profile</a></li>
-            <li><a href="#">My recipes</a></li>
+            <li><a href="{{ url_for('my_recipes') }}">My recipes</a></li>
             <li class="divider"></li>
             <li><a href="{{ url_for('logout') }}">Logout</a></li>
         </ul>

@@ -52,6 +52,16 @@ def register():
         
     return render_template("register.html")
 
+@app.route("/my-recipes")
+@login_required
+def my_recipes():
+    return render_template("my-recipes.html")
+
+@app.route("/add-recipe")
+@login_required
+def add_recipe():
+    return render_template("add-recipe.html")
+
 def get_user(username):
     return Users.query.filter_by(username=username).first()
 
