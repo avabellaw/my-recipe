@@ -4,7 +4,7 @@ nav, nav > .nav-wrapper {
     background-color: #ffa96c;
 }
 
-nav > .nav-wrapper{
+nav > .nav-wrapper, nav > .nav-wrapper > .container {
     position: relative;
 }
 
