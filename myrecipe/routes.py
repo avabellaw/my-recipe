@@ -1,3 +1,4 @@
+from ast import Pass
 from wsgiref import validate
 from flask import url_for, redirect, render_template, request
 from flask_login import login_user, logout_user, login_required, current_user, LoginManager, login_user
@@ -23,12 +24,14 @@ def login():
     if current_user.is_authenticated:
         return redirect(url_for("home"))
     
+    form = LoginForm()
+        
     if request.method == "POST":
         user = get_user(request.form.get("username"))
-        if validate_login(user, request.form.get("password")):
+        if form.validate_on_submit():
             login_user(user)
             return redirect(url_for("home"))
-    return render_template("login.html")
+    return render_template("login.html", form=form)
 
 @app.route("/logout", methods=["GET", "POST"])
 @login_required
@@ -87,23 +90,31 @@ def validate_recipe(recipe):
 def get_user(username):
     return Users.query.filter_by(username=username).first()
 
-def validate_login(user, password):
-    if user and bcrypt.check_password_hash(user.password, password):
-        return True
-    return False
-
 # Wtforms
 
 
 from flask_wtf import FlaskForm
-from wtforms import StringField
+from wtforms import PasswordField, StringField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError  
 
 class RegistrationForm(FlaskForm):
     username = StringField("Username:", validators=[DataRequired(), Length(min=2, max=20)])
-    password = StringField("Password:", validators=[DataRequired(), Length(min=8, max=20)])
-    confirm_password = StringField("Confirm your password:", validators=[DataRequired(), EqualTo("password")])
+    password = PasswordField("Password:", validators=[DataRequired(), Length(min=8, max=20)])
+    confirm_password = PasswordField("Confirm your password:", validators=[DataRequired(), EqualTo("password")])
     
     def validate_username(self, username):
         if get_user(username.data):
             raise ValidationError(f"Username already taken: {username.data}")
+        
+class LoginForm(FlaskForm):
+    username = StringField("Username:", validators=[DataRequired(), Length(min=2, max=20)])
+    password = PasswordField("Password:", validators=[DataRequired(), Length(min=8, max=20)])
+    
+    def validate_username(self, username):
+        if not get_user(username.data):
+            raise ValidationError(f"Username does not exist: {username.data}")
+        
+    def validate_password(self, password):
+        user = get_user(self.username.data)
+        if user and not bcrypt.check_password_hash(user.password, password.data):
+            raise ValidationError(f"Password is incorrect.")
