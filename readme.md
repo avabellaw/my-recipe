@@ -231,6 +231,9 @@ $ git clone https://github.com/avabellaw/my-recipe
     * [https://flask-wtf.readthedocs.io/en/1.2.x/quickstart/#creating-forms]
     * [https://wtforms.readthedocs.io/en/3.0.x/validators/]
 
+* Add classes to flask_wtf form elements.
+    * [https://stackoverflow.com/questions/22084886/add-a-css-class-to-a-field-in-wtform]
+
 ### Media
 
 #### Images

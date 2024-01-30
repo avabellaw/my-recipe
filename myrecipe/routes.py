@@ -106,4 +106,4 @@ class RegistrationForm(FlaskForm):
     
     def validate_username(self, username):
         if get_user(username.data):
-            raise ValidationError("Username already taken.")
+            raise ValidationError(f"Username already taken: {username.data}")
