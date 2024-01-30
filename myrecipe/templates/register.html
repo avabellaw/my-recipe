@@ -11,9 +11,11 @@
         <div class="col s12">
             <form action="{{ url_for('register') }}" method="POST">
                 {{ form.csrf_token }}
+
+                <!-- Username field -->
                 <div class="input-field">
-                    {{form.username}}
-                    {{form.username.label}}
+                    {{ form.username }}
+                    {{ form.username.label }}
                 </div>
 
                 {% for error in form.username.errors %}
@@ -22,10 +24,29 @@
                 </p>
                 {% endfor %}
 
+                <!-- Password field -->
                 <div class="input-field">
                     {{ form.password }}
                     {{ form.password.label }}
                 </div>
+
+                {% for error in form.password.errors %}
+                <p class="validation-message">
+                    <i class="material-icons">error_outline</i> {{ error }}
+                </p>
+                {% endfor %}
+
+                <!-- Confirm password field -->
+                <div class="input-field">
+                    {{ form.confirm_password }}
+                    {{ form.confirm_password.label }}
+                </div>
+
+                {% for error in form.confirm_password.errors %}
+                <p class="validation-message">
+                    <i class="material-icons">error_outline</i> {{ error }}
+                </p>
+                {% endfor %}
 
                 <button class="btn waves-effect waves-light" type="submit" name="action">Register
                     <i class="material-icons right">send</i>
