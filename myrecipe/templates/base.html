@@ -37,7 +37,9 @@
             <div class="nav-wrapper">
                 <div class="container">
                     <a href="{{ url_for('home') }}" class="brand-logo left">MyRecipe</a>
-                    <ul id="nav-mobile" class="right">
+                    <a href="#" data-target="mobile-sidenav" class="sidenav-trigger right hide-on-med-and-up"><i
+                            class="material-icons">menu</i></a>
+                    <ul id="nav-mobile" class="right hide-on-small-and-down">
                         <li><a href="{{ url_for('home') }}">Home</a></li>
                         {% if current_user.is_authenticated %}
                         <!-- Dropdown Trigger -->
@@ -57,6 +59,27 @@
                 </div>
             </div>
         </nav>
+
+        <!-- Mobile nav -->
+        <ul class="sidenav" id="mobile-sidenav">
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            {% if current_user.is_authenticated %}
+            <li id="account-options-title">
+                <i id="account-dropdown_person-icon" class="material-icons">person</i>
+                {{-current_user.username-}}
+            </li>
+            <ul id="account-dropdown_menu">
+                <li><a href="#">Profile</a></li>
+                <li><a href="{{ url_for('my_recipes') }}">My recipes</a></li>
+                <li class="divider"></li>
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            </ul>
+            {% else %}
+            <li id="mobile-sidenav_login-btn">
+                <a href="{{ url_for('login') }}"><span class="waves-effect waves-light btn" id="login-btn">Login</span></a>
+            </li>
+            {% endif %}
+        </ul>
     </header>
 
     <br>
@@ -83,9 +106,15 @@
             let dropdownOptions = {
                 // Make dropdown appear below dropdown trigger from stackoverflow [https://stackoverflow.com/questions/57773699/how-to-make-materializecss-dropdown-appear-below-selectbox]
                 coverTrigger: false
-            }
+            };
 
             M.Dropdown.init(dropdowns, dropdownOptions);
+
+            let sidenavs = document.querySelectorAll('.sidenav');
+            M.Sidenav.init(sidenavs, {
+                edge: 'right', // Choose the horizontal origin
+                // closeOnClick: true // Closes side-nav on <a> clicks, useful for Angular/Meteor
+            });
         });
     </script>
 </body>
