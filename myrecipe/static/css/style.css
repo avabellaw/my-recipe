@@ -76,12 +76,21 @@ i.right.arrow-dropdown-icon {
 
 /* My recipes page */
 
-.recipe-card > .card > .card-image > img {
+.recipe-card > .card > .card-image {
     max-width: 200px;
 }
 
 .card_created-by {
     margin:0;
+}
+
+@media screen and (max-width: 576px) {
+    .card.horizontal {
+        display: block;
+    }
+    .card.horizontal > .card-image {
+        max-width: 100%;
+    }
 }
 
 /* End of My recipes page */
