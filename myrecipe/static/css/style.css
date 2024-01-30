@@ -86,3 +86,12 @@ i.right.arrow-dropdown-icon {
 
 /* End of My recipes page */
 
+/* Forms */
+
+.validation-message {
+    color: red;
+    margin-bottom: 2rem;
+    margin-top: 0;
+}
+
+/* End forms */

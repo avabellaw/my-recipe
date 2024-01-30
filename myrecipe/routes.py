@@ -1,3 +1,4 @@
+from wsgiref import validate
 from flask import url_for, redirect, render_template, request
 from flask_login import login_user, logout_user, login_required, current_user, LoginManager, login_user
 from flask_bcrypt import Bcrypt
@@ -40,17 +41,19 @@ def register():
     if current_user.is_authenticated:
         return redirect(url_for("home"))
     
+    form = RegistrationForm()
+    
     if request.method == "POST":
-        username = request.form.get("username")
-        password = request.form.get("password")
-        encrypted_pass = bcrypt.generate_password_hash(password).decode("utf-8")
-        user = Users(username=username, password=encrypted_pass) # type: ignore
-        db.session.add(user)
-        db.session.commit()
-        return redirect(url_for("login"))
+        if form.validate_on_submit():
+            username = form.username.data
+            password = form.password.data
+            encrypted_pass = bcrypt.generate_password_hash(password).decode("utf-8")
+            user = Users(username=username, password=encrypted_pass) # type: ignore
+            db.session.add(user)
+            db.session.commit()
+            return redirect(url_for("login"))
         
-        
-    return render_template("register.html")
+    return render_template("register.html", form=form)
 
 @app.route("/my-recipes")
 @login_required
@@ -88,3 +91,19 @@ def validate_login(user, password):
     if user and bcrypt.check_password_hash(user.password, password):
         return True
     return False
+
+# Wtforms
+
+
+from flask_wtf import FlaskForm
+from wtforms import StringField
+from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError  
+
+class RegistrationForm(FlaskForm):
+    username = StringField("Username:", validators=[DataRequired(), Length(min=2, max=20)])
+    password = StringField("Password:", validators=[DataRequired(), Length(min=8, max=20)])
+    confirm_password = StringField("Confirm your password:", validators=[DataRequired(), EqualTo("password")])
+    
+    def validate_username(self, username):
+        if get_user(username.data):
+            raise ValidationError("Username already taken.")

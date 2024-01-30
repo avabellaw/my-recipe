@@ -227,6 +227,10 @@ $ git clone https://github.com/avabellaw/my-recipe
     * This is because postgres already encodes the hash.
     * I decode the hash to utf-8 before adding [https://stackoverflow.com/questions/34548846/flask-bcrypt-valueerror-invalid-salt]
 
+* flask_wtf 
+    * [https://flask-wtf.readthedocs.io/en/1.2.x/quickstart/#creating-forms]
+    * [https://wtforms.readthedocs.io/en/3.0.x/validators/]
+
 ### Media
 
 #### Images
