@@ -33,7 +33,7 @@
                             <p>{{ recipe.desc }}</p>
                         </div>
                         <div class="card-action">
-                            <a class="view-recipe-btn" href="#">View Recipe</a>
+                            <a class="view-recipe-btn" href="{{ url_for('view_recipe', recipe=recipe.id) }}">View Recipe</a>
                             <p class="card_created-by right"><small>Created by {{ recipe.created_by }}</small></p>
                         </div>
                     </div>

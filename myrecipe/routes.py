@@ -1,5 +1,3 @@
-from ast import Pass
-from wsgiref import validate
 from flask import url_for, redirect, render_template, request
 from flask_login import login_user, logout_user, login_required, current_user, LoginManager, login_user
 from flask_bcrypt import Bcrypt
@@ -14,12 +12,14 @@ login_manager.init_app(app)
 def load_user(user_id):
     return Users.query.get(int(user_id))
 
+# Homepage
 @app.route("/")
 def home():
     recipes = get_all_recipes()
     add_created_by_to_recipes(recipes)
     return render_template("index.html", recipes=recipes)
 
+# Login user
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if current_user.is_authenticated:
@@ -40,6 +40,7 @@ def logout():
     logout_user()
     return redirect(url_for("home"))
 
+# Register user
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if current_user.is_authenticated:
@@ -59,6 +60,7 @@ def register():
         
     return render_template("register.html", form=form)
 
+# My recipies
 @app.route("/my-recipes")
 @login_required
 def my_recipes():
@@ -67,6 +69,14 @@ def my_recipes():
     add_created_by_to_recipes(recipes)
     return render_template("my-recipes.html", recipes=recipes)
 
+# View recipe
+@app.route("/recipe/<int:recipe_id>", methods=["GET", "POST"])
+def view_recipe(recipe_id):
+    recipe = Recipes.query.get(recipe_id)
+    recipe.created_by = Users.query.filter_by(id=recipe.user_id).first().username # type: ignore
+    return render_template("view-recipe.html", recipe=recipe)
+
+# Add recipe
 @app.route("/add-recipe", methods=["GET", "POST"])
 @login_required
 def add_recipe():
