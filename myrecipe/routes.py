@@ -16,7 +16,9 @@ def load_user(user_id):
 
 @app.route("/")
 def home():
-    return render_template("index.html")
+    recipes = get_all_recipes()
+    add_created_by_to_recipes(recipes)
+    return render_template("index.html", recipes=recipes)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -62,9 +64,7 @@ def register():
 def my_recipes():
     recipes = Recipes.query.filter_by(user_id=current_user.id).all()
     
-    for recipe in recipes:
-        # Type ignore is because the linter doesn't recognize that Users contains the field username
-        recipe.created_by = Users.query.filter_by(id=recipe.user_id).first().username # type: ignore
+    add_created_by_to_recipes(recipes)
     return render_template("my-recipes.html", recipes=recipes)
 
 @app.route("/add-recipe", methods=["GET", "POST"])
@@ -87,6 +87,14 @@ def add_recipe():
 
 def get_user(username):
     return Users.query.filter_by(username=username).first()
+
+def get_all_recipes():
+    return Recipes.query.all()
+
+def add_created_by_to_recipes(recipes):
+     for recipe in recipes:
+        # Type ignore is because the linter doesn't recognize that Users contains the field username
+        recipe.created_by = Users.query.filter_by(id=recipe.user_id).first().username # type: ignore
 
 # Wtforms
 

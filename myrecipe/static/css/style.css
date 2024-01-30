@@ -5,6 +5,10 @@
     text-align: center;
 }
 
+.recipe-card {
+    font-size: 1.2em;
+}
+
 /* End of general page styles */
 
 /* Navbar */
@@ -76,10 +80,11 @@ span#login-btn {
     padding: 0 15%;
 }
 
-#mobile-sidenav > #account-dropdown_menu {
+#mobile-sidenav>#account-dropdown_menu {
     width: 80%;
     margin: auto;
 }
+
 /* End of Navbar */
 
 /* Homepage */
@@ -100,7 +105,7 @@ span#login-btn {
 /* My recipes page */
 
 .recipe-card>.card>.card-image {
-    max-width: 200px;
+    max-width: 250px;
 }
 
 .card_created-by {
@@ -114,6 +119,27 @@ span#login-btn {
 
     .card.horizontal>.card-image {
         max-width: 100%;
+    }
+
+    .card-action {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .card-action>a.view-recipe-btn {
+        /* "Important" needed to overright extremely specific Materialize styles */
+        margin: 0 !important;
+    }
+
+    .card_created-by {
+        margin-top: 0.5em;
+    }
+
+    .recipe-card {
+        max-width: 350px;
+        margin: auto;
     }
 }
 
