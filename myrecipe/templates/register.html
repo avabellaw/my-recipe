@@ -17,7 +17,9 @@
                 </div>
 
                 {% for error in form.username.errors %}
-                <li class="validation-message">{{ error }}</li>
+                <p class="validation-message">
+                    <i class="material-icons">error_outline</i> {{ error }}
+                </p>
                 {% endfor %}
 
                 <div class="input-field">
