@@ -3,7 +3,6 @@ from wsgiref import validate
 from flask import url_for, redirect, render_template, request
 from flask_login import login_user, logout_user, login_required, current_user, LoginManager, login_user
 from flask_bcrypt import Bcrypt
-from requests import get
 from myrecipe import db, app
 from myrecipe.models import Users, Recipes
 
@@ -71,21 +70,20 @@ def my_recipes():
 @app.route("/add-recipe", methods=["GET", "POST"])
 @login_required
 def add_recipe():
+    form = AddRecipeForm()
+    
     if request.method == "POST":
-        title = request.form.get("title")
-        desc = request.form.get("desc")
-        ingredients = request.form.get("ingredients")
-        instructions = request.form.get("instructions")
+        title = form.title.data
+        desc = form.desc.data 
+        ingredients = form.ingredients.data
+        instructions = form.instructions.data
         recipe = Recipes(user_id=current_user.id, title=title, desc=desc, ingredients=ingredients, instructions=instructions) # type: ignore
         
-        if validate_recipe(recipe):
+        if form.validate_on_submit():
             db.session.add(recipe)
             db.session.commit()
             return redirect(url_for("my_recipes"))
-    return render_template("add-recipe.html")
-
-def validate_recipe(recipe):
-    return True
+    return render_template("add-recipe.html", form=form)
 
 def get_user(username):
     return Users.query.filter_by(username=username).first()
@@ -118,3 +116,9 @@ class LoginForm(FlaskForm):
         user = get_user(self.username.data)
         if user and not bcrypt.check_password_hash(user.password, password.data):
             raise ValidationError(f"Password is incorrect.")
+        
+class AddRecipeForm(FlaskForm):
+    title = StringField("Title:", validators=[DataRequired(), Length(min=2, max=20)])
+    desc = StringField("Description:", validators=[DataRequired(), Length(min=2, max=200)])
+    ingredients = StringField("Ingredients:", validators=[DataRequired(), Length(min=2, max=500)])
+    instructions = StringField("Instructions:", validators=[DataRequired(), Length(min=2, max=1000)])
