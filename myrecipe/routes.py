@@ -110,7 +110,7 @@ def add_created_by_to_recipes(recipes):
 
 
 from flask_wtf import FlaskForm
-from wtforms import PasswordField, StringField
+from wtforms import PasswordField, StringField, TextAreaField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError  
 
 class RegistrationForm(FlaskForm):
@@ -138,5 +138,5 @@ class LoginForm(FlaskForm):
 class AddRecipeForm(FlaskForm):
     title = StringField("Title:", validators=[DataRequired(), Length(min=2, max=20)])
     desc = StringField("Description:", validators=[DataRequired(), Length(min=2, max=200)])
-    ingredients = StringField("Ingredients:", validators=[DataRequired(), Length(min=2, max=500)])
-    instructions = StringField("Instructions:", validators=[DataRequired(), Length(min=2, max=1000)])
+    ingredients = TextAreaField("Ingredients:", validators=[DataRequired(), Length(min=10, max=500)])
+    instructions = TextAreaField("Instructions:", validators=[DataRequired(), Length(min=10, max=1000)])
