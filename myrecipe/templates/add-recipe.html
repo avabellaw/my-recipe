@@ -9,7 +9,7 @@
     </div>
     <div class="row">
         <div class="col s12">
-            <form action="{{ url_for('add_recipe') }}" method="post">
+            <form action="{{ url_for('add_recipe') }}" method="post" enctype="multipart/form-data">
                 {{ form.csrf_token }}
 
                 <!-- Title field -->
@@ -31,6 +31,23 @@
                 </div>
 
                 {% for error in form.desc.errors %}
+                <p class="validation-message">
+                    <i class="material-icons">error_outline</i> {{ error }}
+                </p>
+                {% endfor %}
+
+                <!-- Image upload field -->
+                <div class="file-field input-field">
+                    <div class="btn">
+                        <span>Upload Image</span>
+                        {{ form.image }}
+                    </div>
+                    <div class="file-path-wrapper">
+                        <input class="file-path validate" placeholder="Click to upload image." type="text">
+                    </div>
+                </div>
+
+                {% for error in form.instructions.errors %}
                 <p class="validation-message">
                     <i class="material-icons">error_outline</i> {{ error }}
                 </p>

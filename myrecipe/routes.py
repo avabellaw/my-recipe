@@ -1,8 +1,16 @@
-from flask import url_for, redirect, render_template, request
+import os
+from flask import url_for, redirect, render_template, request, send_from_directory
 from flask_login import login_user, logout_user, login_required, current_user, LoginManager, login_user
 from flask_bcrypt import Bcrypt
 from myrecipe import db, app
 from myrecipe.models import Users, Recipes
+
+# WTForms imports
+from flask_wtf import FlaskForm
+from wtforms import FileField, PasswordField, StringField, TextAreaField
+from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
+from werkzeug.utils import secure_filename
+from flask_wtf.file import FileField, FileAllowed, FileRequired
 
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
@@ -87,14 +95,23 @@ def add_recipe():
         desc = form.desc.data 
         ingredients = form.ingredients.data
         instructions = form.instructions.data
-        recipe = Recipes(user_id=current_user.id, title=title, desc=desc, ingredients=ingredients, instructions=instructions) # type: ignore
-        
         if form.validate_on_submit():
+            image = form.image.data
+            filename = secure_filename(image.filename)
+            image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            
+            recipe = Recipes(user_id=current_user.id, title=title, desc=desc, ingredients=ingredients, instructions=instructions, image=filename) # type: ignore
+        
             db.session.add(recipe)
             db.session.commit()
             return redirect(url_for("my_recipes"))
     return render_template("add-recipe.html", form=form)
 
+@app.route('/uploads/<path:name>')
+def get_image(name):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], name, as_attachment=True)
+    
+# Helpers
 def get_user(username):
     return Users.query.filter_by(username=username).first()
 
@@ -105,13 +122,8 @@ def add_created_by_to_recipes(recipes):
      for recipe in recipes:
         # Type ignore is because the linter doesn't recognize that Users contains the field username
         recipe.created_by = Users.query.filter_by(id=recipe.user_id).first().username # type: ignore
-
+        
 # Wtforms
-
-
-from flask_wtf import FlaskForm
-from wtforms import PasswordField, StringField, TextAreaField
-from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError  
 
 class RegistrationForm(FlaskForm):
     username = StringField("Username:", validators=[DataRequired(), Length(min=2, max=20)])
@@ -136,7 +148,8 @@ class LoginForm(FlaskForm):
             raise ValidationError(f"Password is incorrect.")
         
 class AddRecipeForm(FlaskForm):
-    title = StringField("Title:", validators=[DataRequired(), Length(min=2, max=20)])
+    title = StringField("Title:", validators=[DataRequired(), Length(min=2, max=40)])
     desc = StringField("Description:", validators=[DataRequired(), Length(min=2, max=200)])
     ingredients = TextAreaField("Ingredients:", validators=[DataRequired(), Length(min=10, max=500)])
     instructions = TextAreaField("Instructions:", validators=[DataRequired(), Length(min=10, max=1000)])
+    image = FileField('image', validators=[FileRequired(), FileAllowed(['jpg', 'jpeg', 'png', 'webp'], 'Please only upload an image.')])

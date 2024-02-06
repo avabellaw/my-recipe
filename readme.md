@@ -234,6 +234,11 @@ $ git clone https://github.com/avabellaw/my-recipe
 * Add classes to flask_wtf form elements.
     * [https://stackoverflow.com/questions/22084886/add-a-css-class-to-a-field-in-wtform]
 
+* I learnt how to handle file uploads from flask.palletspro9jects.com and flask-wtf.readthedocs.io
+    * [https://flask.palletsprojects.com/en/2.0.x/patterns/fileuploads/#uploading-files]
+    * [https://flask-wtf.readthedocs.io/en/0.15.x/form/]
+    * I worked out how to point to the 'image-uploads' folder through this Stackoverflow post [https://stackoverflow.com/questions/37901716/flask-uploads-ioerror-errno-2-no-such-file-or-directory] 
+
 ### Media
 
 #### Images

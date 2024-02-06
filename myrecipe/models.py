@@ -13,10 +13,11 @@ class Users(db.Model, UserMixin):
 class Recipes(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
-    title = db.Column(db.String(20), nullable=False)
+    title = db.Column(db.String(40), nullable=False)
     desc = db.Column(db.String(200), nullable=False)
     ingredients = db.Column(db.String(500), nullable=False)
     instructions = db.Column(db.String(1000), nullable=False)
+    image = db.Column(db.String(100), nullable=False)
     
     def __repr__(self):
         return f"Recipe {self.id} - {self.title}"

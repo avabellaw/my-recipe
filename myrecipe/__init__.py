@@ -9,9 +9,12 @@ if os.path.exists("env.py"):
 class Base(DeclarativeBase):
   pass    
 
+UPLOAD_FOLDER = 'myrecipe/static/image-uploads'
+
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY")
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DB_URL")
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 db = SQLAlchemy(model_class=Base)
 
