@@ -15,6 +15,16 @@
     background-color: snow;
 }
 
+/* From Stackoverflow [https://stackoverflow.com/questions/44846068/css-equal-height-columns] */
+.equal-height-cols {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.no-margin {
+    margin: 0;
+}
+
 /* End of general page styles */
 
 /* Navbar */
@@ -108,7 +118,7 @@ span#login-btn {
 
 /* End of Homepage */
 
-/* My recipes page */
+/* My recipes */
 
 .recipe-card>.card>.card-image {
     max-width: 250px;
@@ -149,7 +159,35 @@ span#login-btn {
     }
 }
 
-/* End of My recipes page */
+/* End of My recipes */
+
+/* View recipe */
+
+#recipe-header h1 {
+    font-size: 2em;
+    margin-top: 0;
+}
+
+#recipe-header, #recipe-content {
+    font-size: 1.5em;
+    padding: 1.5em;
+}
+
+#recipe-content h2 {
+    font-size: 1.5em;
+    margin-top: 0;
+}
+
+#recipe-header_image {
+    margin: auto;
+    border: 3px solid black;
+}
+
+#recipe-header .row:last-child {
+    margin-bottom: 0;
+}
+
+/* End of View recipe */
 
 /* Forms */
 

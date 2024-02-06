@@ -107,6 +107,7 @@ def add_recipe():
             return redirect(url_for("my_recipes"))
     return render_template("add-recipe.html", form=form)
 
+# From Flask documentation
 @app.route('/uploads/<path:name>')
 def get_image(name):
     return send_from_directory(app.config['UPLOAD_FOLDER'], name, as_attachment=True)
