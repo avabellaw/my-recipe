@@ -9,6 +9,12 @@
     font-size: 1.2em;
 }
 
+.recipe-card > .card > .card-image {
+    display: flex;
+    align-items: center;
+    background-color: snow;
+}
+
 /* End of general page styles */
 
 /* Navbar */
