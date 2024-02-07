@@ -1,5 +1,9 @@
 /* General page styles */
 
+html {
+    --main-colour:#ffa96c;
+}
+
 .page-header {
     text-transform: capitalize;
     text-align: center;
@@ -25,13 +29,18 @@
     margin: 0;
 }
 
+li::marker {
+    color: var(--main-colour);
+    font-size: 0.8em;
+}
+
 /* End of general page styles */
 
 /* Navbar */
 
 nav,
 nav>.nav-wrapper {
-    background-color: #ffa96c;
+    background-color: var(--main-colour);
 }
 
 nav>.nav-wrapper,
