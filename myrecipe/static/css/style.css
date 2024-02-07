@@ -187,6 +187,18 @@ span#login-btn {
     margin-bottom: 0;
 }
 
+#ingredients-container {
+    box-shadow: #00000026 0px 0px 0.6em inset;
+}
+
+#ingredients-container ul {
+    padding-inline-start: 1.5em;
+}
+
+#instructions-container, #ingredients-container {
+    padding: 1em;
+}
+
 /* End of View recipe */
 
 /* Forms */
