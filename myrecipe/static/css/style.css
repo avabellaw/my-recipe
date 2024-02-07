@@ -9,7 +9,7 @@
     font-size: 1.2em;
 }
 
-.recipe-card > .card > .card-image {
+.recipe-card>.card>.card-image {
     display: flex;
     align-items: center;
     background-color: snow;
@@ -168,9 +168,10 @@ span#login-btn {
     margin-top: 0;
 }
 
-#recipe-header, #recipe-content {
+#recipe-header,
+#recipe-content {
     font-size: 1.5em;
-    padding: 1.5em;
+    padding: 1.5em 0;
 }
 
 #recipe-content h2 {
@@ -188,15 +189,24 @@ span#login-btn {
 }
 
 #ingredients-container {
-    box-shadow: #00000026 0px 0px 0.6em inset;
+    box-shadow: #00000026 0px 0px 0.5em inset;
 }
 
 #ingredients-container ul {
     padding-inline-start: 1.5em;
+    margin-bottom: 0;
 }
 
-#instructions-container, #ingredients-container {
-    padding: 1em;
+#instructions-container,
+#ingredients-container {
+    padding: 7%;
+}
+
+@media screen and (max-width: 600px) {
+    .inner-container {
+        width: fit-content;
+        margin: auto;
+    }
 }
 
 /* End of View recipe */
