@@ -8,7 +8,7 @@
             <h3 class="header">{{ recipe.title }}</h3>
             <div class="card horizontal">
                 <div class="card-image">
-                    <img src="{{ url_for('static', filename='image-uploads/' + recipe.image) }}">
+                    <img src="{{ recipe.image_url }}">
                 </div>
                 <div class="card-stacked">
                     <div class="card-content">

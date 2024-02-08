@@ -17,7 +17,7 @@ class Recipes(db.Model):
     desc = db.Column(db.String(200), nullable=False)
     ingredients = db.Column(db.String(500), nullable=False)
     instructions = db.Column(db.String(1000), nullable=False)
-    image = db.Column(db.String(100), nullable=False)
+    image_url = db.Column(db.String(100), nullable=True)
     
     def __repr__(self):
         return f"Recipe {self.id} - {self.title}"

@@ -100,7 +100,10 @@ def add_recipe():
             filename = secure_filename(image.filename)
             image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             
-            recipe = Recipes(user_id=current_user.id, title=title, desc=desc, ingredients=ingredients, instructions=instructions, image=filename) # type: ignore
+            image_url_parts = app.config['UPLOAD_FOLDER'].split("/")[1:] # Remove "myrecipe" from the path
+            image_url = "/" + "/".join(image_url_parts) + "/" + filename 
+            
+            recipe = Recipes(user_id=current_user.id, title=title, desc=desc, ingredients=ingredients, instructions=instructions, image_url=image_url) # type: ignore
         
             db.session.add(recipe)
             db.session.commit()
