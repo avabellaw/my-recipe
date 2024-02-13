@@ -114,7 +114,7 @@ def add_recipe():
 @login_required
 def delete_recipe(recipe_id):
     recipe = Recipes.query.get(recipe_id)
-    if recipe.user_id == current_user.id:
+    if recipe.user_id == current_user.id: #type: ignore
         db.session.delete(recipe)
         db.session.commit()
         flash(f'Recipe "{recipe}" deleted.', "success")
