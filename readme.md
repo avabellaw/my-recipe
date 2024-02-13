@@ -247,3 +247,6 @@ $ git clone https://github.com/avabellaw/my-recipe
 ### Media
 
 #### Images
+
+* Default image if not uploaded with recipe.
+    * From Pixabay [https://www.pexels.com/photo/closeup-photography-of-sauteed-garlic-263022/]

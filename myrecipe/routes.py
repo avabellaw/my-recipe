@@ -2,6 +2,7 @@ import os
 from flask import url_for, redirect, render_template, request, send_from_directory, flash
 from flask_login import login_user, logout_user, login_required, current_user, LoginManager, login_user
 from flask_bcrypt import Bcrypt
+from sqlalchemy import Null
 from myrecipe import db, app
 from myrecipe.models import Users, Recipes
 
@@ -82,6 +83,7 @@ def my_recipes():
 def view_recipe(recipe_id):
     recipe = Recipes.query.get(recipe_id)
     recipe.created_by = Users.query.filter_by(id=recipe.user_id).first().username # type: ignore
+    
     return render_template("view-recipe.html", recipe=recipe)
 
 # Add recipe
@@ -96,14 +98,17 @@ def add_recipe():
         ingredients = form.ingredients.data
         instructions = form.instructions.data
         if form.validate_on_submit():
-            image = form.image.data
-            filename = secure_filename(image.filename)
-            image.save(os.path.join(app.config["PACKAGE_NAME"] + "/" + app.config['UPLOAD_FOLDER'], filename))
+            hasImage = form.image.data
+            if hasImage:
+                image = form.image.data
+                filename = secure_filename(image.filename)
+                image.save(os.path.join(app.config["PACKAGE_NAME"] + "/" + app.config['UPLOAD_FOLDER'], filename))
+                
+                image_url = "/" + app.config["UPLOAD_FOLDER"] + "/" + filename 
             
-            image_url = "/" + app.config["UPLOAD_FOLDER"] + "/" + filename 
-            
-            recipe = Recipes(user_id=current_user.id, title=title, desc=desc, ingredients=ingredients, instructions=instructions, image_url=image_url) # type: ignore
-        
+                recipe = Recipes(user_id=current_user.id, title=title, desc=desc, ingredients=ingredients, instructions=instructions, image_url=image_url) # type: ignore
+            else:
+                recipe = Recipes(user_id=current_user.id, title=title, desc=desc, ingredients=ingredients, instructions=instructions) # type: ignore
             db.session.add(recipe)
             db.session.commit()
             return redirect(url_for("my_recipes"))

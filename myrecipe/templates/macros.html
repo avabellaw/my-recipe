@@ -5,10 +5,14 @@
 <div class="row">
     <div class="col s12">
         <div class="recipe-card">
-            <h3 class="header">{{ recipe.title }}</h3>
+            <h3 id="recipe-card_title" class="header">{{ recipe.title }}</h3>
             <div class="card horizontal">
                 <div class="card-image">
-                    <img src="{{ recipe.image_url }}">
+                    {% if recipe.image_url == None %}
+                    <img src="{{ url_for('static', filename='images/default-recipe-image.webp') }}" alt="Default recipe image">
+                    {% else %}
+                    <img src="{{ recipe.image_url }}" aria-labelledby="recipe-card_title">
+                    {% endif %}
                 </div>
                 <div class="card-stacked">
                     <div class="card-content">

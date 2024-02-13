@@ -9,8 +9,13 @@
         <div class="row equal-height-cols">
             <div class="col s12 m5">
                 <div id="recipe-header_image-container" class="valign-wrapper center">
-                    <img id="recipe-header_image" src="{{ recipe.image_url }}" alt="Recipe image"
+                    {% if recipe.image_url == None %}
+                    <img id="recipe-header_image" src="{{ url_for('static', filename='images/default-recipe-image.webp') }}" alt="Default recipe image"
                         class="responsive-img">
+                    {% else %}
+                    <img id="recipe-header_image" src="{{ recipe.image_url }}" alt="{{ recipe.title }}"
+                        class="responsive-img">
+                    {% endif %}
                 </div>
             </div>
             <div class="col s12 m7">
@@ -65,7 +70,8 @@
             <div class="col s12 m5">
                 <div id="ingredients-container">
                     <div class="inner-container">
-                        <h2>Ingredients</h2>
+                        <h2 class="center">Ingredients</h2>
+                        <hr>
                         <ul class="browser-default">
                             <!-- splitlines from Python docs [https://docs.python.org/3/library/stdtypes.html#str.splitlines] -->
                             {% for ingredient in recipe.ingredients.splitlines(keepends=True) %}
@@ -80,8 +86,15 @@
             <div class="col s12 m7">
                 <div id="instructions-container">
                     <div class="inner-container">
-                        <h2>Instructions</h2>
-                        <p>{{ recipe.instructions }}</p>
+                        <h2 class="center">Instructions</h2>
+                        <hr>
+                        <ol>
+                            {% for instruction in recipe.instructions.splitlines(keepends=True) %}
+                            <li>
+                                {{ instruction }}
+                            </li>
+                            {% endfor %}
+                        </ol>
                     </div>
                 </div>
             </div>
