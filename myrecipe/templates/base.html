@@ -76,10 +76,25 @@
             </ul>
             {% else %}
             <li id="mobile-sidenav_login-btn">
-                <a href="{{ url_for('login') }}"><span class="waves-effect waves-light btn" id="login-btn">Login</span></a>
+                <a href="{{ url_for('login') }}"><span class="waves-effect waves-light btn"
+                        id="login-btn">Login</span></a>
             </li>
             {% endif %}
         </ul>
+
+        <!-- Code from flask.palletsprojects [https://flask.palletsprojects.com/en/2.3.x/patterns/flashing/] -->
+        <div id="flash-message" class="flash-message">
+            <div class="msg-wrapper">
+                {% with messages=get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                {% for category,message in messages %}
+                <p class="{{category}} message">{{message}}</p>
+                <span id="flash-message_cross">&times;</span>
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+            </div>
+        </div>
     </header>
 
     <br>
@@ -115,6 +130,14 @@
                 edge: 'right', // Choose the horizontal origin
                 // closeOnClick: true // Closes side-nav on <a> clicks, useful for Angular/Meteor
             });
+
+            /*
+                Decided to dismiss the flash message by clicking on the entire div rather than just the cross.
+                The cross is there for visual feedback.
+            */
+            document.getElementById("flash-message").onclick = function () {
+                this.style.display = "none";
+            };
         });
     </script>
 

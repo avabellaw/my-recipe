@@ -36,6 +36,50 @@ li::marker {
 
 /* End of general page styles */
 
+/* Flash message */
+
+.flash-message {
+    color: white;
+}
+
+.flash-message:hover {
+    cursor: pointer;
+
+}
+
+.flash-message .msg-wrapper {
+    position: relative;
+}
+
+.flash-message p {
+    margin: 0;
+    padding: 1rem 0;
+    text-align: center;
+    font-size: 1.2em;
+}
+
+.flash-message.p span {
+    font-size: 1.2em;
+}
+
+.flash-message p.danger {
+    background-color: red;
+}
+
+.flash-message p.success {
+    background-color: green;
+}
+
+#flash-message_cross {
+    position: absolute;
+    right: 1rem;
+    top: 0;
+    bottom: 0;
+    font-size: 2.3em;
+}
+
+/* End of Flash message */
+
 /* Navbar */
 
 nav,
