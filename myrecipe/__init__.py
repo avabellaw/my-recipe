@@ -9,7 +9,7 @@ if os.path.exists("env.py"):
 class Base(DeclarativeBase):
   pass    
 
-UPLOAD_FOLDER = 'myrecipe/static/image-uploads'
+UPLOAD_FOLDER = 'image-uploads'
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY")

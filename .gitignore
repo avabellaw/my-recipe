@@ -9,4 +9,4 @@ node_modules/
 cloudinary_python.txt
 *.pyc
 .vscode
-myrecipe/static/image-uploads/*
+myrecipe/image-uploads/*
