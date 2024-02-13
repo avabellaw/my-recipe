@@ -2,15 +2,29 @@
 
 {% block content %}
 
+{% set isOwnedByUser = current_user.id == recipe.user_id %}
+
 <section id="recipe-header">
     <div class="container">
-        <h1 class="page-header">{{ recipe.title }}</h1>
+        <h1 class="page-header">
+            {{ recipe.title }}
+            {% if isOwnedByUser %}
+            <!-- Dropdown Trigger -->
+            <a class='dropdown-trigger orange-text' href='#' data-target='recipe-settings'> <i class="material-icons">settings</i></a>
+
+            <!-- Dropdown Structure -->
+            <ul id='recipe-settings' class='dropdown-content'>
+                <li><a href="#!">Edit</a></li>
+                <li><a href="#!">Delete</a></li>
+            </ul>
+            {% endif %}
+        </h1>
         <br>
         <div class="row">
             <div class="col s12">
                 <div class="valign-wrapper center">
-                    <img id="recipe-header_image" src="{{ recipe.image_url }}"
-                        alt="Recipe image" class="responsive-img">
+                    <img id="recipe-header_image" src="{{ recipe.image_url }}" alt="Recipe image"
+                        class="responsive-img">
                 </div>
             </div>
         </div>
@@ -47,7 +61,7 @@
                 <div id="instructions-container">
                     <div class="inner-container">
                         <h2>Instructions</h2>
-                        <p>{{ recipe.instructions }}</p>                        
+                        <p>{{ recipe.instructions }}</p>
                     </div>
                 </div>
             </div>

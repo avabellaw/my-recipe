@@ -223,6 +223,10 @@ span#login-btn {
     padding: 7%;
 }
 
+#recipe-settings > li > a {
+        color: black;
+}
+
 @media screen and (max-width: 600px) {
     .inner-container {
         width: fit-content;
