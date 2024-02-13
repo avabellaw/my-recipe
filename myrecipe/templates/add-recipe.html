@@ -43,9 +43,12 @@
                         {{ form.image }}
                     </div>
                     <div class="file-path-wrapper">
-                        <input class="file-path validate" placeholder="Click to upload image." type="text">
+                        <input id="image-upload-btn" class="file-path validate" placeholder="Click to upload image." type="text">
                     </div>
                 </div>
+
+                <label for="image-upload-btn">* An aspect ratio of 4:3 is best
+                </label>
 
                 {% for error in form.instructions.errors %}
                 <p class="validation-message">
