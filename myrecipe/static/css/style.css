@@ -1,7 +1,7 @@
 /* General page styles */
 
 html {
-    --main-colour:#ffa96c;
+    --main-colour: #ffa96c;
 }
 
 .page-header {
@@ -176,7 +176,8 @@ span#login-btn {
 .recipe-card>.card>.card-image {
     max-width: 250px;
 
-    max-height: 250px; /* Fallback aspect ratio of 1:1 */
+    max-height: 250px;
+    /* Fallback aspect ratio of 1:1 */
     aspect-ratio: 4/3;
     overflow: hidden;
 }
@@ -264,11 +265,50 @@ span#login-btn {
 
 #instructions-container,
 #ingredients-container {
-    padding: 7%;
+    padding: 1.5em;
 }
 
-#recipe-settings > li > a {
-        color: black;
+#recipe-settings>li>a {
+    color: black;
+}
+
+#recipe-heading-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 0.5em;
+}
+
+#recipe-header_image-container {
+    height: 100%;
+}
+
+#created-by {
+    margin-bottom: 0;
+    margin-top: auto;
+    margin-left: auto;
+}
+
+#recipe-title {
+    /* display: flex; */
+    align-items: center;
+}
+
+#recipe-title>a {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.6em;
+    white-space: nowrap;
+}
+
+#recipe-title>a>i {
+    margin-right: 0.2em;
+}
+
+#recipe-title>h2 {
+    margin-bottom: 0;
+    margin-right: 0.2em;
+    display: inline;
 }
 
 @media screen and (max-width: 600px) {

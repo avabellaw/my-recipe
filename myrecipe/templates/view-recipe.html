@@ -4,62 +4,63 @@
 
 {% set isOwnedByUser = current_user.id == recipe.user_id %}
 
-<section id="recipe-header">
+<section id="recipe-content">
     <div class="container">
-        <h1 class="page-header">
-            {{ recipe.title }}
-            {% if isOwnedByUser %}
-            <!-- Dropdown Trigger -->
-            <a class='dropdown-trigger orange-text' href='#' data-target='recipe-settings'> <i
-                    class="material-icons">settings</i></a>
-            {% endif %}
-        </h1>
-
-        {% if isOwnedByUser %}
-        <!-- Dropdown Structure -->
-        <ul id='recipe-settings' class='dropdown-content'>
-            <li><a href="#!">Edit</a></li>
-            <li><a class="modal-trigger" href="#confirm-deletion">Delete</a></li>
-        </ul>
-
-        <!-- Confirm deletion modal -->
-        <div id="confirm-deletion" class="modal">
-            <div class="modal-content">
-                <h4>Delete this recipe.</h4>
-                <p>Are you sure you want to delete this recipe?</p>
-                <p><small>This is pernament.</small></p>
-            </div>
-            <div class="modal-footer">
-                <a href="#" class="modal-close waves-effect waves-green btn-flat">Cancel</a>
-                <a href="{{ url_for('delete_recipe', recipe_id=recipe.id) }}"
-                    class="modal-close waves-effect waves-green btn-flat">Delete</a>
-            </div>
-        </div>
-
-        {% endif %}
-        
-        <br>
-        <div class="row">
-            <div class="col s12">
-                <div class="valign-wrapper center">
+        <div class="row equal-height-cols">
+            <div class="col s12 m5">
+                <div id="recipe-header_image-container" class="valign-wrapper center">
                     <img id="recipe-header_image" src="{{ recipe.image_url }}" alt="Recipe image"
                         class="responsive-img">
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col s10 offset-s1">
-                <p class="center">{{ recipe.desc }}</p>
-                <p class="right no-margin"><small>~ Created by {{ recipe.created_by }}</small></p>
+            <div class="col s12 m7">
+                <div id="recipe-heading-container">
+                    <div id="recipe-title">
+                        <!-- Recipe title -->
+                        <h2>
+                            {{ recipe.title }}
+                        </h2>
+                        {% if isOwnedByUser %}
+
+                        <!-- Settings dropdown trigger -->
+                        <a class='dropdown-trigger orange-text' href='#' data-target='recipe-settings'>
+                            <i class="material-icons">settings</i>
+                            EDIT RECIPE
+                        </a>
+                        {% endif %}
+                    </div>
+
+                    {% if isOwnedByUser %}
+                    <!-- Settings dropdown -->
+                    <ul id='recipe-settings' class='dropdown-content'>
+                        <li><a href="#!">Edit</a></li>
+                        <li><a class="modal-trigger" href="#confirm-deletion">Delete</a></li>
+                    </ul>
+
+                    <!-- Confirm deletion modal -->
+                    <div id="confirm-deletion" class="modal">
+                        <div class="modal-content">
+                            <h4>Delete this recipe.</h4>
+                            <p>Are you sure you want to delete this recipe?</p>
+                            <p><small>This is permanent.</small></p>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="#" class="modal-close waves-effect waves-green btn-flat">Cancel</a>
+                            <a href="{{ url_for('delete_recipe', recipe_id=recipe.id) }}"
+                                class="modal-close waves-effect waves-green btn-flat">Delete</a>
+                        </div>
+                    </div>
+
+                    {% endif %}
+
+                    <!-- Recipe Description -->
+                    <p class="">{{ recipe.desc }}</p>
+
+                    <!-- Recipe created by -->
+                    <p id="created-by"><small>~ Created by {{ recipe.created_by }}</small></p>
+                </div>
             </div>
         </div>
-    </div>
-</section>
-
-<hr>
-
-<section id="recipe-content">
-    <div class="container">
         <div class="row">
             <div class="col s12 m5">
                 <div id="ingredients-container">
