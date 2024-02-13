@@ -15,7 +15,7 @@
             <!-- Dropdown Structure -->
             <ul id='recipe-settings' class='dropdown-content'>
                 <li><a href="#!">Edit</a></li>
-                <li><a href="#!">Delete</a></li>
+                <li><a href="{{ url_for('delete_recipe', recipe_id=recipe.id) }}">Delete</a></li>
             </ul>
             {% endif %}
         </h1>

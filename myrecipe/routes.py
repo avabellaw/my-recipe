@@ -1,5 +1,5 @@
 import os
-from flask import url_for, redirect, render_template, request, send_from_directory
+from flask import url_for, redirect, render_template, request, send_from_directory, flash
 from flask_login import login_user, logout_user, login_required, current_user, LoginManager, login_user
 from flask_bcrypt import Bcrypt
 from myrecipe import db, app
@@ -100,7 +100,7 @@ def add_recipe():
             filename = secure_filename(image.filename)
             image.save(os.path.join(app.config["PACKAGE_NAME"] + "/" + app.config['UPLOAD_FOLDER'], filename))
             
-            image_url = app.config["UPLOAD_FOLDER"] + "/" + filename 
+            image_url = "/" + app.config["UPLOAD_FOLDER"] + "/" + filename 
             
             recipe = Recipes(user_id=current_user.id, title=title, desc=desc, ingredients=ingredients, instructions=instructions, image_url=image_url) # type: ignore
         
@@ -109,10 +109,24 @@ def add_recipe():
             return redirect(url_for("my_recipes"))
     return render_template("add-recipe.html", form=form)
 
-# From Flask documentation
-@app.route('/image-uploads/<path:filename>')
+# Delete recipe
+@app.route("/delete_recipe/<int:recipe_id>", methods=["GET", "POST"])
+@login_required
+def delete_recipe(recipe_id):
+    recipe = Recipes.query.get(recipe_id)
+    if recipe.user_id == current_user.id:
+        db.session.delete(recipe)
+        db.session.commit()
+        flash(f'Recipe "{recipe}" deleted.', "success")
+        return redirect(url_for("my_recipes"))
+
+    flash("You can only delete your own recipes.", "danger")
+    return redirect(url_for("my_recipes"))
+
+# Get image - From Flask documentation
+@app.route("/image-uploads/<path:filename>")
 def get_image(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'], filename, as_attachment=True)
+    return send_from_directory(app.config["UPLOAD_FOLDER"], filename, as_attachment=True)
     
 # Helpers
 def get_user(username):

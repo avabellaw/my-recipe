@@ -20,4 +20,4 @@ class Recipes(db.Model):
     image_url = db.Column(db.String(100), nullable=True)
     
     def __repr__(self):
-        return f"Recipe {self.id} - {self.title}"
+        return f"{self.title} [ID: {self.id}]"

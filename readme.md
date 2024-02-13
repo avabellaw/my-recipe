@@ -158,6 +158,7 @@ I will use a simple and light colour scheme.
 * I tested file formats on the image upload field when adding a new recipe.
     * I attempted uploading all the allowed formats to ensure they were successful.
     * I tested that invalid file formats were rejected in the back-end and the front-end.
+* Tested that the backend validation works to ensure only the authorized users can delete.
 
 ### Further Testing
 
