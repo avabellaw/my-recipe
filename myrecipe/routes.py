@@ -155,4 +155,4 @@ class AddRecipeForm(FlaskForm):
     desc = StringField("Description:", validators=[DataRequired(), Length(min=2, max=200)])
     ingredients = TextAreaField("Ingredients:", validators=[DataRequired(), Length(min=10, max=500)])
     instructions = TextAreaField("Instructions:", validators=[DataRequired(), Length(min=10, max=1000)])
-    image = FileField('image', validators=[FileRequired(), FileAllowed(['jpg', 'jpeg', 'png', 'webp'], 'Please only upload an image.')])
+    image = FileField('image', validators=[FileAllowed(['jpg', 'jpeg', 'png', 'webp'], 'Please only upload an image (jpg, png, or webp).')])

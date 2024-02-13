@@ -50,7 +50,7 @@
                 <label for="image-upload-btn">* An aspect ratio of 4:3 is best
                 </label>
 
-                {% for error in form.instructions.errors %}
+                {% for error in form.image.errors %}
                 <p class="validation-message">
                     <i class="material-icons">error_outline</i> {{ error }}
                 </p>
