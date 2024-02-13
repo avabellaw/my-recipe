@@ -9,12 +9,14 @@ if os.path.exists("env.py"):
 class Base(DeclarativeBase):
   pass    
 
-UPLOAD_FOLDER = 'image-uploads'
+PACKAGE_NAME = "myrecipe"
+UPLOAD_FOLDER = "image-uploads"
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY")
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DB_URL")
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['PACKAGE_NAME'] = PACKAGE_NAME
 
 db = SQLAlchemy(model_class=Base)
 

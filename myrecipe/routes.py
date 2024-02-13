@@ -98,10 +98,9 @@ def add_recipe():
         if form.validate_on_submit():
             image = form.image.data
             filename = secure_filename(image.filename)
-            image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            image.save(os.path.join(app.config["PACKAGE_NAME"] + "/" + app.config['UPLOAD_FOLDER'], filename))
             
-            image_url_parts = app.config['UPLOAD_FOLDER'].split("/")[1:] # Remove "myrecipe" from the path
-            image_url = "/" + "/".join(image_url_parts) + "/" + filename 
+            image_url = app.config["UPLOAD_FOLDER"] + "/" + filename 
             
             recipe = Recipes(user_id=current_user.id, title=title, desc=desc, ingredients=ingredients, instructions=instructions, image_url=image_url) # type: ignore
         
