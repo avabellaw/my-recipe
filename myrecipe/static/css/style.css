@@ -131,6 +131,10 @@ span#login-btn {
 
 .recipe-card>.card>.card-image {
     max-width: 250px;
+
+    max-height: 250px; /* Fallback aspect ratio of 1:1 */
+    aspect-ratio: 1/1;
+    overflow: hidden;
 }
 
 .card_created-by {
