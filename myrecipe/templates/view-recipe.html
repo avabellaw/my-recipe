@@ -4,34 +4,6 @@
 
 {% set isOwnedByUser = current_user.id == recipe.user_id %}
 
-{% if isOwnedByUser %}
-<!-- Dropdown Structure -->
-<ul id='recipe-settings' class='dropdown-content'>
-    <li><a href="#!">Edit</a></li>
-    <li><a class="modal-trigger" href="#confirm-deletion">Delete</a></li>
-</ul>
-
-<!-- Confirm deletion modal -->
-<div id="confirm-deletion" class="modal">
-    <div class="modal-content">
-        <h4>Are you sure you want to delete this recipe?</h4>
-        <p><small>This is pernament.</small></p>
-        <h5>Title:</h5>
-        <p>"{{ recipe.title }}"</p>
-
-        <h5>Description:</h5>
-        <p>"{{ recipe.desc }}"</p>
-    </div>
-    <div class="modal-footer">
-        <a href="#"
-            class="modal-close waves-effect waves-green btn-flat">Cancel</a>
-        <a href="{{ url_for('delete_recipe', recipe_id=recipe.id) }}"
-            class="modal-close waves-effect waves-green btn-flat">Delete</a>
-    </div>
-</div>  
-
-{% endif %}
-
 <section id="recipe-header">
     <div class="container">
         <h1 class="page-header">
@@ -42,6 +14,30 @@
                     class="material-icons">settings</i></a>
             {% endif %}
         </h1>
+
+        {% if isOwnedByUser %}
+        <!-- Dropdown Structure -->
+        <ul id='recipe-settings' class='dropdown-content'>
+            <li><a href="#!">Edit</a></li>
+            <li><a class="modal-trigger" href="#confirm-deletion">Delete</a></li>
+        </ul>
+
+        <!-- Confirm deletion modal -->
+        <div id="confirm-deletion" class="modal">
+            <div class="modal-content">
+                <h4>Delete this recipe.</h4>
+                <p>Are you sure you want to delete this recipe?</p>
+                <p><small>This is pernament.</small></p>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="modal-close waves-effect waves-green btn-flat">Cancel</a>
+                <a href="{{ url_for('delete_recipe', recipe_id=recipe.id) }}"
+                    class="modal-close waves-effect waves-green btn-flat">Delete</a>
+            </div>
+        </div>
+
+        {% endif %}
+        
         <br>
         <div class="row">
             <div class="col s12">
