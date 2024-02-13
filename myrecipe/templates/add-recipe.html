@@ -43,7 +43,8 @@
                         {{ form.image }}
                     </div>
                     <div class="file-path-wrapper">
-                        <input id="image-upload-btn" class="file-path validate" placeholder="Click to upload image." type="text">
+                        <input id="image-upload-btn" class="file-path" placeholder="Click to upload image." type="text" disabled>
+                        <span class="helper-text" data-error="Must be in jpg, png or webp format."></span>
                     </div>
                 </div>
 
@@ -88,5 +89,24 @@
         </div>
     </div>
 </div>
+
+<!-- Front-end validation of image uploads -->
+<script>
+    imageUploadBtn = document.getElementById("image-upload-btn");
+
+    imageUploadBtn.onchange = function () {
+        const fileFormatsAllowed = [".webp", ".jpg", ".jpeg", ".png"]
+
+        let isValid = fileFormatsAllowed.some(format => imageUploadBtn.value.endsWith(format));
+
+        if(isValid) {
+            imageUploadBtn.classList.remove("invalid");
+            imageUploadBtn.classList.add("valid");
+        } else {
+            imageUploadBtn.classList.remove("valid");
+            imageUploadBtn.classList.add("invalid");
+        }
+    };
+</script>
 {% endblock %}
 ```
