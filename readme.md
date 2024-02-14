@@ -166,6 +166,10 @@ I will use a simple and light colour scheme.
 
 ### Known Bugs
 
+* A user can save their own recipes by editing the url.
+    * There's no backend code to stop you doing this but it's also not a problem.
+    * To stop this would mean querying the database an extra time before saving/unsaving recipes which isn't worth it. If someone wants to save their own recipe by manually editing the url that's up to them.
+
 ### Deployment
 
 #### GitHub Pages
