@@ -2,7 +2,8 @@ from email.mime import image
 from myrecipe import db
 from flask_login import UserMixin  
 
-class Users(db.Model, UserMixin):
+class User(db.Model, UserMixin):
+    __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
     password = db.Column(db.String(), nullable=False)
@@ -10,7 +11,8 @@ class Users(db.Model, UserMixin):
     def __repr__(self):
         return f"User {self.id} - {self.username}"
     
-class Recipes(db.Model):
+class Recipe(db.Model):
+    __tablename__ = "recipes"
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     title = db.Column(db.String(40), nullable=False)
@@ -19,12 +21,13 @@ class Recipes(db.Model):
     instructions = db.Column(db.String(1000), nullable=False)
     image_url = db.Column(db.String(100), nullable=True)
     
-    saved_recipes = db.relationship("SavedRecipes", backref="recipe", cascade="all, delete")
+    saved_recipes = db.relationship("SavedRecipe", backref="recipe", cascade="all, delete")
     
     def __repr__(self):
         return f"{self.title} [ID: {self.id}]"
     
-class SavedRecipes(db.Model):
+class SavedRecipe(db.Model):
+    __tablename__ = "saved_recipes"
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     recipe_id = db.Column(db.Integer, db.ForeignKey("recipes.id"), nullable=False)

@@ -4,7 +4,7 @@ from flask_login import login_user, logout_user, login_required, current_user, L
 from flask_bcrypt import Bcrypt
 from sqlalchemy import Null
 from myrecipe import db, app
-from myrecipe.models import Users, Recipes, SavedRecipes
+from myrecipe.models import User, Recipe, SavedRecipe
 
 # WTForms imports
 from flask_wtf import FlaskForm
@@ -19,7 +19,7 @@ login_manager.init_app(app)
 
 @login_manager.user_loader
 def load_user(user_id):
-    return Users.query.get(int(user_id))
+    return User.query.get(int(user_id))
 
 # Homepage
 @app.route("/")
@@ -62,7 +62,7 @@ def register():
             username = form.username.data
             password = form.password.data
             encrypted_pass = bcrypt.generate_password_hash(password).decode("utf-8")
-            user = Users(username=username, password=encrypted_pass) # type: ignore
+            user = User(username=username, password=encrypted_pass) # type: ignore
             db.session.add(user)
             db.session.commit()
             return redirect(url_for("login"))
@@ -73,7 +73,7 @@ def register():
 @app.route("/my-recipes")
 @login_required
 def my_recipes():
-    recipes = Recipes.query.filter_by(user_id=current_user.id).all()
+    recipes = Recipe.query.filter_by(user_id=current_user.id).all()
     
     add_created_by_to_recipes(recipes)
     return render_template("my-recipes.html", recipes=recipes)
@@ -82,8 +82,8 @@ def my_recipes():
 @app.route("/recipe/<int:recipe_id>", methods=["GET", "POST"])
 def view_recipe(recipe_id):
     recipe_is_saved = has_user_saved_recipe(current_user.id, recipe_id)    
-    recipe = Recipes.query.get(recipe_id)
-    recipe.created_by = Users.query.filter_by(id=recipe.user_id).first().username # type: ignore
+    recipe = Recipe.query.get(recipe_id)
+    recipe.created_by = User.query.filter_by(id=recipe.user_id).first().username # type: ignore
     
     return render_template("view-recipe.html", recipe=recipe, recipe_is_saved=recipe_is_saved)
 
@@ -107,9 +107,9 @@ def add_recipe():
                 
                 image_url = "/" + app.config["UPLOAD_FOLDER"] + "/" + filename 
             
-                recipe = Recipes(user_id=current_user.id, title=title, desc=desc, ingredients=ingredients, instructions=instructions, image_url=image_url) # type: ignore
+                recipe = Recipe(user_id=current_user.id, title=title, desc=desc, ingredients=ingredients, instructions=instructions, image_url=image_url) # type: ignore
             else:
-                recipe = Recipes(user_id=current_user.id, title=title, desc=desc, ingredients=ingredients, instructions=instructions) # type: ignore
+                recipe = Recipe(user_id=current_user.id, title=title, desc=desc, ingredients=ingredients, instructions=instructions) # type: ignore
             db.session.add(recipe)
             db.session.commit()
             return redirect(url_for("my_recipes"))
@@ -119,7 +119,7 @@ def add_recipe():
 @app.route("/delete_recipe/<int:recipe_id>", methods=["GET", "POST"])
 @login_required
 def delete_recipe(recipe_id):
-    recipe = Recipes.query.get(recipe_id)
+    recipe = Recipe.query.get(recipe_id)
     if recipe.user_id == current_user.id: #type: ignore
         db.session.delete(recipe)
         db.session.commit()
@@ -133,7 +133,7 @@ def delete_recipe(recipe_id):
 @app.route("/view_saved-recipes", methods=["GET"])
 @login_required
 def view_saved_recipes():
-    saved_recipes_keys = SavedRecipes.query.filter_by(user_id=current_user.id).all()
+    saved_recipes_keys = SavedRecipe.query.filter_by(user_id=current_user.id).all()
     
     saved_recipes = [recipe_key.recipe for recipe_key in saved_recipes_keys]
     add_created_by_to_recipes(saved_recipes)
@@ -145,10 +145,10 @@ def view_saved_recipes():
 @login_required
 def save_recipe(recipe_id):
     if(has_user_saved_recipe(current_user.id, recipe_id)):
-        saved_recipe = SavedRecipes.query.filter_by(user_id=current_user.id, recipe_id=recipe_id).first()
+        saved_recipe = SavedRecipe.query.filter_by(user_id=current_user.id, recipe_id=recipe_id).first()
         db.session.delete(saved_recipe)
     else:
-        saved_recipe = SavedRecipes(user_id=current_user.id, recipe_id=recipe_id) # type: ignore
+        saved_recipe = SavedRecipe(user_id=current_user.id, recipe_id=recipe_id) # type: ignore
         db.session.add(saved_recipe)
     
     db.session.commit()
@@ -161,18 +161,18 @@ def get_image(filename):
     
 # Helpers
 def get_user(username):
-    return Users.query.filter_by(username=username).first()
+    return User.query.filter_by(username=username).first()
 
 def get_all_recipes():
-    return Recipes.query.all()
+    return Recipe.query.all()
 
 def add_created_by_to_recipes(recipes):
      for recipe in recipes:
         # Type ignore is because the linter doesn't recognize that Users contains the field username
-        recipe.created_by = Users.query.filter_by(id=recipe.user_id).first().username # type: ignore
+        recipe.created_by = User.query.filter_by(id=recipe.user_id).first().username # type: ignore
         
 def has_user_saved_recipe(user_id, recipe_id):
-    return bool(SavedRecipes.query.filter_by(user_id=user_id, recipe_id=recipe_id).first()) 
+    return bool(SavedRecipe.query.filter_by(user_id=user_id, recipe_id=recipe_id).first()) 
         
 # Wtforms
 
