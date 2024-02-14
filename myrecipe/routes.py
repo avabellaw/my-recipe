@@ -115,6 +115,19 @@ def add_recipe():
             return redirect(url_for("my_recipes"))
     return render_template("add-recipe.html", form=form)
 
+# Add modified recipe
+@app.route("/add-modified-recipe/<int:recipe_id>", methods=["GET", "POST"])
+@login_required
+def add_modified_recipe(recipe_id):
+    original_recipe = Recipe.query.get(recipe_id)
+    original_recipe.created_by = User.query.filter_by(id=original_recipe.user_id).first().username # type: ignore
+    form = AddRecipeForm()
+    form.ingredients.data = original_recipe.ingredients # type: ignore
+    form.instructions.data = original_recipe.instructions # type: ignore
+    
+    return render_template("add-modified-recipe.html", form=form, original_recipe=original_recipe)
+    
+
 # Delete recipe
 @app.route("/delete_recipe/<int:recipe_id>", methods=["GET", "POST"])
 @login_required

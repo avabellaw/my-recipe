@@ -325,6 +325,11 @@ span#login-btn {
     display: inline;
 }
 
+#template-button {
+    width: fit-content;
+    margin-top: 1em;
+}
+
 @media screen and (max-width: 600px) {
     .inner-container {
         width: fit-content;

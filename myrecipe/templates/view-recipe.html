@@ -50,6 +50,12 @@
                         {% endif %}
                     </div>
 
+                    {% if recipe.original_recipe == null %}
+                    <a id="template-button" href="{{ url_for('add_modified_recipe', recipe_id=recipe.id) }}" class="btn orange darken-3">
+                        Use as template
+                    </a>
+                    {% endif %}
+
                     {% if isOwnedByUser %}
                     <!-- Settings dropdown -->
                     <ul id='recipe-settings' class='dropdown-content'>
