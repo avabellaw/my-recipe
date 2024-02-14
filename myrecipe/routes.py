@@ -135,7 +135,7 @@ def delete_recipe(recipe_id):
 def view_saved_recipes():
     saved_recipes_keys = SavedRecipes.query.filter_by(user_id=current_user.id).all()
     
-    saved_recipes = [Recipes.query.filter_by(id=recipe_key.recipe_id).first() for recipe_key in saved_recipes_keys]
+    saved_recipes = [recipe_key.recipe for recipe_key in saved_recipes_keys]
     add_created_by_to_recipes(saved_recipes)
         
     return render_template("saved-recipes.html", saved_recipes=saved_recipes)

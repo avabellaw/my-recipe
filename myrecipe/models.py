@@ -19,6 +19,8 @@ class Recipes(db.Model):
     instructions = db.Column(db.String(1000), nullable=False)
     image_url = db.Column(db.String(100), nullable=True)
     
+    saved_recipes = db.relationship("SavedRecipes", backref="recipe", cascade="all, delete")
+    
     def __repr__(self):
         return f"{self.title} [ID: {self.id}]"
     
