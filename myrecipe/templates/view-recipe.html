@@ -26,25 +26,27 @@
                         <h2>
                             {{ recipe.title }}
                         </h2>
-                        {% if isOwnedByUser %}
+                        {% if current_user.is_authenticated %}
+                            {% if isOwnedByUser %}
 
-                        <!-- Settings dropdown trigger -->
-                        <a class='dropdown-trigger orange-text' href='#' data-target='recipe-settings'>
-                            <i class="material-icons">settings</i>
-                            EDIT RECIPE
-                        </a>
-                        {% else %}
-                        <!-- Save recipe heart -->
-                        <button id="save-recipe-button" aria-labelledby="save-recipe-button_text" class="orange-text">
-                            {% if recipe_is_saved %}
-                            <i class="material-icons">favorite</i>
-                            <span id="save-recipe-button_text">UNSAVE</span>
+                            <!-- Settings dropdown trigger -->
+                            <a class='dropdown-trigger orange-text' href='#' data-target='recipe-settings'>
+                                <i class="material-icons">settings</i>
+                                EDIT RECIPE
+                            </a>
                             {% else %}
-                            <i class="material-icons">favorite_border</i>
-                            <span id="save-recipe-button_text">SAVE</span>
-                            {% endif %}
-                        </button>
+                            <!-- Save recipe heart -->
+                            <button id="save-recipe-button" aria-labelledby="save-recipe-button_text" class="orange-text">
+                                {% if recipe_is_saved %}
+                                <i class="material-icons">favorite</i>
+                                <span id="save-recipe-button_text">UNSAVE</span>
+                                {% else %}
+                                <i class="material-icons">favorite_border</i>
+                                <span id="save-recipe-button_text">SAVE</span>
+                                {% endif %}
+                            </button>
 
+                            {% endif %}
                         {% endif %}
                     </div>
 
@@ -123,7 +125,12 @@
     document.addEventListener('DOMContentLoaded', function () {
         let elems = document.querySelectorAll('.modal');
         M.Modal.init(elems);
+    });
+</script>
 
+{% if current_user.is_authenticated and isOwnedByUser == false %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
         let saveRecipeButton = document.getElementById("save-recipe-button");
         saveRecipeButton.addEventListener('click', (event) => {
             // If the browser has JavaScript enabled, AJAX will be used to add recipe to saved recipes.
@@ -149,5 +156,6 @@
         });
     });
 </script>
+{% endif %}
 
 {% endblock %}
