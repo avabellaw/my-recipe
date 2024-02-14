@@ -10,8 +10,9 @@
             <div class="col s12 m5">
                 <div id="recipe-header_image-container" class="valign-wrapper center">
                     {% if recipe.image_url == None %}
-                    <img id="recipe-header_image" src="{{ url_for('static', filename='images/default-recipe-image.webp') }}" alt="Default recipe image"
-                        class="responsive-img">
+                    <img id="recipe-header_image"
+                        src="{{ url_for('static', filename='images/default-recipe-image.webp') }}"
+                        alt="Default recipe image" class="responsive-img">
                     {% else %}
                     <img id="recipe-header_image" src="{{ recipe.image_url }}" alt="{{ recipe.title }}"
                         class="responsive-img">
@@ -34,17 +35,16 @@
                         </a>
                         {% else %}
                         <!-- Save recipe heart -->
-                        <form method="POST" action="{{ url_for('save_recipe', recipe_id=recipe.id) }}">
-                            <button type="submit" class="orange-text">
-                                {% if recipe_is_saved %}
-                                <i class="material-icons">favorite</i>
-                                UNSAVE
-                                {% else %}
-                                <i class="material-icons">favorite_border</i>
-                                SAVE
-                                {% endif %}
-                            </button>
-                         </form>
+                        <button id="save-recipe-button" aria-labelledby="save-recipe-button_text" class="orange-text">
+                            {% if recipe_is_saved %}
+                            <i class="material-icons">favorite</i>
+                            <span id="save-recipe-button_text">UNSAVE</span>
+                            {% else %}
+                            <i class="material-icons">favorite_border</i>
+                            <span id="save-recipe-button_text">SAVE</span>
+                            {% endif %}
+                        </button>
+
                         {% endif %}
                     </div>
 
@@ -123,6 +123,30 @@
     document.addEventListener('DOMContentLoaded', function () {
         let elems = document.querySelectorAll('.modal');
         M.Modal.init(elems);
+
+        let saveRecipeButton = document.getElementById("save-recipe-button");
+        saveRecipeButton.addEventListener('click', (event) => {
+            // If the browser has JavaScript enabled, AJAX will be used to add recipe to saved recipes.
+
+            // Stops page from refreshing when saving or unsaving recipes.
+            event.preventDefault();
+
+            // Send POST request using AJAX [https://www.tutorialspoint.com/how-to-stop-refreshing-the-page-on-submit-in-javascript]
+            let xhr = new XMLHttpRequest();
+            xhr.open("POST", "{{ url_for('save_recipe', recipe_id=recipe.id) }}");
+            xhr.send(); // Blank, only needs the request and the recipe ID.
+            xhr.onload = function () {
+                let text = saveRecipeButton.childNodes[1].innerText;
+
+                if (text == "favorite") {
+                    saveRecipeButton.childNodes[1].innerText = "favorite_border";
+                    saveRecipeButton.childNodes[3].innerText = "SAVE";
+                } else {
+                    saveRecipeButton.childNodes[1].innerText = "favorite";
+                    saveRecipeButton.childNodes[3].innerText = "UNSAVE";
+                }
+            };
+        });
     });
 </script>
 
