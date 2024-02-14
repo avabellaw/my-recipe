@@ -298,14 +298,28 @@ span#login-btn {
     align-items: center;
 }
 
-#recipe-title>a {
+#recipe-title>a, #recipe-title button {
     display: inline-flex;
     align-items: center;
     font-size: 0.6em;
     white-space: nowrap;
 }
 
-#recipe-title>a>i {
+#recipe-title>form {
+    display: inline-flex;
+}
+
+#recipe-title button {
+    /* Remove button styling - from Stackoverflow [https://stackoverflow.com/questions/2460100/remove-the-complete-styling-of-an-html-button-submit] */
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    outline: inherit;
+}
+
+#recipe-title>a>i, #recipe-title>form>button>i {
     margin-right: 0.2em;
 }
 

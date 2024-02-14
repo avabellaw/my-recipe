@@ -32,6 +32,19 @@
                             <i class="material-icons">settings</i>
                             EDIT RECIPE
                         </a>
+                        {% else %}
+                        <!-- Save recipe heart -->
+                        <form method="POST" action="{{ url_for('save_recipe', recipe_id=recipe.id) }}">
+                            <button type="submit" class="orange-text">
+                                {% if recipe_is_saved %}
+                                <i class="material-icons">favorite</i>
+                                UNSAVE
+                                {% else %}
+                                <i class="material-icons">favorite_border</i>
+                                SAVE
+                                {% endif %}
+                            </button>
+                         </form>
                         {% endif %}
                     </div>
 

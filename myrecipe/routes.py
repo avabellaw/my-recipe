@@ -81,10 +81,11 @@ def my_recipes():
 # View recipe
 @app.route("/recipe/<int:recipe_id>", methods=["GET", "POST"])
 def view_recipe(recipe_id):
+    recipe_is_saved = has_user_saved_recipe(current_user.id, recipe_id)    
     recipe = Recipes.query.get(recipe_id)
     recipe.created_by = Users.query.filter_by(id=recipe.user_id).first().username # type: ignore
     
-    return render_template("view-recipe.html", recipe=recipe)
+    return render_template("view-recipe.html", recipe=recipe, recipe_is_saved=recipe_is_saved)
 
 # Add recipe
 @app.route("/add-recipe", methods=["GET", "POST"])
@@ -129,16 +130,28 @@ def delete_recipe(recipe_id):
     return redirect(url_for("my_recipes"))
 
 # Saved recipes
-@app.route("/saved-recipes", methods=["GET"])
+@app.route("/view_saved-recipes", methods=["GET"])
 @login_required
-def saved_recipes():
+def view_saved_recipes():
     saved_recipes_keys = SavedRecipes.query.filter_by(user_id=current_user.id).all()
     
-    saved_recipes = []
-    for saved_recipe_key in saved_recipes_keys:
-        saved_recipes.append(Recipes.query.filter_by(id=saved_recipe_key.recipe_id).first())
+    saved_recipes = [Recipes.query.filter_by(id=recipe_key.recipe_id).first() for recipe_key in saved_recipes_keys]
         
     return render_template("saved-recipes.html", saved_recipes=saved_recipes)
+
+# Save/unsave recipe
+@app.route("/save-recipe/<int:recipe_id>", methods=["POST"])
+@login_required
+def save_recipe(recipe_id):
+    if(has_user_saved_recipe(current_user.id, recipe_id)):
+        saved_recipe = SavedRecipes.query.filter_by(user_id=current_user.id, recipe_id=recipe_id).first()
+        db.session.delete(saved_recipe)
+    else:
+        saved_recipe = SavedRecipes(user_id=current_user.id, recipe_id=recipe_id) # type: ignore
+        db.session.add(saved_recipe)
+    
+    db.session.commit()
+    return redirect(url_for("view_recipe", recipe_id=recipe_id))
 
 # Get image - From Flask documentation
 @app.route("/image-uploads/<path:filename>")
@@ -156,6 +169,9 @@ def add_created_by_to_recipes(recipes):
      for recipe in recipes:
         # Type ignore is because the linter doesn't recognize that Users contains the field username
         recipe.created_by = Users.query.filter_by(id=recipe.user_id).first().username # type: ignore
+        
+def has_user_saved_recipe(user_id, recipe_id):
+    return bool(SavedRecipes.query.filter_by(user_id=user_id, recipe_id=recipe_id).first()) 
         
 # Wtforms
 
