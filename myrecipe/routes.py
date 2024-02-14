@@ -4,7 +4,7 @@ from flask_login import login_user, logout_user, login_required, current_user, L
 from flask_bcrypt import Bcrypt
 from sqlalchemy import Null
 from myrecipe import db, app
-from myrecipe.models import Users, Recipes
+from myrecipe.models import Users, Recipes, SavedRecipes
 
 # WTForms imports
 from flask_wtf import FlaskForm
@@ -127,6 +127,18 @@ def delete_recipe(recipe_id):
 
     flash("You can only delete your own recipes.", "danger")
     return redirect(url_for("my_recipes"))
+
+# Saved recipes
+@app.route("/saved-recipes", methods=["GET"])
+@login_required
+def saved_recipes():
+    saved_recipes_keys = SavedRecipes.query.filter_by(user_id=current_user.id).all()
+    
+    saved_recipes = []
+    for saved_recipe_key in saved_recipes_keys:
+        saved_recipes.append(Recipes.query.filter_by(id=saved_recipe_key.recipe_id).first())
+        
+    return render_template("saved-recipes.html", saved_recipes=saved_recipes)
 
 # Get image - From Flask documentation
 @app.route("/image-uploads/<path:filename>")
