@@ -11,7 +11,7 @@ from flask_wtf import FlaskForm
 from wtforms import FileField, PasswordField, StringField, TextAreaField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from werkzeug.utils import secure_filename
-from flask_wtf.file import FileField, FileAllowed, FileRequired
+from flask_wtf.file import FileField, FileAllowed
 
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
@@ -81,7 +81,7 @@ def my_recipes():
 # View recipe
 @app.route("/recipe/<int:recipe_id>", methods=["GET", "POST"])
 def view_recipe(recipe_id):
-    recipe_is_saved = has_user_saved_recipe(current_user.id, recipe_id)    
+    recipe_is_saved = has_user_saved_recipe(current_user.id, recipe_id) if current_user.is_authenticated else False  
     recipe = Recipe.query.get(recipe_id)
     recipe.created_by = User.query.filter_by(id=recipe.user_id).first().username # type: ignore
     
