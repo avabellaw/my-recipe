@@ -109,7 +109,7 @@ def add_recipe():
            
             db.session.add(recipe)
             db.session.commit()
-            return redirect(url_for("my_recipes"))
+            return redirect(url_for("view_recipe", recipe_id=recipe.id))
     return render_template("add-recipe.html", form=form)
 
 # Add modified recipe
@@ -128,7 +128,7 @@ def add_modified_recipe(recipe_id):
             
             db.session.add(modified_recipe)
             db.session.commit()
-            return redirect(url_for("home"))
+            return redirect(url_for("view_recipe", recipe_id=recipe_id))
     
     form.ingredients.data = original_recipe.ingredients # type: ignore
     form.instructions.data = original_recipe.instructions # type: ignore

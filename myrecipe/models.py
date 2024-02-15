@@ -25,7 +25,7 @@ class Recipe(db.Model):
     recipe_copies = db.relationship("ModifiedRecipe", backref="original_recipe", cascade="all, delete")
     
     def __repr__(self):
-        return f"{self.title} [ID: {self.id}]"
+        return f"{self.id} -{self.title}"
     
 class ModifiedRecipe(db.Model):
     __tablename__ = "modified_recipes"
