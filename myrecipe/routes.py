@@ -105,9 +105,8 @@ def add_recipe():
             if image:
                 image_url = save_image_locally(image)
                 
-                recipe = Recipe(user_id=current_user.id, title=title, desc=desc, ingredients=ingredients, instructions=instructions, image_url=image_url) # type: ignore
-            else:
-                recipe = Recipe(user_id=current_user.id, title=title, desc=desc, ingredients=ingredients, instructions=instructions) # type: ignore
+            recipe = Recipe(user_id=current_user.id, title=title, desc=desc, ingredients=ingredients, instructions=instructions, image_url=image_url if image else null()) # type: ignore
+           
             db.session.add(recipe)
             db.session.commit()
             return redirect(url_for("my_recipes"))
