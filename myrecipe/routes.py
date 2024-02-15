@@ -190,9 +190,11 @@ def search():
             recipes = Recipe.query.filter(Recipe.title.like(f"%{search_query}%")).all()
             add_created_by_to_recipes(recipes)
             return render_template("search-results.html", recipes=recipes, search_query=search_query)
+        # If validate fails go back to home with the error message
         return render_template("index.html", search_form=search_form)
 
     search_query_url = request.query_string.decode("utf-8").split("=")
+    # If no search query in url, redirect to home
     if len(search_query_url) <= 1:
         return redirect(url_for("home"))
     search_query = search_query_url[1] 
