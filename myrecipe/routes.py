@@ -2,6 +2,7 @@ import os
 from flask import url_for, redirect, render_template, request, send_from_directory, flash
 from flask_login import login_user, logout_user, login_required, current_user, LoginManager, login_user
 from flask_bcrypt import Bcrypt
+from sqlalchemy import null
 from myrecipe import db, app
 from myrecipe.models import User, Recipe, SavedRecipe, ModifiedRecipe
 
@@ -83,7 +84,7 @@ def view_recipe(recipe_id):
     recipe_is_saved = has_user_saved_recipe(current_user.id, recipe_id) if current_user.is_authenticated else False  
     recipe = Recipe.query.get(recipe_id)
     if not recipe:
-        recipe = ModifiedRecipe.query.get(recipe_id)
+        recipe = get_modified_recipe(recipe_id)
     add_created_by_to_recipes([recipe])
     
     return render_template("view-recipe.html", recipe=recipe, recipe_is_saved=recipe_is_saved)
@@ -121,14 +122,11 @@ def add_modified_recipe(recipe_id):
     original_recipe.created_by = User.query.filter_by(id=original_recipe.user_id).first().username # type: ignore
     
     if request.method == "POST":
-        image_url = original_recipe.image_url # type: ignore
         ingredients = form.ingredients.data
         instructions = form.instructions.data
         if form.validate_on_submit():
-            if image_url:
-                modified_recipe = ModifiedRecipe(user_id=current_user.id, recipe_id=recipe_id, title=original_recipe.title, desc=original_recipe.desc, ingredients=ingredients, instructions=instructions, image_url=image_url) # type: ignore
-            else:
-                modified_recipe = ModifiedRecipe(user_id=current_user.id, recipe_id=recipe_id, title=original_recipe.title, desc=original_recipe.desc, ingredients=ingredients, instructions=instructions) # type: ignore
+            modified_recipe = ModifiedRecipe(modified_by=current_user.id, recipe_id=recipe_id, ingredients=ingredients, instructions=instructions) # type: ignore
+            
             db.session.add(modified_recipe)
             db.session.commit()
             return redirect(url_for("home"))
@@ -189,17 +187,27 @@ def get_user(username):
 
 def get_all_recipes():
     all_recipes = Recipe.query.all()
-    all_recipes.extend(ModifiedRecipe.query.all())
+    modified_recipes = ModifiedRecipe.query.all()
+    
+    for m_recipe in modified_recipes:
+        m_recipe.title = m_recipe.original_recipe.title # type: ignore
+        m_recipe.desc = m_recipe.original_recipe.desc # type: ignore
+        m_recipe.image_url = m_recipe.original_recipe.image_url # type: ignore
+        
+    all_recipes.extend(modified_recipes)
     return all_recipes
+
+def get_modified_recipe(recipe_id):
+    recipe = ModifiedRecipe.query.get(recipe_id)
+    recipe.title = recipe.original_recipe.title # type: ignore
+    recipe.desc = recipe.original_recipe.desc # type: ignore
+    recipe.image_url = recipe.original_recipe.image_url # type: ignore
+    return recipe
 
 def add_created_by_to_recipes(recipes):
     for recipe in recipes:
-        if hasattr(recipe, "original_recipe"):
-            recipe.created_by = User.query.filter_by(id=recipe.original_recipe.user_id).first().username # type: ignore
-            recipe.modified_by = User.query.filter_by(id=recipe.user_id).first().username # type: ignore
-        else:
-            # Type ignore is because the linter doesn't recognize that Users contains the field username
-            recipe.created_by = User.query.filter_by(id=recipe.user_id).first().username # type: ignore
+        user_id = recipe.original_recipe.user_id if hasattr(recipe, "original_recipe") else recipe.user_id # type: ignore
+        recipe.created_by = User.query.filter_by(id=user_id).first().username # type: ignore
         
 def has_user_saved_recipe(user_id, recipe_id):
     return bool(SavedRecipe.query.filter_by(user_id=user_id, recipe_id=recipe_id).first()) 
