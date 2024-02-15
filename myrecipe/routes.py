@@ -191,7 +191,9 @@ def search():
             add_created_by_to_recipes(recipes)
             return render_template("search-results.html", recipes=recipes, search_query=search_query)
         # If validate fails go back to home with the error message
-        return render_template("index.html", search_form=search_form)
+        recipes = get_all_recipes()
+        add_created_by_to_recipes(recipes)
+        return render_template("index.html", recipes=recipes, search_form=search_form)
 
     search_query_url = request.query_string.decode("utf-8").split("=")
     # If no search query in url, redirect to home
@@ -300,3 +302,7 @@ class AddModifiedRecipeForm(FlaskForm):
     
 class SearchForm(FlaskForm):
     search_bar = StringField("Search:", validators=[DataRequired(), Length(min=2, max=40)])
+    
+    def validate_search_bar(self, search_bar):
+        if len(search_bar.data) < 2 or len(search_bar.data) > 40:
+            raise ValidationError("Search terms must have a length between 2 and 40 characters.")

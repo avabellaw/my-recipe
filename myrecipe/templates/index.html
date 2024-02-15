@@ -19,16 +19,15 @@
 
                     {{ search_form.search_bar }}
 
-                    {% for error in search_form.search_bar.errors %}
-                    <p class="validation-message">
-                        <i class="material-icons">error_outline</i> {{ error }}
-                    </p>
-                    {% endfor %}
-
                     <button class="btn waves-effect waves-light orange darken-3" type="submit" name="action">
                         <i class="material-icons">search</i>
                     </button>
                 </form>
+                {% for error in search_form.search_bar.errors %}
+                <p class="validation-message">
+                    <i class="material-icons">error_outline</i> {{ error }}
+                </p>
+                {% endfor %}
             </div>
             <div class="col s12 m4">
                 <div id="search-tags">
