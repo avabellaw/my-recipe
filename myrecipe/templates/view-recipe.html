@@ -2,7 +2,11 @@
 
 {% block content %}
 
+{% if recipe.original_recipe == null %}
 {% set isOwnedByUser = current_user.id == recipe.user_id %}
+{% else %}
+{% set isOwnedByUser = current_user.id == recipe.modified_by_id %}
+{% endif %}
 
 <section id="recipe-content">
     <div class="container">
