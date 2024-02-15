@@ -6,7 +6,11 @@
 
 <section>
     <div class="container">
-        {{ search_query }}
+        <div class="row">
+            <div class="col s12">
+                <h2 class="page-header left"><strong>Showing results for "{{ search_query }}"</strong></h2>
+            </div>
+        </div>
         {{ displayRecipes(recipes) }}
     </div>
 </section>
