@@ -199,6 +199,7 @@ def search():
         return redirect(url_for("home"))
     search_query = search_query_url[1] 
     recipes = Recipe.query.filter(Recipe.title.like(f"%{search_query}%")).all()
+    recipes.extend(ModifiedRecipe.query.filter(ModifiedRecipe.extended_desc.like(f"%{search_query}%")).all())
     add_created_by_to_recipes(recipes)
     return render_template("search-results.html", recipes=recipes, search_query=search_query)
 
