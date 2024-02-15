@@ -42,6 +42,18 @@
             <form action="{{ url_for('add_modified_recipe', recipe_id=original_recipe.id) }}" method="post" enctype="multipart/form-data">
                 {{ form.csrf_token }}
 
+                <!-- Extended description field -->
+                <div class="input-field">
+                    {{ form.extended_desc }}
+                    {{ form.extended_desc.label }}
+                </div>
+
+                {% for error in form.extended_desc.errors %}
+                <p class="validation-message">
+                    <i class="material-icons">error_outline</i> {{ error }}
+                </p>
+                {% endfor %}
+
                 <!-- Ingredients field -->
                 <div class="input-field">
                     {{ form.ingredients(class_="materialize-textarea") }}

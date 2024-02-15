@@ -32,6 +32,7 @@ class ModifiedRecipe(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     modified_by_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     recipe_id = db.Column(db.Integer, db.ForeignKey("recipes.id"), nullable=False)
+    extended_desc = db.Column(db.String(100), nullable=False)
     ingredients = db.Column(db.String(500), nullable=False)
     instructions = db.Column(db.String(1000), nullable=False)
     

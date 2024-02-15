@@ -121,10 +121,11 @@ def add_modified_recipe(recipe_id):
     original_recipe.created_by = User.query.filter_by(id=original_recipe.user_id).first().username # type: ignore
     
     if request.method == "POST":
-        ingredients = form.ingredients.data
-        instructions = form.instructions.data
         if form.validate_on_submit():
-            modified_recipe = ModifiedRecipe(modified_by_id=current_user.id, recipe_id=recipe_id, ingredients=ingredients, instructions=instructions) # type: ignore
+            ingredients = form.ingredients.data
+            instructions = form.instructions.data
+            extended_desc = form.extended_desc.data
+            modified_recipe = ModifiedRecipe(modified_by_id=current_user.id, recipe_id=recipe_id, extended_desc=extended_desc, ingredients=ingredients, instructions=instructions) # type: ignore
             
             db.session.add(modified_recipe)
             db.session.commit()
@@ -251,5 +252,6 @@ class AddRecipeForm(FlaskForm):
     image = FileField('image', validators=[FileAllowed(['jpg', 'jpeg', 'png', 'webp'], 'Please only upload an image (jpg, png, or webp).')])
     
 class AddModifiedRecipeForm(FlaskForm):
+    extended_desc = StringField("Extended description:", validators=[DataRequired(), Length(min=2, max=100)])
     ingredients = TextAreaField("Ingredients:", validators=[DataRequired(), Length(min=10, max=500)])
     instructions = TextAreaField("Instructions:", validators=[DataRequired(), Length(min=10, max=1000)])
