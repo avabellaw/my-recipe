@@ -195,7 +195,7 @@ def search():
     # If doesn't validate, redirect to home with error message.
     recipes = get_all_recipes()
     add_created_by_to_recipes(recipes)
-    return render_template("index.html", recipes=recipes, search_form=search_form, scroll="search-form")
+    return render_template("index.html", recipes=recipes, search_form=search_form, scroll="search-box-container")
 
 # Get image - From Flask documentation
 @app.route("/image-uploads/<path:filename>")

@@ -176,17 +176,40 @@ span#login-btn {
     align-items: center;
 }
 
-#search-form > button {
-    margin-left: 0.75em;
-    padding: 0 0.7em;
+#search-form>button {
+    margin-left: 1em;
+    padding: 0 0.6em;
+    border-radius: 30%;
 }
 
-#search-form > button>i {
+#search-form>button>i {
     font-size: 2em;
-}   
+}
+
+#search-box #search-bar {
+    border-color: #ab4700;
+}
 
 .search-query {
     text-transform: none;
+}
+
+#search-box-container {
+    border: 1px solid black;
+    background-color: #fff8ee;
+}
+
+#search-box {
+    margin: 2em;
+}
+
+#search-box>.row {
+    margin-bottom: 0;
+}
+
+#search-box_header {
+    margin-top: 0;
+    font-size: 2em;
 }
 
 /* End of Homepage */
@@ -288,7 +311,7 @@ span#login-btn {
     padding: 1.5em;
 }
 
-#instructions-container ol > li::marker {
+#instructions-container ol>li::marker {
     color: black;
 }
 
@@ -323,7 +346,8 @@ span#login-btn {
     align-items: center;
 }
 
-#recipe-title>a, #recipe-title button {
+#recipe-title>a,
+#recipe-title button {
     display: inline-flex;
     align-items: center;
     font-size: 0.6em;
@@ -340,7 +364,8 @@ span#login-btn {
     outline: inherit;
 }
 
-#recipe-title>a>i, #recipe-title>button>i {
+#recipe-title>a>i,
+#recipe-title>button>i {
     margin-right: 0.2em;
 }
 
@@ -370,6 +395,7 @@ span#login-btn {
     font-style: italic;
     margin-left: 0.1em;
 }
+
 /* Modified recipe styles */
 
 /* Forms */
@@ -394,6 +420,7 @@ span#login-btn {
     95% {
         transform: scaleY(1);
     }
+
     100% {
         transform-origin: top;
         transform: scaleY(0);
