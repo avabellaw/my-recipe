@@ -193,9 +193,7 @@ def get_all_recipes():
     modified_recipes = ModifiedRecipe.query.all()
     
     for m_recipe in modified_recipes:
-        m_recipe.title = m_recipe.original_recipe.title # type: ignore
-        m_recipe.desc = m_recipe.original_recipe.desc # type: ignore
-        m_recipe.image_url = m_recipe.original_recipe.image_url # type: ignore
+        m_recipe = get_modified_recipe(m_recipe.id)
         
     all_recipes.extend(modified_recipes)
     return all_recipes
