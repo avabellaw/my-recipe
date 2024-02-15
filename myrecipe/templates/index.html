@@ -13,7 +13,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col s8">
+            <div class="col s12 m8">
                 <form id="search-form" action="{{ url_for('search') }}" method="POST">
                     {{ search_form.csrf_token }}
 
@@ -29,6 +29,11 @@
                         <i class="material-icons">search</i>
                     </button>
                 </form>
+            </div>
+            <div class="col s12 m4">
+                <div id="search-tags">
+
+                </div>
             </div>
         </div>
     </div>
