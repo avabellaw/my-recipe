@@ -176,7 +176,7 @@
 
             // Send POST request using AJAX [https://www.tutorialspoint.com/how-to-stop-refreshing-the-page-on-submit-in-javascript]
             let xhr = new XMLHttpRequest();
-            xhr.open("POST", "{{ url_for('save_recipe', recipe_id=recipe.id) }}");
+            xhr.open("POST", "{{ url_for('toggle_save_recipe', recipe_id=recipe.id) }}");
             xhr.send(); // Blank, only needs the request and the recipe ID.
             xhr.onload = function () {
                 let text = saveRecipeButton.childNodes[1].innerText;

@@ -169,7 +169,7 @@ def view_saved_recipes():
 # Save/unsave recipe
 @app.route("/save-recipe/<int:recipe_id>", methods=["POST"])
 @login_required
-def save_recipe(recipe_id):
+def toggle_save_recipe(recipe_id):
     if(has_user_saved_recipe(current_user.id, recipe_id)):
         saved_recipe = SavedRecipe.query.filter_by(user_id=current_user.id, recipe_id=recipe_id).first()
         db.session.delete(saved_recipe)
