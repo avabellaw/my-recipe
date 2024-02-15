@@ -39,7 +39,8 @@ li::marker {
 /* Flash message */
 
 .flash-message {
-    color: white;
+    color: black;
+    font-weight: 500;
 }
 
 .flash-message:hover {
@@ -63,11 +64,11 @@ li::marker {
 }
 
 .flash-message p.danger {
-    background-color: red;
+    background-color: #ff6f6f;
 }
 
 .flash-message p.success {
-    background-color: green;
+    background-color: #ffee8a;
 }
 
 #flash-message_cross {

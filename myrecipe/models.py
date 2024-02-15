@@ -37,7 +37,7 @@ class ModifiedRecipe(db.Model):
     instructions = db.Column(db.String(1000), nullable=False)
     
     def __repr__(self):
-        return f'{self.original_recipe.title} (Modified recipe) [ID: {self.id}]'
+        return f'{self.original_recipe.title} (Modified recipe) [ID: {self.id}]' # type: ignore
     
 class SavedRecipe(db.Model):
     __tablename__ = "saved_recipes"
