@@ -187,7 +187,7 @@ def search():
     if request.method == "POST":
         search_query = search_form.search_bar.data
         if search_form.validate_on_submit():
-            recipes = Recipe.query.filter(Recipe.title.like(f"%{search_query}%")).all()
+            recipes = search_all_recipes(search_query)
             add_created_by_to_recipes(recipes)
             return render_template("search-results.html", recipes=recipes, search_query=search_query)
         # If validate fails go back to home with the error message
@@ -258,8 +258,8 @@ def user_owns_recipe(user_id, recipe):
         return recipe.user_id == user_id
     
 def search_all_recipes(search_query):
-    recipes = Recipe.query.filter(Recipe.title.like(f"%{search_query}%")).all()
-    recipes.extend(ModifiedRecipe.query.filter(ModifiedRecipe.extended_desc.like(f"%{search_query}%")).all())
+    recipes = Recipe.query.filter(Recipe.title.ilike(f"%{search_query}%")).all()
+    # recipes.extend(ModifiedRecipe.query.filter(ModifiedRecipe.original_recipe.title.ilike(f"%{search_query}%")).all()) # type: ignore
     return recipes
         
 # Wtforms
