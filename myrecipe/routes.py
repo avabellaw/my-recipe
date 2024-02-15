@@ -40,13 +40,16 @@ def login():
         user = get_user(request.form.get("username"))
         if form.validate_on_submit():
             login_user(user)
+            flash(f"Welcome back, {user.username}!", "success")
             return redirect(url_for("home"))
     return render_template("login.html", form=form)
 
+# Logout user
 @app.route("/logout", methods=["GET", "POST"])
 @login_required
 def logout():
     logout_user()
+    flash("You have been logged out.", "success")
     return redirect(url_for("home"))
 
 # Register user
