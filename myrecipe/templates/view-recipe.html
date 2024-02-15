@@ -35,6 +35,9 @@
                         <!-- Recipe title -->
                         <h2>
                             {{ recipe.title }}
+                            {% if isModifiedRecipe %}
+                            <span class="recipe-card_modified-tag">Modified</span>
+                            {% endif %}
                         </h2>
                         {% if current_user.is_authenticated %}
                         {% if isOwnedByUser %}
@@ -91,17 +94,20 @@
                     {% endif %}
 
                     <!-- Recipe Description -->
-                    {% if recipe.original_recipe != null %}
+                    {% if isModifiedRecipe %}
                     <br>
                     <a href="{{ url_for('view_recipe', recipe_id=recipe.original_recipe.id)}}">View original recipe,
-                        created by {{ recipe.created_by }}</recipe></a>
+                        created by {{ recipe.created_by }}</a>
+                    <p>"{{ recipe.desc }}"</p>
+                    <p><em>{{ recipe.extended_desc }}</em></p>
+                    {% else %}
+                    <p>{{ recipe.desc }}</p>
                     {% endif %}
-                    <p class="">{{ recipe.desc }}</p>
 
                     <!-- Recipe created by -->
                     <p id="created-by">
                         <small>
-                            {% if recipe.original_recipe != null %}
+                            {% if isModifiedRecipe %}
                             ~ Modified by {{ recipe.modified_by }}
                             {% else %}
                             ~ Created by {{ recipe.created_by }}

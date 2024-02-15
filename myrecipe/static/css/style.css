@@ -283,6 +283,11 @@ span#login-btn {
     padding: 0.5em;
 }
 
+#recipe-heading-container>p {
+    margin-bottom: 0;
+    margin-top: 0.5em;
+}
+
 #recipe-header_image-container {
     height: 100%;
 }
