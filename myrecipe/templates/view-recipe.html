@@ -27,31 +27,32 @@
                             {{ recipe.title }}
                         </h2>
                         {% if current_user.is_authenticated %}
-                            {% if isOwnedByUser %}
+                        {% if isOwnedByUser %}
 
-                            <!-- Settings dropdown trigger -->
-                            <a class='dropdown-trigger orange-text' href='#' data-target='recipe-settings'>
-                                <i class="material-icons">settings</i>
-                                EDIT RECIPE
-                            </a>
+                        <!-- Settings dropdown trigger -->
+                        <a class='dropdown-trigger orange-text' href='#' data-target='recipe-settings'>
+                            <i class="material-icons">settings</i>
+                            EDIT RECIPE
+                        </a>
+                        {% else %}
+                        <!-- Save recipe heart -->
+                        <button id="save-recipe-button" aria-labelledby="save-recipe-button_text" class="orange-text">
+                            {% if recipe_is_saved %}
+                            <i class="material-icons">favorite</i>
+                            <span id="save-recipe-button_text">UNSAVE</span>
                             {% else %}
-                            <!-- Save recipe heart -->
-                            <button id="save-recipe-button" aria-labelledby="save-recipe-button_text" class="orange-text">
-                                {% if recipe_is_saved %}
-                                <i class="material-icons">favorite</i>
-                                <span id="save-recipe-button_text">UNSAVE</span>
-                                {% else %}
-                                <i class="material-icons">favorite_border</i>
-                                <span id="save-recipe-button_text">SAVE</span>
-                                {% endif %}
-                            </button>
-
+                            <i class="material-icons">favorite_border</i>
+                            <span id="save-recipe-button_text">SAVE</span>
                             {% endif %}
+                        </button>
+
+                        {% endif %}
                         {% endif %}
                     </div>
 
                     {% if recipe.original_recipe == null %}
-                    <a id="template-button" href="{{ url_for('add_modified_recipe', recipe_id=recipe.id) }}" class="btn orange darken-3">
+                    <a id="template-button" href="{{ url_for('add_modified_recipe', recipe_id=recipe.id) }}"
+                        class="btn orange darken-3">
                         Use as template
                     </a>
                     {% endif %}
@@ -80,10 +81,23 @@
                     {% endif %}
 
                     <!-- Recipe Description -->
+                    {% if recipe.original_recipe != null %}
+                    <br>
+                    <a href="{{ url_for('view_recipe', recipe_id=recipe.original_recipe.id)}}">View original recipe,
+                        created by {{ recipe.created_by }}</recipe></a>
+                    {% endif %}
                     <p class="">{{ recipe.desc }}</p>
 
                     <!-- Recipe created by -->
-                    <p id="created-by"><small>~ Created by {{ recipe.created_by }}</small></p>
+                    <p id="created-by">
+                        <small>
+                            {% if recipe.original_recipe != null %}
+                            ~ Modified by {{ recipe.modified_by }}
+                            {% else %}
+                            ~ Created by {{ recipe.created_by }}
+                            {% endif %}
+                        </small>
+                    </p>
                 </div>
             </div>
         </div>

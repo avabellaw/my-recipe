@@ -339,6 +339,14 @@ span#login-btn {
 
 /* End of View recipe */
 
+/* Modified recipe styles */
+.recipe-card_modified-tag {
+    font-size: 0.8em;
+    font-style: italic;
+    margin-left: 0.1em;
+}
+/* Modified recipe styles */
+
 /* Forms */
 
 .validation-message {

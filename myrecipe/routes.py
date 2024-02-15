@@ -2,7 +2,6 @@ import os
 from flask import url_for, redirect, render_template, request, send_from_directory, flash
 from flask_login import login_user, logout_user, login_required, current_user, LoginManager, login_user
 from flask_bcrypt import Bcrypt
-from sqlalchemy import Null
 from myrecipe import db, app
 from myrecipe.models import User, Recipe, SavedRecipe, ModifiedRecipe
 
@@ -83,7 +82,9 @@ def my_recipes():
 def view_recipe(recipe_id):
     recipe_is_saved = has_user_saved_recipe(current_user.id, recipe_id) if current_user.is_authenticated else False  
     recipe = Recipe.query.get(recipe_id)
-    recipe.created_by = User.query.filter_by(id=recipe.user_id).first().username # type: ignore
+    if not recipe:
+        recipe = ModifiedRecipe.query.get(recipe_id)
+    add_created_by_to_recipes([recipe])
     
     return render_template("view-recipe.html", recipe=recipe, recipe_is_saved=recipe_is_saved)
 
@@ -192,9 +193,13 @@ def get_all_recipes():
     return all_recipes
 
 def add_created_by_to_recipes(recipes):
-     for recipe in recipes:
-        # Type ignore is because the linter doesn't recognize that Users contains the field username
-        recipe.created_by = User.query.filter_by(id=recipe.user_id).first().username # type: ignore
+    for recipe in recipes:
+        if hasattr(recipe, "original_recipe"):
+            recipe.created_by = User.query.filter_by(id=recipe.original_recipe.user_id).first().username # type: ignore
+            recipe.modified_by = User.query.filter_by(id=recipe.user_id).first().username # type: ignore
+        else:
+            # Type ignore is because the linter doesn't recognize that Users contains the field username
+            recipe.created_by = User.query.filter_by(id=recipe.user_id).first().username # type: ignore
         
 def has_user_saved_recipe(user_id, recipe_id):
     return bool(SavedRecipe.query.filter_by(user_id=user_id, recipe_id=recipe_id).first()) 

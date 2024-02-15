@@ -5,7 +5,12 @@
 <div class="row">
     <div class="col s12">
         <div class="recipe-card">
-            <h3 id="recipe-card_title" class="header">{{ recipe.title }}</h3>
+            <h3 id="recipe-card_title" class="header">
+                {{ recipe.title }}
+                {% if recipe.original_recipe != null %}
+                <span class="recipe-card_modified-tag">Modified</span>
+                {% endif %}
+            </h3>
             <div class="card horizontal">
                 <div class="card-image">
                     {% if recipe.image_url == None %}
@@ -16,6 +21,9 @@
                 </div>
                 <div class="card-stacked">
                     <div class="card-content">
+                        {% if recipe.original_recipe != null %}
+                        <a href="{{ url_for('view_recipe', recipe_id=recipe.original_recipe.id)}}">View original recipe, created by {{ recipe.created_by }}</recipe></a>
+                        {% endif %}
                         <p>{{ recipe.desc }}</p>
                     </div>
                     <div class="card-action">
