@@ -50,7 +50,7 @@
                         {% endif %}
                     </div>
 
-                    {% if recipe.original_recipe == null %}
+                    {% if recipe.original_recipe == null and isOwnedByUser == false %}
                     <a id="template-button" href="{{ url_for('add_modified_recipe', recipe_id=recipe.id) }}"
                         class="btn orange darken-3">
                         Use as template
