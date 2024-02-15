@@ -3,6 +3,12 @@
 {% block content %}
 
 {% if recipe.original_recipe == null %}
+{% set isModifiedRecipe = false %}
+{% else %}
+{% set isModifiedRecipe = true %}
+{% endif %}
+
+{% if not isModifiedRecipe %}
 {% set isOwnedByUser = current_user.id == recipe.user_id %}
 {% else %}
 {% set isOwnedByUser = current_user.id == recipe.modified_by_id %}
@@ -54,7 +60,7 @@
                         {% endif %}
                     </div>
 
-                    {% if recipe.original_recipe == null and isOwnedByUser == false %}
+                    {% if not isModifiedRecipe and isOwnedByUser == false %}
                     <a id="template-button" href="{{ url_for('add_modified_recipe', recipe_id=recipe.id) }}"
                         class="btn orange darken-3">
                         Use as template
