@@ -259,7 +259,7 @@ def user_owns_recipe(user_id, recipe):
     
 def search_all_recipes(search_query):
     recipes = Recipe.query.filter(Recipe.title.ilike(f"%{search_query}%")).all()
-    # recipes.extend(ModifiedRecipe.query.filter(ModifiedRecipe.original_recipe.title.ilike(f"%{search_query}%")).all()) # type: ignore
+    recipes.extend(Recipe.query.filter(Recipe.desc.ilike(f"%{search_query}%")).all())
     return recipes
         
 # Wtforms
