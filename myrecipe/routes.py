@@ -124,11 +124,11 @@ def add_modified_recipe(recipe_id):
         ingredients = form.ingredients.data
         instructions = form.instructions.data
         if form.validate_on_submit():
-            modified_recipe = ModifiedRecipe(modified_by=current_user.id, recipe_id=recipe_id, ingredients=ingredients, instructions=instructions) # type: ignore
+            modified_recipe = ModifiedRecipe(modified_by_id=current_user.id, recipe_id=recipe_id, ingredients=ingredients, instructions=instructions) # type: ignore
             
             db.session.add(modified_recipe)
             db.session.commit()
-            return redirect(url_for("view_recipe", recipe_id=recipe_id))
+            return redirect(url_for("view_recipe", recipe_id=modified_recipe.id))
     
     form.ingredients.data = original_recipe.ingredients # type: ignore
     form.instructions.data = original_recipe.instructions # type: ignore
@@ -201,12 +201,13 @@ def get_modified_recipe(recipe_id):
     recipe.title = recipe.original_recipe.title # type: ignore
     recipe.desc = recipe.original_recipe.desc # type: ignore
     recipe.image_url = recipe.original_recipe.image_url # type: ignore
+    recipe.modified_by = User.query.filter_by(id=recipe.modified_by_id).first().username # type: ignore
     return recipe
 
 def add_created_by_to_recipes(recipes):
     for recipe in recipes:
         user_id = recipe.original_recipe.user_id if hasattr(recipe, "original_recipe") else recipe.user_id # type: ignore
-        recipe.created_by = User.query.filter_by(id=user_id).first().username # type: ignore
+        recipe.created_by = User.query.filter_by(id=user_id).first().username # type: ignore            
         
 def has_user_saved_recipe(user_id, recipe_id):
     return bool(SavedRecipe.query.filter_by(user_id=user_id, recipe_id=recipe_id).first()) 

@@ -30,7 +30,7 @@ class Recipe(db.Model):
 class ModifiedRecipe(db.Model):
     __tablename__ = "modified_recipes"
     id = db.Column(db.Integer, primary_key=True)
-    modified_by = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    modified_by_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     recipe_id = db.Column(db.Integer, db.ForeignKey("recipes.id"), nullable=False)
     ingredients = db.Column(db.String(500), nullable=False)
     instructions = db.Column(db.String(1000), nullable=False)
