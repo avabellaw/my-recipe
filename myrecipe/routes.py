@@ -4,7 +4,7 @@ from flask_login import login_user, logout_user, login_required, current_user, L
 from flask_bcrypt import Bcrypt
 from sqlalchemy import Null
 from myrecipe import db, app
-from myrecipe.models import User, Recipe, SavedRecipe
+from myrecipe.models import User, Recipe, SavedRecipe, ModifiedRecipe
 
 # WTForms imports
 from flask_wtf import FlaskForm
@@ -99,14 +99,10 @@ def add_recipe():
         ingredients = form.ingredients.data
         instructions = form.instructions.data
         if form.validate_on_submit():
-            hasImage = form.image.data
-            if hasImage:
-                image = form.image.data
-                filename = secure_filename(image.filename)
-                image.save(os.path.join(app.config["PACKAGE_NAME"] + "/" + app.config['UPLOAD_FOLDER'], filename))
+            image = form.image.data
+            if image:
+                image_url = save_image_locally(image)
                 
-                image_url = "/" + app.config["UPLOAD_FOLDER"] + "/" + filename 
-            
                 recipe = Recipe(user_id=current_user.id, title=title, desc=desc, ingredients=ingredients, instructions=instructions, image_url=image_url) # type: ignore
             else:
                 recipe = Recipe(user_id=current_user.id, title=title, desc=desc, ingredients=ingredients, instructions=instructions) # type: ignore
@@ -119,9 +115,23 @@ def add_recipe():
 @app.route("/add-modified-recipe/<int:recipe_id>", methods=["GET", "POST"])
 @login_required
 def add_modified_recipe(recipe_id):
+    form = AddModifiedRecipeForm()
     original_recipe = Recipe.query.get(recipe_id)
     original_recipe.created_by = User.query.filter_by(id=original_recipe.user_id).first().username # type: ignore
-    form = AddRecipeForm()
+    
+    if request.method == "POST":
+        image_url = original_recipe.image_url # type: ignore
+        ingredients = form.ingredients.data
+        instructions = form.instructions.data
+        if form.validate_on_submit():
+            if image_url:
+                modified_recipe = ModifiedRecipe(user_id=current_user.id, recipe_id=recipe_id, title=original_recipe.title, desc=original_recipe.desc, ingredients=ingredients, instructions=instructions, image_url=image_url) # type: ignore
+            else:
+                modified_recipe = ModifiedRecipe(user_id=current_user.id, recipe_id=recipe_id, title=original_recipe.title, desc=original_recipe.desc, ingredients=ingredients, instructions=instructions) # type: ignore
+            db.session.add(modified_recipe)
+            db.session.commit()
+            return redirect(url_for("home"))
+    
     form.ingredients.data = original_recipe.ingredients # type: ignore
     form.instructions.data = original_recipe.instructions # type: ignore
     
@@ -177,7 +187,9 @@ def get_user(username):
     return User.query.filter_by(username=username).first()
 
 def get_all_recipes():
-    return Recipe.query.all()
+    all_recipes = Recipe.query.all()
+    all_recipes.extend(ModifiedRecipe.query.all())
+    return all_recipes
 
 def add_created_by_to_recipes(recipes):
      for recipe in recipes:
@@ -186,6 +198,13 @@ def add_created_by_to_recipes(recipes):
         
 def has_user_saved_recipe(user_id, recipe_id):
     return bool(SavedRecipe.query.filter_by(user_id=user_id, recipe_id=recipe_id).first()) 
+
+def save_image_locally(image):
+    filename = secure_filename(image.filename)
+    image.save(os.path.join(app.config["PACKAGE_NAME"] + "/" + app.config['UPLOAD_FOLDER'], filename))
+                
+    return "/" + app.config["UPLOAD_FOLDER"] + "/" + filename 
+            
         
 # Wtforms
 
@@ -217,3 +236,7 @@ class AddRecipeForm(FlaskForm):
     ingredients = TextAreaField("Ingredients:", validators=[DataRequired(), Length(min=10, max=500)])
     instructions = TextAreaField("Instructions:", validators=[DataRequired(), Length(min=10, max=1000)])
     image = FileField('image', validators=[FileAllowed(['jpg', 'jpeg', 'png', 'webp'], 'Please only upload an image (jpg, png, or webp).')])
+    
+class AddModifiedRecipeForm(FlaskForm):
+    ingredients = TextAreaField("Ingredients:", validators=[DataRequired(), Length(min=10, max=500)])
+    instructions = TextAreaField("Instructions:", validators=[DataRequired(), Length(min=10, max=1000)])

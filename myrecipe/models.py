@@ -32,13 +32,14 @@ class ModifiedRecipe(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     title = db.Column(db.String(40), nullable=False)
+    desc = db.Column(db.String(200), nullable=False)
     recipe_id = db.Column(db.Integer, db.ForeignKey("recipes.id"), nullable=False)
     ingredients = db.Column(db.String(500), nullable=False)
     instructions = db.Column(db.String(1000), nullable=False)
     image_url = db.Column(db.String(100), nullable=True)
     
     def __repr__(self):
-        return f"{self.title} [ID: {self.id}] - Template of "
+        return f"{self.title} [ID: {self.id}] - Modified from [ID: {self.recipe_id}]"
     
 class SavedRecipe(db.Model):
     __tablename__ = "saved_recipes"
