@@ -141,8 +141,8 @@ def add_modified_recipe(recipe_id):
 @app.route("/delete_recipe/<int:recipe_id>", methods=["GET", "POST"])
 @login_required
 def delete_recipe(recipe_id):
-    recipe = Recipe.query.get(recipe_id)
-    if recipe.user_id == current_user.id: #type: ignore
+    recipe = get_recipe(recipe_id)
+    if user_owns_recipe(current_user.id, recipe): #type: ignore
         db.session.delete(recipe)
         db.session.commit()
         flash(f'Recipe "{recipe}" deleted.', "success")
@@ -197,6 +197,12 @@ def get_all_recipes():
     all_recipes.extend(modified_recipes)
     return all_recipes
 
+def get_recipe(recipe_id):
+    recipe = Recipe.query.get(recipe_id)
+    if not recipe:
+        recipe = get_modified_recipe(recipe_id)
+    return recipe
+
 def get_modified_recipe(recipe_id):
     recipe = ModifiedRecipe.query.get(recipe_id)
     recipe.title = recipe.original_recipe.title # type: ignore
@@ -218,7 +224,14 @@ def save_image_locally(image):
     image.save(os.path.join(app.config["PACKAGE_NAME"] + "/" + app.config['UPLOAD_FOLDER'], filename))
                 
     return "/" + app.config["UPLOAD_FOLDER"] + "/" + filename 
-            
+
+def user_owns_recipe(user_id, recipe):
+    if hasattr(recipe, "modified_by_id"):
+        # If modified recipe, check the modified_by_id with user_id
+        return recipe.modified_by_id == user_id # type: ignore
+    else:
+        # If normal recipe, just check the user_id with user_id
+        return recipe.user_id == user_id
         
 # Wtforms
 
