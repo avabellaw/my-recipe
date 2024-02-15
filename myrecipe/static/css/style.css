@@ -41,15 +41,16 @@ li::marker {
 .flash-message {
     color: black;
     font-weight: 500;
+    animation: slideUpHideElement 4s forwards ease-in;
 }
 
 .flash-message:hover {
     cursor: pointer;
-
 }
 
 .flash-message .msg-wrapper {
-    position: relative;
+    position: absolute;
+    width: 100%;
 }
 
 .flash-message p {
@@ -367,3 +368,16 @@ span#login-btn {
 }
 
 /* End forms */
+
+/* Key frames */
+
+/* Squish effect from css-tricks.com [https://css-tricks.com/using-css-transitions-auto-dimensions/#aa-technique-2-transform-scaley] */
+@keyframes slideUpHideElement {
+    95% {
+        transform: scaleY(1);
+    }
+    100% {
+        transform-origin: top;
+        transform: scaleY(0);
+    }
+}
