@@ -181,28 +181,21 @@ def save_recipe(recipe_id):
     return redirect(url_for("view_recipe", recipe_id=recipe_id))
 
 # Search recipes
-@app.route("/search", methods=["GET", "POST"])
+@app.route("/search", methods=["GET"])
 def search():
-    search_form = SearchForm()
-    if request.method == "POST":
-        search_query = search_form.search_bar.data
-        if search_form.validate_on_submit():
-            recipes = search_all_recipes(search_query)
-            add_created_by_to_recipes(recipes)
-            return render_template("search-results.html", recipes=recipes, search_query=search_query)
-        # If validate fails go back to home with the error message
-        recipes = get_all_recipes()
-        add_created_by_to_recipes(recipes)
-        return render_template("index.html", recipes=recipes, search_form=search_form)
+    # Need to state no crsf token for search form [https://stackoverflow.com/questions/61237524/validating-get-params-with-wtforms-in-flask]
+    search_form = SearchForm(request.args, meta={'csrf': False})
 
-    search_query_url = request.query_string.decode("utf-8").split("=")
-    # If no search query in url, redirect to home
-    if len(search_query_url) <= 1:
-        return redirect(url_for("home"))
-    search_query = search_query_url[1] 
-    recipes = search_all_recipes(search_query)
+    if search_form.validate():
+        search_query_url = request.query_string.decode("utf-8").split("&")[0].split("=")
+        search_query = search_query_url[1] 
+        recipes = search_all_recipes(search_query)
+        add_created_by_to_recipes(recipes)
+        return render_template("search-results.html", recipes=recipes, search_query=search_query)
+    # If doesn't validate, redirect to home with error message.
+    recipes = get_all_recipes()
     add_created_by_to_recipes(recipes)
-    return render_template("search-results.html", recipes=recipes, search_query=search_query)
+    return render_template("index.html", recipes=recipes, search_form=search_form, scroll="search-form")
 
 # Get image - From Flask documentation
 @app.route("/image-uploads/<path:filename>")
@@ -302,7 +295,3 @@ class AddModifiedRecipeForm(FlaskForm):
     
 class SearchForm(FlaskForm):
     search_bar = StringField("Search:", validators=[DataRequired(), Length(min=2, max=40)])
-    
-    def validate_search_bar(self, search_bar):
-        if len(search_bar.data) < 2 or len(search_bar.data) > 40:
-            raise ValidationError("Search terms must have a length between 2 and 40 characters.")
