@@ -28,7 +28,15 @@
                     </div>
                     <div class="card-action">
                         <a class="view-recipe-btn" href="{{ url_for('view_recipe', recipe_id=recipe.id) }}">View Recipe</a>
-                        <p class="card_created-by right"><small>Created by {{ recipe.created_by }}</small></p>
+                        <p class="card_created-by right">
+                            <small>
+                                {% if recipe.original_recipe != null %}
+                                ~ Modified by {{ recipe.modified_by }}
+                                {% else %}
+                                ~ Created by {{ recipe.created_by }}
+                                {% endif %}
+                            </small>
+                        </p>
                     </div>
                 </div>
             </div>
