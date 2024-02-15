@@ -4,6 +4,11 @@
 
 {% block content %}
 
-{{ displayRecipes(recipes) }}
+<section>
+    <div class="container">
+        {{ search_query }}
+        {{ displayRecipes(recipes) }}
+    </div>
+</section>
 
 {% endblock %}

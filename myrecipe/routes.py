@@ -184,12 +184,18 @@ def save_recipe(recipe_id):
 @app.route("/search", methods=["GET", "POST"])
 def search():
     search_form = SearchForm()
-    if search_form.validate_on_submit():
+    if request.method == "POST":
         search_query = search_form.search_bar.data
-        recipes = Recipe.query.filter(Recipe.title.like(f"%{search_query}%")).all()
-        add_created_by_to_recipes(recipes)
-        return render_template("search-results.html", recipes=recipes, search_query=search_query)
-    return redirect(url_for("home"))
+        if search_form.validate_on_submit():
+            recipes = Recipe.query.filter(Recipe.title.like(f"%{search_query}%")).all()
+            add_created_by_to_recipes(recipes)
+            return render_template("search-results.html", recipes=recipes, search_query=search_query)
+        return render_template("index.html", search_form=search_form)
+
+    search_query = request.query_string.decode("utf-8").split("=")[1] 
+    recipes = Recipe.query.filter(Recipe.title.like(f"%{search_query}%")).all()
+    add_created_by_to_recipes(recipes)
+    return render_template("search-results.html", recipes=recipes, search_query=search_query)
 
 # Get image - From Flask documentation
 @app.route("/image-uploads/<path:filename>")
