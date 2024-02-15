@@ -24,9 +24,10 @@ def load_user(user_id):
 # Homepage
 @app.route("/")
 def home():
+    search_form = SearchForm()
     recipes = get_all_recipes()
     add_created_by_to_recipes(recipes)
-    return render_template("index.html", recipes=recipes)
+    return render_template("index.html", recipes=recipes, search_form=search_form)
 
 # Login user
 @app.route("/login", methods=["GET", "POST"])
@@ -179,6 +180,17 @@ def save_recipe(recipe_id):
     db.session.commit()
     return redirect(url_for("view_recipe", recipe_id=recipe_id))
 
+# Search recipes
+@app.route("/search", methods=["GET", "POST"])
+def search():
+    search_form = SearchForm()
+    if search_form.validate_on_submit():
+        search_query = search_form.search_bar.data
+        recipes = Recipe.query.filter(Recipe.title.like(f"%{search_query}%")).all()
+        add_created_by_to_recipes(recipes)
+        return render_template("search-results.html", recipes=recipes, search_query=search_query)
+    return redirect(url_for("home"))
+
 # Get image - From Flask documentation
 @app.route("/image-uploads/<path:filename>")
 def get_image(filename):
@@ -269,3 +281,6 @@ class AddModifiedRecipeForm(FlaskForm):
     extended_desc = StringField("Extended description:", validators=[DataRequired(), Length(min=2, max=100)])
     ingredients = TextAreaField("Ingredients:", validators=[DataRequired(), Length(min=10, max=500)])
     instructions = TextAreaField("Instructions:", validators=[DataRequired(), Length(min=10, max=1000)])
+    
+class SearchForm(FlaskForm):
+    search_bar = StringField("Search:", validators=[DataRequired(), Length(min=2, max=40)])

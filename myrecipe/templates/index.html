@@ -12,6 +12,25 @@
                 <p id="hero_tagline">Discover new recipes and make them yours.</p>
             </div>
         </div>
+        <div class="row">
+            <div class="col s8">
+                <form id="search-form" action="{{ url_for('search') }}" method="POST">
+                    {{ search_form.csrf_token }}
+
+                    {{ search_form.search_bar }}
+
+                    {% for error in search_form.search_bar.errors %}
+                    <p class="validation-message">
+                        <i class="material-icons">error_outline</i> {{ error }}
+                    </p>
+                    {% endfor %}
+
+                    <button class="btn waves-effect waves-light orange darken-3" type="submit" name="action">
+                        <i class="material-icons">search</i>
+                    </button>
+                </form>
+            </div>
+        </div>
     </div>
 </section>
 

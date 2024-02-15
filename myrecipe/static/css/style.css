@@ -171,6 +171,20 @@ span#login-btn {
     display: block;
 }
 
+#search-form {
+    display: flex;
+    align-items: center;
+}
+
+#search-form > button {
+    margin-left: 0.75em;
+    padding: 0 0.7em;
+}
+
+#search-form > button>i {
+    font-size: 2em;
+}   
+
 /* End of Homepage */
 
 /* My recipes */
