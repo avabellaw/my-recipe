@@ -41,7 +41,7 @@ li::marker {
 .flash-message {
     color: black;
     font-weight: 500;
-    animation: slideUpHideElement 4s forwards ease-in;
+    animation: slideUpHideElement 3s forwards ease-in;
 }
 
 .flash-message:hover {
@@ -194,13 +194,11 @@ span#login-btn {
     text-transform: none;
 }
 
-#search-box-container {
-    border: 1px solid black;
-    background-color: #fff8ee;
-}
-
 #search-box {
-    margin: 2em;
+    box-sizing: border-box;
+    padding: 2em;
+    border: 1px solid black;
+    background-color: #fffaf4d6;
 }
 
 #search-box>.row {
@@ -402,7 +400,7 @@ span#login-btn {
 
 .validation-message {
     color: red;
-    margin-bottom: 2rem;
+    margin-bottom: 0.2em;
     display: flex;
     align-items: center;
 }
