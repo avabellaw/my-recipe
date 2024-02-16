@@ -201,6 +201,14 @@ span#login-btn {
     background-color: #fffaf4d6;
 }
 
+/* ID is name is chosen and set by wtforms */
+input#search_bar:focus {
+    /* Override MaterializeCSS styles to change colour */
+    border-bottom: 1px solid var(--main-colour);
+    -webkit-box-shadow: 0 1px 0 0 var(--main-colour);
+    box-shadow: 0 1px 0 0 var(--main-colour);
+}
+
 #search-box>.row {
     margin-bottom: 0;
 }
