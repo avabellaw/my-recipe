@@ -211,6 +211,10 @@ def page_not_found(e):
 def method_not_allowed(e):
     return render_template("error-pages/405.html", e=e), 405
 
+@app.errorhandler(500)
+def internal_server_error(e):
+    return render_template("error-pages/500.html", e=e), 500
+
 # Helpers
 def get_user(username):
     return User.query.filter_by(username=username).first()
