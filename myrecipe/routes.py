@@ -167,7 +167,7 @@ def view_saved_recipes():
     return render_template("saved-recipes.html", saved_recipes=saved_recipes)
 
 # Save/unsave recipe
-@app.route("/save-recipe/<int:recipe_id>", methods=["POST"])
+@app.route("/toggle-save-recipe/<int:recipe_id>", methods=["POST"])
 @login_required
 def toggle_save_recipe(recipe_id):
     if(has_user_saved_recipe(current_user.id, recipe_id)):
