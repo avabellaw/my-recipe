@@ -207,6 +207,10 @@ def get_image(filename):
 def page_not_found(e):
     return render_template("error-pages/404.html", e=e), 404
 
+@app.errorhandler(405)
+def method_not_allowed(e):
+    return render_template("error-pages/405.html", e=e), 405
+
 # Helpers
 def get_user(username):
     return User.query.filter_by(username=username).first()
