@@ -19,6 +19,18 @@ html {
     background-color: snow;
 }
 
+#error-page_message-container {
+    padding: 1em;
+    max-width: 35em;
+    font-size: medium;
+    margin: auto;
+    text-align: center;
+}
+
+#error-page_message-container>h2 {
+    font-size: 2em;
+}
+
 /* From Stackoverflow [https://stackoverflow.com/questions/44846068/css-equal-height-columns] */
 .equal-height-cols {
     display: flex;

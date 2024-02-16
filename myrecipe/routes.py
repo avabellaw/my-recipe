@@ -202,6 +202,11 @@ def search():
 def get_image(filename):
     return send_from_directory(app.config["UPLOAD_FOLDER"], filename, as_attachment=True)
     
+# Error handling
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template("error-pages/404.html", e=e), 404
+
 # Helpers
 def get_user(username):
     return User.query.filter_by(username=username).first()
