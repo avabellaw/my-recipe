@@ -142,7 +142,7 @@ def add_modified_recipe(recipe_id):
     
 
 # Delete recipe
-@app.route("/delete_recipe/<int:recipe_id>", methods=["GET", "POST"])
+@app.route("/delete-recipe/<int:recipe_id>", methods=["GET", "POST"])
 @login_required
 def delete_recipe(recipe_id):
     recipe = get_recipe(recipe_id)
@@ -156,7 +156,7 @@ def delete_recipe(recipe_id):
     return redirect(url_for("my_recipes"))
 
 # Saved recipes
-@app.route("/view_saved-recipes", methods=["GET"])
+@app.route("/view-saved-recipes", methods=["GET"])
 @login_required
 def view_saved_recipes():
     saved_recipes_keys = SavedRecipe.query.filter_by(user_id=current_user.id).all()
@@ -203,6 +203,10 @@ def get_image(filename):
     return send_from_directory(app.config["UPLOAD_FOLDER"], filename, as_attachment=True)
     
 # Error handling
+@app.errorhandler(401)
+def unauthorized(e):
+    return render_template("error-pages/401.html", e=e), 401
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template("error-pages/404.html", e=e), 404
