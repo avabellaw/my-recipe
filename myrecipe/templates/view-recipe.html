@@ -102,6 +102,10 @@
                         {% if recipe.is_vegetarian %}
                         <img src="{{ url_for('static', filename='images/dietary-tags/vegetarian-icon.webp')}}" alt="Vegetarian">
                         {% endif %}
+
+                        {% if recipe.is_gluten_free %}
+                        <img src="{{ url_for('static', filename='images/dietary-tags/gluten-free-icon.webp')}}" alt="Gluten Free">
+                        {% endif %}
                     </div>
 
                     <!-- Recipe Description -->
