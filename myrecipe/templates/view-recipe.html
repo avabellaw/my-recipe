@@ -28,6 +28,32 @@
                         class="responsive-img">
                     {% endif %}
                 </div>
+                <!-- Recipe dietary tags -->
+                <div id="dietary-tags">
+                    {% if recipe.is_vegan %}
+                        <img src="{{ url_for('static', filename='images/dietary-tags/vegan-icon.webp')}}" alt="Vegan">
+                    {% endif %}
+
+                    {% if recipe.is_vegetarian %}
+                    <img src="{{ url_for('static', filename='images/dietary-tags/vegetarian-icon.webp')}}" alt="Vegetarian">
+                    {% endif %}
+
+                    {% if recipe.is_gluten_free %}
+                    <img src="{{ url_for('static', filename='images/dietary-tags/gluten-free-icon.webp')}}" alt="Gluten Free">
+                    {% endif %}
+
+                    {% if recipe.is_dairy_free %}
+                    <img src="{{ url_for('static', filename='images/dietary-tags/dairy-free-icon.webp')}}" alt="Dairy Free">
+                    {% endif %}
+
+                    {% if recipe.is_nut_free %}
+                    <img src="{{ url_for('static', filename='images/dietary-tags/nut-free-icon.webp')}}" alt="Nut Free">
+                    {% endif %}
+
+                    {% if recipe.is_egg_free %}
+                    <img src="{{ url_for('static', filename='images/dietary-tags/egg-free-icon.webp')}}" alt="Egg Free">
+                    {% endif %}
+                </div>
             </div>
             <div class="col s12 m7">
                 <div id="recipe-heading-container">
@@ -92,33 +118,6 @@
                     </div>
 
                     {% endif %}
-
-                    <!-- Recipe dietary tags -->
-                    <div id="dietary-tags">
-                        {% if recipe.is_vegan %}
-                            <img src="{{ url_for('static', filename='images/dietary-tags/vegan-icon.webp')}}" alt="Vegan">
-                        {% endif %}
-
-                        {% if recipe.is_vegetarian %}
-                        <img src="{{ url_for('static', filename='images/dietary-tags/vegetarian-icon.webp')}}" alt="Vegetarian">
-                        {% endif %}
-
-                        {% if recipe.is_gluten_free %}
-                        <img src="{{ url_for('static', filename='images/dietary-tags/gluten-free-icon.webp')}}" alt="Gluten Free">
-                        {% endif %}
-
-                        {% if recipe.is_dairy_free %}
-                        <img src="{{ url_for('static', filename='images/dietary-tags/dairy-free-icon.webp')}}" alt="Dairy Free">
-                        {% endif %}
-
-                        {% if recipe.is_nut_free %}
-                        <img src="{{ url_for('static', filename='images/dietary-tags/nut-free-icon.webp')}}" alt="Nut Free">
-                        {% endif %}
-
-                        {% if recipe.is_egg_free %}
-                        <img src="{{ url_for('static', filename='images/dietary-tags/egg-free-icon.webp')}}" alt="Egg Free">
-                        {% endif %}
-                    </div>
 
                     <!-- Recipe Description -->
                     {% if isModifiedRecipe %}
