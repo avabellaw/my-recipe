@@ -4,11 +4,11 @@ from flask_login import login_user, logout_user, login_required, current_user, L
 from flask_bcrypt import Bcrypt
 from sqlalchemy import null
 from myrecipe import db, app
-from myrecipe.models import User, Recipe, SavedRecipe, ModifiedRecipe
+from myrecipe.models import DietaryTags, User, Recipe, SavedRecipe, ModifiedRecipe
 
 # WTForms imports
 from flask_wtf import FlaskForm
-from wtforms import FileField, PasswordField, StringField, TextAreaField
+from wtforms import FileField, PasswordField, SelectMultipleField, StringField, TextAreaField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from werkzeug.utils import secure_filename
 from flask_wtf.file import FileField, FileAllowed
@@ -110,8 +110,11 @@ def add_recipe():
                 image_url = save_image_locally(image)
                 
             recipe = Recipe(user_id=current_user.id, title=title, desc=desc, ingredients=ingredients, instructions=instructions, image_url=image_url if image else null()) # type: ignore
-           
             db.session.add(recipe)
+            db.session.commit()   
+                     
+            dietary_tags = DietaryTags(recipe_id=recipe.id, is_vegan="vv" in form.dietary_tags.data, is_vegetarian="v" in form.dietary_tags.data, is_gluten_free="gf" in form.dietary_tags.data, is_dairy_free="df" in form.dietary_tags.data, is_nut_free="nf" in form.dietary_tags.data, is_egg_free="ef" in form.dietary_tags.data) # type: ignore
+            db.session.add(dietary_tags)
             db.session.commit()
             return redirect(url_for("view_recipe", recipe_id=recipe.id))
     return render_template("add-recipe.html", form=form)
@@ -273,6 +276,11 @@ def search_all_recipes(search_query):
     recipes = Recipe.query.filter(Recipe.title.ilike(f"%{search_query}%")).all()
     recipes.extend(Recipe.query.filter(Recipe.desc.ilike(f"%{search_query}%")).all())
     return recipes
+
+def set_default_dietary_tags(form, default_values):
+    # Set default dietary tags [https://stackoverflow.com/questions/5519729/wtforms-how-to-select-options-in-selectmultiplefield]
+    form.dietary_tags.default = default_values
+    form.process()  
         
 # Wtforms
 
@@ -304,6 +312,9 @@ class AddRecipeForm(FlaskForm):
     ingredients = TextAreaField("Ingredients:", validators=[DataRequired(), Length(min=10, max=500)])
     instructions = TextAreaField("Instructions:", validators=[DataRequired(), Length(min=10, max=1000)])
     image = FileField('image', validators=[FileAllowed(['jpg', 'jpeg', 'png', 'webp'], 'Please only upload an image (jpg, png, or webp).')])
+    
+    # Dietary tags
+    dietary_tags = SelectMultipleField("Dietary tags:", choices=[("vv", "Vegan"), ("v", "Vegetarian"), ("gf", "Gluten-free"), ("df", "Dairy-free"), ("nf", "Nut-free"), ("e", "Egg-free")], validators=[DataRequired()])
     
 class AddModifiedRecipeForm(FlaskForm):
     extended_desc = StringField("Extended description:", validators=[DataRequired(), Length(min=2, max=100)])

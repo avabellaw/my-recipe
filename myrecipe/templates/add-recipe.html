@@ -43,7 +43,8 @@
                         {{ form.image }}
                     </div>
                     <div class="file-path-wrapper">
-                        <input id="image-upload-btn" class="file-path" placeholder="Click to upload image." type="text" disabled>
+                        <input id="image-upload-btn" class="file-path" placeholder="Click to upload image." type="text"
+                            disabled>
                         <span class="helper-text" data-error="Must be in jpg, png or webp format."></span>
                     </div>
                 </div>
@@ -81,6 +82,12 @@
                 </p>
                 {% endfor %}
 
+                <!-- Dietary Tags -->
+                <div class="input-field col s12 .select-wrapper">
+                    {{ form.dietary_tags }}
+                    <label>Add dietary tags</label>
+                </div>
+
                 <!-- Submit form button -->
                 <button class="btn waves-effect waves-light orange darken-3" type="submit" name="action">Add recipe
                     <i class="material-icons right">send</i>
@@ -101,7 +108,7 @@
 
         let isValid = fileFormatsAllowed.some(format => imageUploadBtn.value.endsWith(format));
 
-        if(isValid) {
+        if (isValid) {
             imageUploadBtn.classList.remove("invalid");
             imageUploadBtn.classList.add("valid");
         } else {
@@ -109,5 +116,8 @@
             imageUploadBtn.classList.add("invalid");
         }
     };
+
+    select = document.querySelectorAll('select');
+    M.FormSelect.init(select);
 </script>
 {% endblock %}
