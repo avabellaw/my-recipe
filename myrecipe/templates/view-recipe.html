@@ -93,9 +93,15 @@
 
                     {% endif %}
 
+                    <!-- Recipe dietary tags -->
+                    <div id="dietary-tags">
+                        {% if recipe.is_vegan %}
+                        <img src="{{ url_for('static', filename='images/dietary-tags/vegan-icon.webp')}}" alt="">
+                        {% endif %}
+                    </div>
+
                     <!-- Recipe Description -->
                     {% if isModifiedRecipe %}
-                    <br>
                     <a href="{{ url_for('view_recipe', recipe_id=recipe.original_recipe.id)}}">View original recipe,
                         created by {{ recipe.created_by }}</a>
                     <p>"{{ recipe.desc }}"</p>

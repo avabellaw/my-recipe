@@ -407,6 +407,23 @@ input#search_bar:focus {
 
 /* End of View recipe */
 
+/* Recipe styles */
+
+#dietary-tags {
+    height: 1em;
+    margin-top: 0.2em;
+    padding: 0.2em;
+    box-sizing: content-box;
+    display: flex;
+}
+
+#dietary-tags>img {
+    height: 100%;
+    width: auto;
+}
+
+/* End of Recipe styles */
+
 /* Modified recipe styles */
 .recipe-card_modified-tag {
     font-size: 0.8em;

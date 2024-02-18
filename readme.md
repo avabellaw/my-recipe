@@ -254,3 +254,6 @@ $ git clone https://github.com/avabellaw/my-recipe
 
 * Default image if not uploaded with recipe.
     * From Pixabay [https://www.pexels.com/photo/closeup-photography-of-sauteed-garlic-263022/]
+
+* Dietary icons
+    * Vegan icon from flaticon by Pixel Perfect [https://www.flaticon.com/free-icon/vegetarian_723633?term=vegetarian&page=1&position=3&origin=tag&related_id=723633]
