@@ -415,6 +415,13 @@ p#created-by {
     margin-bottom: 0.5em;
 }
 
+.recipe-card #dietary-tag-container {
+    padding: 0.5em 0;
+    border-bottom: none;
+    margin-bottom: 0;
+    justify-content: left;
+}
+
 .dietary-tag {
     margin-right: 0.5em;
 }

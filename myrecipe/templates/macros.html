@@ -1,54 +1,3 @@
-<!-- Displays all recipes passed to it -->
-{% macro displayRecipes(recipes) %}
-
-{% for recipe in recipes %}
-<div class="row">
-    <div class="col s12">
-        <div class="recipe-card">
-            <h3 id="recipe-card_title" class="header">
-                {{ recipe.title }}
-                {% if recipe.original_recipe != null %}
-                <span class="recipe-card_modified-tag">Modified</span>
-                {% endif %}
-            </h3>
-            <div class="card horizontal">
-                <div class="card-image">
-                    {% if recipe.image_url == None %}
-                    <img src="{{ url_for('static', filename='images/default-recipe-image.webp') }}" alt="Default recipe image">
-                    {% else %}
-                    <img src="{{ recipe.image_url }}" aria-labelledby="recipe-card_title">
-                    {% endif %}
-                </div>
-                <div class="card-stacked">
-                    <div class="card-content">
-                        {% if recipe.original_recipe != null %}
-                        <a href="{{ url_for('view_recipe', recipe_id=recipe.original_recipe.id)}}">View original recipe, created by {{ recipe.created_by }}</recipe></a>
-                        <p>"{{ recipe.desc }}"</p>
-                        <p><em>{{ recipe.extended_desc }}</em></p>
-                        {% else %}
-                        <p>{{ recipe.desc }}</p>
-                        {% endif %}
-                    </div>
-                    <div class="card-action">
-                        <a class="view-recipe-btn" href="{{ url_for('view_recipe', recipe_id=recipe.id) }}">View Recipe</a>
-                        <p class="card_created-by right">
-                            <small>
-                                {% if recipe.original_recipe != null %}
-                                ~ Modified by {{ recipe.modified_by }}
-                                {% else %}
-                                ~ Created by {{ recipe.created_by }}
-                                {% endif %}
-                            </small>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-{% endfor %}
-
-{% endmacro %}
 
 <!-- Displays recipe dietary tags -->
 {% macro displayDietaryTags(recipe) %}
@@ -95,5 +44,59 @@
     </div>
     {% endif %}
 </div>
+
+{% endmacro %}
+
+<!-- Displays all recipes passed to it -->
+{% macro displayRecipes(recipes) %}
+
+{% for recipe in recipes %}
+<div class="row">
+    <div class="col s12">
+        <div class="recipe-card">
+            <h3 id="recipe-card_title" class="header">
+                {{ recipe.title }}
+                {% if recipe.original_recipe != null %}
+                <span class="recipe-card_modified-tag">Modified</span>
+                {% endif %}
+            </h3>
+            <div class="card horizontal">
+                <div class="card-image">
+                    {% if recipe.image_url == None %}
+                    <img src="{{ url_for('static', filename='images/default-recipe-image.webp') }}" alt="Default recipe image">
+                    {% else %}
+                    <img src="{{ recipe.image_url }}" aria-labelledby="recipe-card_title">
+                    {% endif %}
+                </div>
+                <div class="card-stacked">
+                    <div class="card-content">
+                        {% if recipe.original_recipe != null %}
+                        <a href="{{ url_for('view_recipe', recipe_id=recipe.original_recipe.id)}}">View original recipe, created by {{ recipe.created_by }}</recipe></a>
+                        <p>"{{ recipe.desc }}"</p>
+                        <p><em>{{ recipe.extended_desc }}</em></p>
+                        {% else %}
+                        <p>{{ recipe.desc }}</p>
+                        {% endif %}
+                        <!-- Display dietary tags -->
+                        {{ displayDietaryTags(recipe) }}
+                    </div>
+                    <div class="card-action">
+                        <a class="view-recipe-btn" href="{{ url_for('view_recipe', recipe_id=recipe.id) }}">View Recipe</a>
+                        <p class="card_created-by right">
+                            <small>
+                                {% if recipe.original_recipe != null %}
+                                ~ Modified by {{ recipe.modified_by }}
+                                {% else %}
+                                ~ Created by {{ recipe.created_by }}
+                                {% endif %}
+                            </small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
 
 {% endmacro %}
