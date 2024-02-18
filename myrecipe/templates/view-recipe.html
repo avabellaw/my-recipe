@@ -114,6 +114,10 @@
                         {% if recipe.is_nut_free %}
                         <img src="{{ url_for('static', filename='images/dietary-tags/nut-free-icon.webp')}}" alt="Nut Free">
                         {% endif %}
+
+                        {% if recipe.is_egg_free %}
+                        <img src="{{ url_for('static', filename='images/dietary-tags/egg-free-icon.webp')}}" alt="Egg Free">
+                        {% endif %}
                     </div>
 
                     <!-- Recipe Description -->
