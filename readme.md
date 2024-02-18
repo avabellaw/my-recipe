@@ -259,3 +259,4 @@ $ git clone https://github.com/avabellaw/my-recipe
     * Vegan icon from flaticon by Pixel Perfect [https://www.flaticon.com/free-icon/vegetarian_723633?term=vegetarian&page=1&position=3&origin=tag&related_id=723633]
     * Vegetarian icon from freepik by Valeria [https://www.freepik.com/icon/lettuce_12114434#fromView=search&term=vegetarian+&track=ais&page=1&position=76&uuid=f94071d6-1b72-4559-b054-b4b8ecfc2af6]
     * Gluten-free icon from flaticon by Freepik [https://www.flaticon.com/free-icon/gluten-free_4807774?term=gluten+free&page=1&position=4&origin=search&related_id=4807774]
+    * Dairy-free icon from freepik by bsd [https://www.freepik.com/icon/milk-free_12954588#fromView=search&term=dairy+free&track=ais&page=1&position=14&uuid=86065469-2655-4257-97b3-60711af88994]

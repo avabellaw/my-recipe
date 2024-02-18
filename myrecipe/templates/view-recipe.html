@@ -106,6 +106,10 @@
                         {% if recipe.is_gluten_free %}
                         <img src="{{ url_for('static', filename='images/dietary-tags/gluten-free-icon.webp')}}" alt="Gluten Free">
                         {% endif %}
+
+                        {% if recipe.is_dairy_free %}
+                        <img src="{{ url_for('static', filename='images/dietary-tags/dairy-free-icon.webp')}}" alt="Dairy Free">
+                        {% endif %}
                     </div>
 
                     <!-- Recipe Description -->
