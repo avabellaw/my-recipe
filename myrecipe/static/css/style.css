@@ -411,7 +411,7 @@ input#search_bar:focus {
 
 #dietary-tags {
     height: 1em;
-    margin-top: 0.2em;
+    margin-top: 0.4em;
     padding: 0.2em;
     box-sizing: content-box;
     display: flex;
@@ -420,6 +420,7 @@ input#search_bar:focus {
 #dietary-tags>img {
     height: 100%;
     width: auto;
+    margin-right: 0.4em;
 }
 
 /* End of Recipe styles */

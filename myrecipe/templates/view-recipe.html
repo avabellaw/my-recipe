@@ -96,7 +96,11 @@
                     <!-- Recipe dietary tags -->
                     <div id="dietary-tags">
                         {% if recipe.is_vegan %}
-                        <img src="{{ url_for('static', filename='images/dietary-tags/vegan-icon.webp')}}" alt="">
+                            <img src="{{ url_for('static', filename='images/dietary-tags/vegan-icon.webp')}}" alt="Vegan">
+                        {% endif %}
+
+                        {% if recipe.is_vegetarian %}
+                        <img src="{{ url_for('static', filename='images/dietary-tags/vegetarian-icon.webp')}}" alt="Vegetarian">
                         {% endif %}
                     </div>
 
