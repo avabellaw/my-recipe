@@ -111,6 +111,9 @@ I will use a simple and light colour scheme.
 * Postgres
     * A database management system.
     * Used to store data, such as recipes, for MyRecipe within SQL tables.
+* Hint.css
+    * A pure CSS library for tooltips.
+    * Used to label what each dietary icon means
 * Google Fonts
     * Easy access to many fonts supplied from a CDN that is close to the user, increasing download speed.
     * The @font-faces are in my stylesheet. This is quicker than the browser making two requests, the first being for the aforementioned stylesheet containing each @font-face.

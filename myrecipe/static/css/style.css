@@ -405,7 +405,7 @@ p#created-by {
 
 /* Recipe styles */
 
-#dietary-tags {
+#dietary-tag-container {
     height: 1.1em;
     padding: 1em;
     box-sizing: content-box;
@@ -415,10 +415,13 @@ p#created-by {
     margin-bottom: 0.5em;
 }
 
-#dietary-tags>img {
+.dietary-tag {
+    margin-right: 0.5em;
+}
+
+.dietary-tag>img {
     height: 100%;
     width: auto;
-    margin-right: 0.5em;
 }
 
 /* End of Recipe styles */
@@ -446,6 +449,14 @@ p#created-by {
 }
 
 /* End forms */
+
+/* Hint.css */
+
+[class*=hint--]:after {
+    font-size: 0.7em;
+}
+
+/* End of Hint.css */
 
 /* Key frames */
 

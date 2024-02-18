@@ -29,29 +29,46 @@
                     {% endif %}
                 </div>
                 <!-- Recipe dietary tags -->
-                <div id="dietary-tags">
+                <div id="dietary-tag-container">
                     {% if recipe.is_vegan %}
+                    <div class="dietary-tag hint--bottom" aria-label="Vegan">
                         <img src="{{ url_for('static', filename='images/dietary-tags/vegan-icon.webp')}}" alt="Vegan">
+                    </div>
                     {% endif %}
 
                     {% if recipe.is_vegetarian %}
-                    <img src="{{ url_for('static', filename='images/dietary-tags/vegetarian-icon.webp')}}" alt="Vegetarian">
+                    <div class="dietary-tag hint--bottom" aria-label="Vegetarian">
+                        <img src="{{ url_for('static', filename='images/dietary-tags/vegetarian-icon.webp')}}"
+                            alt="Vegetarian">
+                    </div>
                     {% endif %}
 
                     {% if recipe.is_gluten_free %}
-                    <img src="{{ url_for('static', filename='images/dietary-tags/gluten-free-icon.webp')}}" alt="Gluten Free">
+                    <div class="dietary-tag hint--bottom" aria-label="Gluten-Free">
+                        <img src="{{ url_for('static', filename='images/dietary-tags/gluten-free-icon.webp')}}"
+                            alt="Gluten-Free">
+                    </div>
                     {% endif %}
 
                     {% if recipe.is_dairy_free %}
-                    <img src="{{ url_for('static', filename='images/dietary-tags/dairy-free-icon.webp')}}" alt="Dairy Free">
+                    <div class="dietary-tag hint--bottom" aria-label="Dairy-Free">
+                        <img src="{{ url_for('static', filename='images/dietary-tags/dairy-free-icon.webp')}}"
+                            alt="Dairy-Free">
+                    </div>
                     {% endif %}
 
                     {% if recipe.is_nut_free %}
-                    <img src="{{ url_for('static', filename='images/dietary-tags/nut-free-icon.webp')}}" alt="Nut Free">
+                    <div class="dietary-tag hint--bottom" aria-label="Nut-Free">
+                        <img src="{{ url_for('static', filename='images/dietary-tags/nut-free-icon.webp')}}"
+                            alt="Nut-Free">
+                    </div>
                     {% endif %}
 
                     {% if recipe.is_egg_free %}
-                    <img src="{{ url_for('static', filename='images/dietary-tags/egg-free-icon.webp')}}" alt="Egg Free">
+                    <div class="dietary-tag hint--bottom" aria-label="Egg-Free">
+                        <img src="{{ url_for('static', filename='images/dietary-tags/egg-free-icon.webp')}}"
+                            alt="Egg-Free">
+                    </div>
                     {% endif %}
                 </div>
             </div>
