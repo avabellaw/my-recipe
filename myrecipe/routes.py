@@ -90,6 +90,7 @@ def view_recipe(recipe_id):
     if not recipe:
         recipe = get_modified_recipe(recipe_id)
     add_created_by_to_recipes([recipe])
+    add_dietary_tags_to_recipe(recipe)
     
     return render_template("view-recipe.html", recipe=recipe, recipe_is_saved=recipe_is_saved)
 
@@ -281,7 +282,16 @@ def set_default_dietary_tags(form, default_values):
     # Set default dietary tags [https://stackoverflow.com/questions/5519729/wtforms-how-to-select-options-in-selectmultiplefield]
     form.dietary_tags.default = default_values
     form.process()  
-        
+
+def add_dietary_tags_to_recipe(recipe):
+    tags = DietaryTags.query.filter_by(recipe_id=recipe.id).first()
+    recipe.is_vegan = tags.is_vegan # type: ignore
+    recipe.is_vegetarian = tags.is_vegetarian # type: ignore
+    recipe.is_gluten_free = tags.is_gluten_free # type: ignore
+    recipe.is_dairy_free = tags.is_dairy_free # type: ignore
+    recipe.is_nut_free = tags.is_nut_free # type: ignore
+    recipe.is_egg_free = tags.is_egg_free # type: ignore
+
 # Wtforms
 
 class RegistrationForm(FlaskForm):
