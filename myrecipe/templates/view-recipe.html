@@ -1,7 +1,5 @@
 {% extends "base.html" %}
 
-{% block content %}
-
 {% if recipe.original_recipe == null %}
 {% set isModifiedRecipe = false %}
 {% else %}
@@ -13,6 +11,8 @@
 {% else %}
 {% set isOwnedByUser = current_user.id == recipe.modified_by_id %}
 {% endif %}
+
+{% block content %}
 
 <section id="recipe-content">
     <div class="container">
