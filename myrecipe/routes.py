@@ -296,9 +296,12 @@ def add_created_by_to_recipes(recipes):
 def has_user_saved_recipe(user_id, recipe_id):
     return bool(SavedRecipe.query.filter_by(user_id=user_id, recipe_id=recipe_id).first()) 
 
-def save_image_locally(image):
+def save_image_locally(image):  
     filename = secure_filename(image.filename)
-    image.save(os.path.join(app.config["PACKAGE_NAME"] + "/" + app.config['UPLOAD_FOLDER'], filename))
+    save_path = os.path.join(app.config["PACKAGE_NAME"] + "/" + app.config['UPLOAD_FOLDER'])
+    if not os.path.exists(save_path):
+        os.makedirs(save_path)
+    image.save(save_path, filename)
                 
     return "/" + app.config["UPLOAD_FOLDER"] + "/" + filename 
 
