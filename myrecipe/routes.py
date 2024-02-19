@@ -417,14 +417,14 @@ def dietary_tag_data_to_bools(dietary_tags):
     return [tag in dietary_tags for tag in DIETARY_TAGS]
 
 def dietary_tag_data_to_names(dietary_tags):
-    dietary_str = "-".join(dietary_tags)
+    dietary_str = ",".join(dietary_tags)
     dietary_str = dietary_str.replace("vv", "Vegan")
     dietary_str = dietary_str.replace("v", "Vegetarian")
     dietary_str = dietary_str.replace("gf", "Gluten-free")
     dietary_str = dietary_str.replace("df", "Dairy-free")
     dietary_str = dietary_str.replace("nf", "Nut-free")
     dietary_str = dietary_str.replace("ef", "Egg-free")
-    return dietary_str.split("-")
+    return dietary_str.split(",")
 
 def dietary_tag_bools_to_data(dietary_tags):
     return [tag for tag in DIETARY_TAGS if dietary_tags[DIETARY_TAGS.index(tag)]]

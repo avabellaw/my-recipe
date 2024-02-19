@@ -9,7 +9,7 @@
         <div class="row">
             <div class="col s12">
                 <h2 class="page-header left">
-                    <strong>Showing {{ recipes|length }} {{ "results" if recipes|length > 1 else "result" }}
+                    <strong>Showing {{ recipes|length }} {{ "result" if recipes|length == 1 else "results" }}
                         {% if search_query != "" %}
                         for "<span class="search-query">{{ search_query }}</span>"
                         {% endif %}
