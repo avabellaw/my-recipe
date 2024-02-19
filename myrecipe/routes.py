@@ -155,12 +155,12 @@ def edit_recipe(recipe_id):
     add_dietary_tags_to_recipes([recipe])
     if user_owns_recipe(current_user.id, recipe): #type: ignore
         form = AddRecipeForm()
+        set_default_dietary_tags(form, dietary_tag_bools_to_data(get_recipe_dietary_tags_bools(recipe)))
         form.title.data = recipe.title # type: ignore
         form.desc.data = recipe.desc # type: ignore
         form.ingredients.data = recipe.ingredients # type: ignore
         form.instructions.data = recipe.instructions # type: ignore
         form.image.data = recipe.image_url # type: ignore
-        set_default_dietary_tags(form, dietary_tag_bools_to_data(get_recipe_dietary_tags_bools(recipe)))
         return render_template("edit-recipe.html", form=form)    
     flash("You can only edit your own recipes.", "danger")
     return redirect(url_for("my_recipes"))
