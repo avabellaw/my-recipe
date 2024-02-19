@@ -310,6 +310,10 @@ input#search_bar:focus {
     margin-bottom: 0;
 }
 
+#recipe-header_image.preview-image {
+    max-height: 16em;
+}
+
 /* End of Add Recipe */
 
 /* View recipe */
