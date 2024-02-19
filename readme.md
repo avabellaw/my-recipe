@@ -172,6 +172,9 @@ I will use a simple and light colour scheme.
 * A user can save their own recipes by editing the url.
     * There's no backend code to stop you doing this but it's also not a problem.
     * To stop this would mean querying the database an extra time before saving/unsaving recipes which isn't worth it. If someone wants to save their own recipe by manually editing the url that's up to them.
+* Can't save modified recipes.
+    * This is due to an oversight with the database model.
+    * Saved_Recipes contains the foreign key for only a standard Recipe
 
 ### Deployment
 

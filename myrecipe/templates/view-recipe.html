@@ -54,7 +54,7 @@
                             <i class="material-icons">settings</i>
                             EDIT RECIPE
                         </a>
-                        {% else %}
+                        {% elif not isModifiedRecipe %}
                         <!-- Save recipe heart -->
                         <button id="save-recipe-button" aria-labelledby="save-recipe-button_text" class="orange-text">
                             {% if recipe_is_saved %}
