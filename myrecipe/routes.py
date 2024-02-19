@@ -2,13 +2,13 @@ import os
 from flask import url_for, redirect, render_template, request, send_from_directory, flash
 from flask_login import login_user, logout_user, login_required, current_user, LoginManager, login_user
 from flask_bcrypt import Bcrypt
-from sqlalchemy import null
+from sqlalchemy import Boolean, null
 from myrecipe import db, app
-from myrecipe.models import User, Recipe, SavedRecipe, ModifiedRecipe
+from myrecipe.models import DietaryTags, User, Recipe, SavedRecipe, ModifiedRecipe
 
 # WTForms imports
 from flask_wtf import FlaskForm
-from wtforms import FileField, PasswordField, StringField, TextAreaField
+from wtforms import BooleanField, FileField, PasswordField, SelectMultipleField, StringField, TextAreaField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from werkzeug.utils import secure_filename
 from flask_wtf.file import FileField, FileAllowed
@@ -16,6 +16,7 @@ from flask_wtf.file import FileField, FileAllowed
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 login_manager.init_app(app)
+DIETARY_TAGS = ["vv", "v", "gf", "df", "nf", "ef"]
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -27,6 +28,7 @@ def home():
     search_form = SearchForm()
     recipes = get_all_recipes()
     add_created_by_to_recipes(recipes)
+    add_dietary_tags_to_recipes(recipes)
     return render_template("index.html", recipes=recipes, search_form=search_form)
 
 # Login user
@@ -77,8 +79,8 @@ def register():
 @app.route("/my-recipes")
 @login_required
 def my_recipes():
-    recipes = Recipe.query.filter_by(user_id=current_user.id).all()
-    
+    recipes = [recipe for recipe in get_all_recipes() if user_owns_recipe(current_user.id, recipe)]
+    recipes.extend(get_all_modified_recipes())
     add_created_by_to_recipes(recipes)
     return render_template("my-recipes.html", recipes=recipes)
 
@@ -90,6 +92,7 @@ def view_recipe(recipe_id):
     if not recipe:
         recipe = get_modified_recipe(recipe_id)
     add_created_by_to_recipes([recipe])
+    add_dietary_tags_to_recipes([recipe])
     
     return render_template("view-recipe.html", recipe=recipe, recipe_is_saved=recipe_is_saved)
 
@@ -109,10 +112,11 @@ def add_recipe():
             if image:
                 image_url = save_image_locally(image)
                 
-            recipe = Recipe(user_id=current_user.id, title=title, desc=desc, ingredients=ingredients, instructions=instructions, image_url=image_url if image else null()) # type: ignore
-           
+            dietary_tags_id = add_dietary_tags_to_db(form.dietary_tags.data)
+            recipe = Recipe(user_id=current_user.id, title=title, desc=desc, ingredients=ingredients, instructions=instructions, image_url=image_url if image else null(), dietary_tags_id=dietary_tags_id) # type: ignore
             db.session.add(recipe)
             db.session.commit()
+            
             return redirect(url_for("view_recipe", recipe_id=recipe.id))
     return render_template("add-recipe.html", form=form)
 
@@ -129,7 +133,8 @@ def add_modified_recipe(recipe_id):
             ingredients = form.ingredients.data
             instructions = form.instructions.data
             extended_desc = form.extended_desc.data
-            modified_recipe = ModifiedRecipe(modified_by_id=current_user.id, recipe_id=recipe_id, extended_desc=extended_desc, ingredients=ingredients, instructions=instructions) # type: ignore
+            dietary_tags_id = add_dietary_tags_to_db(form.dietary_tags.data)
+            modified_recipe = ModifiedRecipe(modified_by_id=current_user.id, recipe_id=recipe_id, dietary_tags_id=dietary_tags_id, extended_desc=extended_desc, ingredients=ingredients, instructions=instructions) # type: ignore
             
             db.session.add(modified_recipe)
             db.session.commit()
@@ -137,9 +142,28 @@ def add_modified_recipe(recipe_id):
     
     form.ingredients.data = original_recipe.ingredients # type: ignore
     form.instructions.data = original_recipe.instructions # type: ignore
+    add_dietary_tags_to_recipes([original_recipe])
+    form.dietary_tags.data = dietary_tag_bools_to_data(get_recipe_dietary_tags_bools(original_recipe)) # type: ignore
     
     return render_template("add-modified-recipe.html", form=form, original_recipe=original_recipe)
-    
+
+# Edit recipe
+@app.route("/edit-recipe/<int:recipe_id>", methods=["GET", "POST"])
+@login_required
+def edit_recipe(recipe_id):
+    recipe = get_recipe(recipe_id)
+    add_dietary_tags_to_recipes([recipe])
+    if user_owns_recipe(current_user.id, recipe): #type: ignore
+        form = AddRecipeForm()
+        set_default_dietary_tags(form, dietary_tag_bools_to_data(get_recipe_dietary_tags_bools(recipe)))
+        form.title.data = recipe.title # type: ignore
+        form.desc.data = recipe.desc # type: ignore
+        form.ingredients.data = recipe.ingredients # type: ignore
+        form.instructions.data = recipe.instructions # type: ignore
+        form.image.data = recipe.image_url # type: ignore
+        return render_template("edit-recipe.html", form=form)    
+    flash("You can only edit your own recipes.", "danger")
+    return redirect(url_for("my_recipes"))
 
 # Delete recipe
 @app.route("/delete-recipe/<int:recipe_id>", methods=["GET", "POST"])
@@ -187,11 +211,20 @@ def search():
     search_form = SearchForm(request.args, meta={'csrf': False})
 
     if search_form.validate():
-        search_query_url = request.query_string.decode("utf-8").split("&")[0].split("=")
-        search_query = search_query_url[1] 
-        recipes = search_all_recipes(search_query)
+        url_parts = request.query_string.decode("utf-8").split("&")
+        
+        dietary_tags = []
+        for url_part in url_parts:
+            if url_part.startswith("search_bar"):
+                search_query_url = url_parts[0].split("=")
+                search_query = search_query_url[1] 
+            if url_part.startswith("dietary_tags"):
+                dietary_tags.append(url_part.split("=")[1])
+                
+        recipes = search_all_recipes(search_query, dietary_tags)
         add_created_by_to_recipes(recipes)
-        return render_template("search-results.html", recipes=recipes, search_query=search_query)
+        search_form = SearchForm()
+        return render_template("search-results.html", recipes=recipes, search_query=search_query, search_form=search_form)
     # If doesn't validate, redirect to home with error message.
     recipes = get_all_recipes()
     add_created_by_to_recipes(recipes)
@@ -225,13 +258,15 @@ def get_user(username):
 
 def get_all_recipes():
     all_recipes = Recipe.query.all()
-    modified_recipes = ModifiedRecipe.query.all()
-    
+    return all_recipes
+
+def get_all_modified_recipes():
+    modified_recipes = ModifiedRecipe.query.filter_by(modified_by_id = current_user.id).all()
+        
     for m_recipe in modified_recipes:
         m_recipe = get_modified_recipe(m_recipe.id)
-        
-    all_recipes.extend(modified_recipes)
-    return all_recipes
+    
+    return modified_recipes
 
 def get_recipe(recipe_id):
     recipe = Recipe.query.get(recipe_id)
@@ -247,6 +282,12 @@ def get_modified_recipe(recipe_id):
     recipe.modified_by = User.query.filter_by(id=recipe.modified_by_id).first().username # type: ignore
     return recipe
 
+def add_dietary_tags_to_db(form_dietary_tags):
+    dietary_tags = DietaryTags(is_vegan="vv" in form_dietary_tags, is_vegetarian="v" in form_dietary_tags, is_gluten_free="gf" in form_dietary_tags, is_dairy_free="df" in form_dietary_tags, is_nut_free="nf" in form_dietary_tags, is_egg_free="ef" in form_dietary_tags) # type: ignore
+    db.session.add(dietary_tags)
+    db.session.commit()
+    return dietary_tags.id
+            
 def add_created_by_to_recipes(recipes):
     for recipe in recipes:
         user_id = recipe.original_recipe.user_id if hasattr(recipe, "original_recipe") else recipe.user_id # type: ignore
@@ -269,11 +310,56 @@ def user_owns_recipe(user_id, recipe):
         # If normal recipe, just check the user_id with user_id
         return recipe.user_id == user_id
     
-def search_all_recipes(search_query):
+def search_all_recipes(search_query, *args):
     recipes = Recipe.query.filter(Recipe.title.ilike(f"%{search_query}%")).all()
     recipes.extend(Recipe.query.filter(Recipe.desc.ilike(f"%{search_query}%")).all())
-    return recipes
+    recipes = list(set(recipes)) # Remove duplicates
+    add_dietary_tags_to_recipes(recipes)
+    filter = dietary_tag_data_to_bools(args[0])
+    if True in filter:
+        filtered_recipes = []
+        for recipe in recipes:
+            recipe_filter = get_recipe_dietary_tags_bools(recipe)
+            passed = []
+            for i in range(len(filter)):
+                if filter[i]:
+                    passed.append(recipe_filter[i])
+            if all(passed):
+                filtered_recipes.append(recipe)
+    else:
+        filtered_recipes = recipes
+                
+    return filtered_recipes
+
+def set_default_dietary_tags(form, default_values):
+    # Set default dietary tags [https://stackoverflow.com/questions/5519729/wtforms-how-to-select-options-in-selectmultiplefield]
+    form.dietary_tags.default = default_values
+    form.process()  
+
+def add_dietary_tags_to_recipes(recipes):
+    for recipe in recipes:
+        tags = DietaryTags.query.filter_by(id=recipe.dietary_tags_id).first()
+        if tags:
+            recipe.is_vegan = tags.is_vegan # type: ignore
+            recipe.is_vegetarian = tags.is_vegetarian # type: ignore
+            recipe.is_gluten_free = tags.is_gluten_free # type: ignore
+            recipe.is_dairy_free = tags.is_dairy_free # type: ignore
+            recipe.is_nut_free = tags.is_nut_free # type: ignore
+            recipe.is_egg_free = tags.is_egg_free # type: ignore
         
+            recipe.has_dietary_tags = any([recipe.is_vegan, recipe.is_vegetarian, recipe.is_gluten_free, recipe.is_dairy_free, recipe.is_nut_free, recipe.is_egg_free]) # type: ignore
+        else:
+            recipe.has_dietary_tags = False
+            
+def dietary_tag_data_to_bools(dietary_tags):
+    return [tag in dietary_tags for tag in DIETARY_TAGS]
+
+def dietary_tag_bools_to_data(dietary_tags):
+    return [tag for tag in DIETARY_TAGS if dietary_tags[DIETARY_TAGS.index(tag)]]
+
+def get_recipe_dietary_tags_bools(recipe):
+    return [recipe.is_vegan, recipe.is_vegetarian, recipe.is_gluten_free, recipe.is_dairy_free, recipe.is_nut_free, recipe.is_egg_free]
+
 # Wtforms
 
 class RegistrationForm(FlaskForm):
@@ -305,10 +391,19 @@ class AddRecipeForm(FlaskForm):
     instructions = TextAreaField("Instructions:", validators=[DataRequired(), Length(min=10, max=1000)])
     image = FileField('image', validators=[FileAllowed(['jpg', 'jpeg', 'png', 'webp'], 'Please only upload an image (jpg, png, or webp).')])
     
+    # Dietary tags
+    dietary_tags = SelectMultipleField("Dietary tags:", choices=[("vv", "Vegan"), ("v", "Vegetarian"), ("gf", "Gluten-free"), ("df", "Dairy-free"), ("nf", "Nut-free"), ("ef", "Egg-free")])
+    
 class AddModifiedRecipeForm(FlaskForm):
     extended_desc = StringField("Extended description:", validators=[DataRequired(), Length(min=2, max=100)])
     ingredients = TextAreaField("Ingredients:", validators=[DataRequired(), Length(min=10, max=500)])
     instructions = TextAreaField("Instructions:", validators=[DataRequired(), Length(min=10, max=1000)])
     
+    # Dietary tags
+    dietary_tags = SelectMultipleField("Dietary tags:", choices=[("vv", "Vegan"), ("v", "Vegetarian"), ("gf", "Gluten-free"), ("df", "Dairy-free"), ("nf", "Nut-free"), ("ef", "Egg-free")])
+    
 class SearchForm(FlaskForm):
     search_bar = StringField("Search:", validators=[DataRequired(), Length(min=2, max=40)])
+     # Dietary tags
+    dietary_tags = SelectMultipleField("Dietary tags:", choices=[("vv", "Vegan"), ("v", "Veggie"), ("gf", "GF"), ("df", "Dairy-free"), ("nf", "Nut-free"), ("ef", "Egg-free")])
+    

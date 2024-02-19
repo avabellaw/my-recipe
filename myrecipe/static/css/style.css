@@ -16,6 +16,7 @@ html {
 .recipe-card>.card>.card-image {
     display: flex;
     align-items: center;
+    justify-content: center;
     background-color: snow;
 }
 
@@ -44,6 +45,10 @@ html {
 li::marker {
     color: var(--main-colour);
     font-size: 0.8em;
+}
+
+.hide {
+    display: none;
 }
 
 /* End of general page styles */
@@ -213,6 +218,11 @@ span#login-btn {
     background-color: #fffaf4d6;
 }
 
+#search-tags ::placeholder {
+    color: rgba(0, 0, 0, 0.586);
+    text-align: center;
+}
+
 /* ID is name is chosen and set by wtforms */
 input#search_bar:focus {
     /* Override MaterializeCSS styles to change colour */
@@ -241,6 +251,10 @@ input#search_bar:focus {
     /* Fallback aspect ratio of 1:1 */
     aspect-ratio: 4/3;
     overflow: hidden;
+}
+
+.card-content>p {
+    text-align: center;
 }
 
 .card_created-by {
@@ -278,12 +292,26 @@ input#search_bar:focus {
     }
 }
 
+@media screen and (min-width: 600px) {
+    .card-content>p {
+        text-align: left;
+    }
+}
+
 /* End of My recipes */
 
 /* Add recipe */
 
 #image-upload-btn {
     border-bottom: 1px solid #9e9e9e;
+}
+
+.file-field.input-field {
+    margin-bottom: 0;
+}
+
+#recipe-header_image.preview-image {
+    max-height: 16em;
 }
 
 /* End of Add Recipe */
@@ -349,11 +377,7 @@ input#search_bar:focus {
     margin-top: 0.5em;
 }
 
-#recipe-header_image-container {
-    height: 100%;
-}
-
-#created-by {
+p#created-by {
     margin-bottom: 0;
     margin-top: auto;
     margin-left: auto;
@@ -361,7 +385,8 @@ input#search_bar:focus {
 
 #recipe-title {
     display: flex;
-    align-items: center;
+    align-items: baseline;
+    flex-wrap: wrap;
 }
 
 #recipe-title>a,
@@ -391,6 +416,7 @@ input#search_bar:focus {
     margin-bottom: 0;
     margin-right: 0.2em;
     display: inline;
+    padding: 0.5em 0
 }
 
 #template-button {
@@ -406,6 +432,57 @@ input#search_bar:focus {
 }
 
 /* End of View recipe */
+
+/* Recipe styles */
+
+#dietary-tag-container {
+    height: 1.2em;
+    padding: 1em;
+    box-sizing: content-box;
+    display: flex;
+    border-bottom: 1px solid black;
+    margin: 0.5em 0;
+    justify-content: space-around;
+}
+
+.recipe-card #dietary-tag-container {
+    height: initial;
+    padding: 0;
+    border-bottom: none;
+    margin-bottom: 0;
+    font-size: 0.6em;
+    justify-content: left;
+}
+
+.dietary-tag {
+    margin-right: 0.5em;
+    display: flex;
+}
+
+.dietary-tag>img {
+    height: 100%;
+    width: auto;
+}
+
+.recipe-card_title {
+    word-wrap: break-word;
+}
+
+@media screen and (min-width: 600px) {
+    .recipe-card #dietary-tag-container {
+        font-size: 0.5em;
+        height: 1.1em;
+        margin-left: auto;
+        margin-top: 0;
+    }
+
+    .recipe-card_title {
+        display: flex;
+        align-items: baseline;
+    }
+}
+
+/* End of Recipe styles */
 
 /* Modified recipe styles */
 .recipe-card_modified-tag {
@@ -430,6 +507,14 @@ input#search_bar:focus {
 }
 
 /* End forms */
+
+/* Hint.css */
+
+[class*=hint--]:after {
+    font-size: 0.7em;
+}
+
+/* End of Hint.css */
 
 /* Key frames */
 

@@ -1,18 +1,22 @@
 {% extends "base.html" %}
 
-{% block content %}
+{% from "macros.html" import displayDietaryTags %}
 
+<!-- Initialize isModifiedRecipe -->
 {% if recipe.original_recipe == null %}
 {% set isModifiedRecipe = false %}
 {% else %}
 {% set isModifiedRecipe = true %}
 {% endif %}
 
+<!-- Initialize isOwnedByUser -->
 {% if not isModifiedRecipe %}
 {% set isOwnedByUser = current_user.id == recipe.user_id %}
 {% else %}
 {% set isOwnedByUser = current_user.id == recipe.modified_by_id %}
 {% endif %}
+
+{% block content %}
 
 <section id="recipe-content">
     <div class="container">
@@ -28,6 +32,9 @@
                         class="responsive-img">
                     {% endif %}
                 </div>
+
+                <!-- Recipe dietary tags -->
+                {{ displayDietaryTags(recipe) }}
             </div>
             <div class="col s12 m7">
                 <div id="recipe-heading-container">
@@ -73,7 +80,7 @@
                     {% if isOwnedByUser %}
                     <!-- Settings dropdown -->
                     <ul id='recipe-settings' class='dropdown-content'>
-                        <li><a href="#!">Edit</a></li>
+                        <li><a href="{{ url_for('edit_recipe', recipe_id=recipe.id) }}">Edit</a></li>
                         <li><a class="modal-trigger" href="#confirm-deletion">Delete</a></li>
                     </ul>
 
@@ -95,7 +102,6 @@
 
                     <!-- Recipe Description -->
                     {% if isModifiedRecipe %}
-                    <br>
                     <a href="{{ url_for('view_recipe', recipe_id=recipe.original_recipe.id)}}">View original recipe,
                         created by {{ recipe.created_by }}</a>
                     <p>"{{ recipe.desc }}"</p>

@@ -111,6 +111,9 @@ I will use a simple and light colour scheme.
 * Postgres
     * A database management system.
     * Used to store data, such as recipes, for MyRecipe within SQL tables.
+* Hint.css
+    * A pure CSS library for tooltips.
+    * Used to label what each dietary icon means
 * Google Fonts
     * Easy access to many fonts supplied from a CDN that is close to the user, increasing download speed.
     * The @font-faces are in my stylesheet. This is quicker than the browser making two requests, the first being for the aforementioned stylesheet containing each @font-face.
@@ -254,3 +257,11 @@ $ git clone https://github.com/avabellaw/my-recipe
 
 * Default image if not uploaded with recipe.
     * From Pixabay [https://www.pexels.com/photo/closeup-photography-of-sauteed-garlic-263022/]
+
+* Dietary icons
+    * Vegan icon from Flaticon by Pixel Perfect [https://www.flaticon.com/free-icon/vegetarian_723633?term=vegetarian&page=1&position=3&origin=tag&related_id=723633]
+    * Vegetarian icon from Freepik by Valeria [https://www.freepik.com/icon/lettuce_12114434#fromView=search&term=vegetarian+&track=ais&page=1&position=76&uuid=f94071d6-1b72-4559-b054-b4b8ecfc2af6]
+    * Gluten-free icon from Flaticon by Freepik [https://www.flaticon.com/free-icon/gluten-free_4807774?term=gluten+free&page=1&position=4&origin=search&related_id=4807774]
+    * Dairy-free icon from Freepik by bsd [https://www.freepik.com/icon/milk-free_12954588#fromView=search&term=dairy+free&track=ais&page=1&position=14&uuid=86065469-2655-4257-97b3-60711af88994]
+    * Nut-free icon from Freepik by Freepik [https://www.freepik.com/icon/fruit_652405#fromView=search&term=nut+free&track=ais&page=1&position=4&uuid=500039e3-cbd4-42b9-bfeb-2361c3d32dd2]
+    * Egg-free icon from Freepik by Freepik [https://www.freepik.com/icon/no-egg_1807571#fromView=search&term=egg+free&track=ais&page=1&position=3&uuid=ac4be750-70f5-4dd6-95ac-02f3ed3769c6]

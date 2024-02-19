@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% from "macros.html" import displayRecipes %}
+{% from "macros.html" import displayRecipes, displaySearchBox %}
 
 {% block content %}
 
@@ -11,8 +11,23 @@
                 <h2 class="page-header left"><strong>Showing {{ recipes|length }} results for "<span class="search-query">{{ search_query }}</span>"</strong></h2>
             </div>
         </div>
+        {{ displaySearchBox(search_form) }}
+
         {{ displayRecipes(recipes) }}
     </div>
 </section>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        select = document.querySelectorAll('select');
+        M.FormSelect.init(select);
+
+        document.getElementsByClassName("select-dropdown")[0].placeholder = "Add dietary filters";
+    });
+</script>
 
 {% endblock %}

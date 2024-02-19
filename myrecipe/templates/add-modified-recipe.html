@@ -11,8 +11,7 @@
         <div class="col s12 m5">
             <div id="recipe-header_image-container" class="valign-wrapper center">
                 {% if original_recipe.image_url == None %}
-                <img id="recipe-header_image"
-                    src="{{ url_for('static', filename='images/default-recipe-image.webp') }}"
+                <img id="recipe-header_image" src="{{ url_for('static', filename='images/default-recipe-image.webp') }}"
                     alt="Default recipe image" class="responsive-img">
                 {% else %}
                 <img id="recipe-header_image" src="{{ original_recipe.image_url }}" alt="{{ original_recipe.title }}"
@@ -39,7 +38,8 @@
     </div>
     <div class="row">
         <div class="col s12">
-            <form action="{{ url_for('add_modified_recipe', recipe_id=original_recipe.id) }}" method="post" enctype="multipart/form-data">
+            <form action="{{ url_for('add_modified_recipe', recipe_id=original_recipe.id) }}" method="post"
+                enctype="multipart/form-data">
                 {{ form.csrf_token }}
 
                 <!-- Extended description field -->
@@ -78,6 +78,12 @@
                 </p>
                 {% endfor %}
 
+                <!-- Dietary Tags -->
+                <div class="input-field select-wrapper">
+                    {{ form.dietary_tags }}
+                    <label>Add dietary tags</label>
+                </div>
+
                 <!-- Submit form button -->
                 <button class="btn waves-effect waves-light orange darken-3" type="submit" name="action">Add recipe
                     <i class="material-icons right">send</i>
@@ -86,4 +92,16 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        select = document.querySelectorAll('select');
+        M.FormSelect.init(select);
+    });
+</script>
+
 {% endblock %}

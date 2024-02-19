@@ -1,3 +1,50 @@
+<!-- Displays recipe dietary tags -->
+{% macro displayDietaryTags(recipe) %}
+
+{% if recipe.has_dietary_tags %}
+
+<div id="dietary-tag-container">
+    {% if recipe.is_vegan %}
+    <div class="dietary-tag hint--bottom" aria-label="Vegan">
+        <img src="{{ url_for('static', filename='images/dietary-tags/vegan-icon.webp')}}" alt="Vegan">
+    </div>
+    {% endif %}
+
+    {% if recipe.is_vegetarian %}
+    <div class="dietary-tag hint--bottom" aria-label="Vegetarian">
+        <img src="{{ url_for('static', filename='images/dietary-tags/vegetarian-icon.webp')}}" alt="Vegetarian">
+    </div>
+    {% endif %}
+
+    {% if recipe.is_gluten_free %}
+    <div class="dietary-tag hint--bottom" aria-label="Gluten-Free">
+        <img src="{{ url_for('static', filename='images/dietary-tags/gluten-free-icon.webp')}}" alt="Gluten-Free">
+    </div>
+    {% endif %}
+
+    {% if recipe.is_dairy_free %}
+    <div class="dietary-tag hint--bottom" aria-label="Dairy-Free">
+        <img src="{{ url_for('static', filename='images/dietary-tags/dairy-free-icon.webp')}}" alt="Dairy-Free">
+    </div>
+    {% endif %}
+
+    {% if recipe.is_nut_free %}
+    <div class="dietary-tag hint--bottom" aria-label="Nut-Free">
+        <img src="{{ url_for('static', filename='images/dietary-tags/nut-free-icon.webp')}}" alt="Nut-Free">
+    </div>
+    {% endif %}
+
+    {% if recipe.is_egg_free %}
+    <div class="dietary-tag hint--bottom" aria-label="Egg-Free">
+        <img src="{{ url_for('static', filename='images/dietary-tags/egg-free-icon.webp')}}" alt="Egg-Free">
+    </div>
+    {% endif %}
+</div>
+
+{% endif %}
+
+{% endmacro %}
+
 <!-- Displays all recipes passed to it -->
 {% macro displayRecipes(recipes) %}
 
@@ -5,16 +52,20 @@
 <div class="row">
     <div class="col s12">
         <div class="recipe-card">
-            <h3 id="recipe-card_title" class="header">
+            <h3 class="recipe-card_title header">
                 {{ recipe.title }}
                 {% if recipe.original_recipe != null %}
                 <span class="recipe-card_modified-tag">Modified</span>
                 {% endif %}
+
+                <!-- Display dietary tags -->
+                {{ displayDietaryTags(recipe) }}
             </h3>
             <div class="card horizontal">
                 <div class="card-image">
                     {% if recipe.image_url == None %}
-                    <img src="{{ url_for('static', filename='images/default-recipe-image.webp') }}" alt="Default recipe image">
+                    <img src="{{ url_for('static', filename='images/default-recipe-image.webp') }}"
+                        alt="Default recipe image">
                     {% else %}
                     <img src="{{ recipe.image_url }}" aria-labelledby="recipe-card_title">
                     {% endif %}
@@ -22,7 +73,8 @@
                 <div class="card-stacked">
                     <div class="card-content">
                         {% if recipe.original_recipe != null %}
-                        <a href="{{ url_for('view_recipe', recipe_id=recipe.original_recipe.id)}}">View original recipe, created by {{ recipe.created_by }}</recipe></a>
+                        <a href="{{ url_for('view_recipe', recipe_id=recipe.original_recipe.id)}}">View original recipe,
+                            created by {{ recipe.created_by }}</recipe></a>
                         <p>"{{ recipe.desc }}"</p>
                         <p><em>{{ recipe.extended_desc }}</em></p>
                         {% else %}
@@ -30,7 +82,8 @@
                         {% endif %}
                     </div>
                     <div class="card-action">
-                        <a class="view-recipe-btn" href="{{ url_for('view_recipe', recipe_id=recipe.id) }}">View Recipe</a>
+                        <a class="view-recipe-btn" href="{{ url_for('view_recipe', recipe_id=recipe.id) }}">View
+                            Recipe</a>
                         <p class="card_created-by right">
                             <small>
                                 {% if recipe.original_recipe != null %}
@@ -48,4 +101,52 @@
 </div>
 {% endfor %}
 
+{% endmacro %}
+
+{% macro displaySearchBox(search_form) %}
+
+<div id="search-box">
+    <form action="{{ url_for('search') }}" method="GET">
+        <div class="row">
+            <div class="col s12">
+                <h4 id="search-box_header">Search for a recipe:</h4>
+            </div>
+            <div class="col s12 m7">
+                <div id="search-form">
+                    {{ search_form.search_bar }}
+
+                    <button class="btn waves-effect waves-light orange" type="submit" name="action">
+                        <i class="material-icons">search</i>
+                    </button>
+                    {% for error in search_form.search_bar.errors %}
+                    <p class="validation-message">
+                        <i class="material-icons">error_outline</i> {{ error }}
+                    </p>
+                    {% endfor %}
+                </div>
+
+            </div>
+            <div class="col s12 m5">
+                <div id="search-tags">
+                    {{ search_form.dietary_tags }}
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+{% endmacro %}
+
+{% macro loadPreviewImageFunction() %}
+<script>
+    function previewImage(event) {
+        // Preview image before upload from StackOverflow[https://stackoverflow.com/questions/4459379/preview-an-image-before-it-is-uploaded]
+        let output = document.getElementById('recipe-header_image');
+        output.classList.remove('hide');
+        output.src = URL.createObjectURL(event.target.files[0]);
+        output.onload = function () {
+            URL.revokeObjectURL(output.src) // free memory
+        }
+    };
+</script>
 {% endmacro %}
