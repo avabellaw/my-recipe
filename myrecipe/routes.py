@@ -16,6 +16,7 @@ from flask_wtf.file import FileField, FileAllowed
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 login_manager.init_app(app)
+DIETARY_TAGS = ["vv", "v", "gf", "df", "nf", "ef"]
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -144,7 +145,24 @@ def add_modified_recipe(recipe_id):
     form.instructions.data = original_recipe.instructions # type: ignore
     
     return render_template("add-modified-recipe.html", form=form, original_recipe=original_recipe)
-    
+
+# Edit recipe
+@app.route("/edit-recipe/<int:recipe_id>", methods=["GET", "POST"])
+@login_required
+def edit_recipe(recipe_id):
+    recipe = get_recipe(recipe_id)
+    add_dietary_tags_to_recipes([recipe])
+    if user_owns_recipe(current_user.id, recipe): #type: ignore
+        form = AddRecipeForm()
+        form.title.data = recipe.title # type: ignore
+        form.desc.data = recipe.desc # type: ignore
+        form.ingredients.data = recipe.ingredients # type: ignore
+        form.instructions.data = recipe.instructions # type: ignore
+        form.image.data = recipe.image_url # type: ignore
+        form.dietary_tags.data = dietary_tag_bools_to_data(get_recipe_dietary_tags_bools(recipe))
+        return render_template("edit-recipe.html", form=form)    
+    flash("You can only edit your own recipes.", "danger")
+    return redirect(url_for("my_recipes"))
 
 # Delete recipe
 @app.route("/delete-recipe/<int:recipe_id>", methods=["GET", "POST"])
@@ -287,12 +305,11 @@ def search_all_recipes(search_query, *args):
     recipes = Recipe.query.filter(Recipe.title.ilike(f"%{search_query}%")).all()
     recipes.extend(Recipe.query.filter(Recipe.desc.ilike(f"%{search_query}%")).all())
     add_dietary_tags_to_recipes(recipes)
-    filter = [tag in args[0] for tag in ["vv", "v", "gf", "df", "nf", "ef"]]
-    print(filter)
+    filter = dietary_tag_data_to_bools(args[0])
     if True in filter:
         filtered_recipes = []
         for recipe in recipes:
-            recipe_filter = [recipe.is_vegan, recipe.is_vegetarian, recipe.is_gluten_free, recipe.is_dairy_free, recipe.is_nut_free, recipe.is_egg_free]
+            recipe_filter = get_recipe_dietary_tags_bools(recipe)
             passed = []
             for i in range(len(filter)):
                 if filter[i]:
@@ -319,6 +336,15 @@ def add_dietary_tags_to_recipes(recipes):
             recipe.is_dairy_free = tags.is_dairy_free # type: ignore
             recipe.is_nut_free = tags.is_nut_free # type: ignore
             recipe.is_egg_free = tags.is_egg_free # type: ignore
+            
+def dietary_tag_data_to_bools(dietary_tags):
+    return [tag in dietary_tags for tag in DIETARY_TAGS]
+
+def dietary_tag_bools_to_data(dietary_tags):
+    return [tag for tag in DIETARY_TAGS if dietary_tags[DIETARY_TAGS.index(tag)]]
+
+def get_recipe_dietary_tags_bools(recipe):
+    return [recipe.is_vegan, recipe.is_vegetarian, recipe.is_gluten_free, recipe.is_dairy_free, recipe.is_nut_free, recipe.is_egg_free]
 
 # Wtforms
 

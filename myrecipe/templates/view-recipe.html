@@ -80,7 +80,7 @@
                     {% if isOwnedByUser %}
                     <!-- Settings dropdown -->
                     <ul id='recipe-settings' class='dropdown-content'>
-                        <li><a href="#!">Edit</a></li>
+                        <li><a href="{{ url_for('edit_recipe', recipe_id=recipe.id) }}">Edit</a></li>
                         <li><a class="modal-trigger" href="#confirm-deletion">Delete</a></li>
                     </ul>
 

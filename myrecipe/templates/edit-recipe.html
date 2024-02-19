@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col s12">
+            <h1 class="page-header">Add new recipe</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12">
+            <form action="{{ url_for('add_recipe') }}" method="post" enctype="multipart/form-data">
+                {{ form.csrf_token }}
+
+                <!-- Title field -->
+                <div class="input-field">
+                    {{ form.title}}
+                    {{ form.title.label }}
+                </div>
+
+                {% for error in form.title.errors %}
+                <p class="validation-message">
+                    <i class="material-icons">error_outline</i> {{ error }}
+                </p>
+                {% endfor %}
+
+                <!-- Description field -->
+                <div class="input-field">
+                    {{ form.desc }}
+                    {{ form.desc.label }}
+                </div>
+
+                {% for error in form.desc.errors %}
+                <p class="validation-message">
+                    <i class="material-icons">error_outline</i> {{ error }}
+                </p>
+                {% endfor %}
+
+                <div class="row">
+                    <div class="col s4">
+                        {% if form.image.data == None %}
+                        <img id="recipe-header_image"
+                            src="{{ url_for('static', filename='images/default-recipe-image.webp') }}"
+                            alt="Default recipe image" class="responsive-img">
+                        {% else %}
+                        <img id="recipe-header_image" src="{{ form.image.data }}" alt="{{ form.title.data }}"
+                            class="responsive-img">
+                        {% endif %}
+                    </div>
+                    <div class="col s8">
+                        <!-- Image upload field -->
+                        <div class="file-field input-field">
+                            <div class="btn orange darken-3" aria-label="Upload image">
+                                <span>Upload Image</span>
+                                {{ form.image }}
+                            </div>
+                            <div class="file-path-wrapper">
+                                <input id="image-upload-btn" class="file-path" placeholder="Click to upload image."
+                                    type="text" disabled>
+                                <span class="helper-text" data-error="Must be in jpg, png or webp format."></span>
+                            </div>
+                        </div>
+
+                        <label for="image-upload-btn">* An aspect ratio of 1:1 is best
+                        </label>
+
+                        {% for error in form.image.errors %}
+                        <p class="validation-message">
+                            <i class="material-icons">error_outline</i> {{ error }}
+                        </p>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Ingredients field -->
+                <div class="input-field">
+                    {{ form.ingredients(class_="materialize-textarea") }}
+                    {{ form.ingredients.label }}
+                </div>
+
+                {% for error in form.ingredients.errors %}
+                <p class="validation-message">
+                    <i class="material-icons">error_outline</i> {{ error }}
+                </p>
+                {% endfor %}
+
+                <!-- Instructions field -->
+                <div class="input-field">
+                    {{ form.instructions(class_="materialize-textarea") }}
+                    {{ form.instructions.label }}
+                </div>
+
+                {% for error in form.instructions.errors %}
+                <p class="validation-message">
+                    <i class="material-icons">error_outline</i> {{ error }}
+                </p>
+                {% endfor %}
+
+                <!-- Dietary Tags -->
+                <div class="input-field col s12 .select-wrapper">
+                    {{ form.dietary_tags }}
+                    <label>Add dietary tags</label>
+                </div>
+
+                <!-- Submit form button -->
+                <button class="btn waves-effect waves-light orange darken-3" type="submit" name="action">Add recipe
+                    <i class="material-icons right">send</i>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<!-- Front-end validation of image uploads -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        imageUploadBtn = document.getElementById("image-upload-btn");
+
+        imageUploadBtn.onchange = function () {
+            const fileFormatsAllowed = [".webp", ".jpg", ".jpeg", ".png"]
+
+            let isValid = fileFormatsAllowed.some(format => imageUploadBtn.value.endsWith(format));
+
+            if (isValid) {
+                imageUploadBtn.classList.remove("invalid");
+                imageUploadBtn.classList.add("valid");
+            } else {
+                imageUploadBtn.classList.remove("valid");
+                imageUploadBtn.classList.add("invalid");
+            }
+        };
+
+        select = document.querySelectorAll('select');
+        M.FormSelect.init(select);
+    });
+</script>
+{% endblock %}
