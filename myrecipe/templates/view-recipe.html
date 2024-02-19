@@ -40,12 +40,12 @@
                 <div id="recipe-heading-container">
                     <div id="recipe-title">
                         <!-- Recipe title -->
-                        <h2>
+                        <h1>
                             {{ recipe.title }}
                             {% if isModifiedRecipe %}
                             <span class="recipe-card_modified-tag">Modified</span>
                             {% endif %}
-                        </h2>
+                        </h1>
                         {% if current_user.is_authenticated %}
                         {% if isOwnedByUser %}
 
@@ -54,7 +54,7 @@
                             <i class="material-icons">settings</i>
                             EDIT RECIPE
                         </a>
-                        {% elif not isModifiedRecipe %}
+                        {% else %}
                         <!-- Save recipe heart -->
                         <button id="save-recipe-button" aria-labelledby="save-recipe-button_text" class="orange-text">
                             {% if recipe_is_saved %}
@@ -145,13 +145,11 @@
                     <div class="inner-container">
                         <h2 class="center">Instructions</h2>
                         <hr>
-                        <ol>
-                            {% for instruction in recipe.instructions.splitlines(keepends=True) %}
-                            <li>
-                                {{ instruction }}
-                            </li>
-                            {% endfor %}
-                        </ol>
+                        {% for instruction in recipe.instructions.split("\r\n\r\n") %}
+                        <h3>Step {{ loop.index}}</h3>
+                        {{ instruction }}
+
+                        {% endfor %}
                     </div>
                 </div>
             </div>

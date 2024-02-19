@@ -232,6 +232,8 @@ $ git clone https://github.com/avabellaw/my-recipe
 * Chilli con carnne
     * Image from unspash by Micheile Henderson [https://unsplash.com/photos/red-and-green-chili-peppers-in-white-ceramic-bowl-FhMB8pMge5U]
     * Content based on recipe by bbcgoodfood [https://www.bbcgoodfood.com/recipes/chilli-con-carne-recipe]
+* Simple pasta
+    * Image from unsplash by Ben Lei [https://unsplash.com/photos/potato-fries-on-white-ceramic-plate-flFd8L7_B3g]
 
 ### Code
 

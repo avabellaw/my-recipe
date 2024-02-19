@@ -51,6 +51,15 @@ li::marker {
     display: none;
 }
 
+h1, h2, a, button {
+    font-weight: 600;
+    font-family: "Karla", sans-serif;
+}
+
+body {
+    font-family: "Crimson Text", serif;
+}
+
 /* End of general page styles */
 
 /* Flash message */
@@ -253,8 +262,13 @@ input#search_bar:focus {
     overflow: hidden;
 }
 
+.card-content {
+    padding: 1em;
+}
+
 .card-content>p {
     text-align: center;
+    font-size: 1.1em;
 }
 
 .card_created-by {
@@ -323,15 +337,20 @@ input#search_bar:focus {
     margin-top: 0;
 }
 
-#recipe-header,
-#recipe-content {
-    font-size: 1.5em;
-    padding: 1.5em 0;
-}
-
 #recipe-content h2 {
     font-size: 1.5em;
     margin-top: 0;
+}
+
+#recipe-content h3 {
+    font-size: 1em;
+    font-weight: 700;
+    margin-bottom: 0.2em;
+}
+
+#recipe-header,
+#recipe-content {
+    font-size: 1.5em;
 }
 
 #recipe-header_image {
@@ -420,18 +439,23 @@ p#created-by {
     margin-bottom: 0;
     margin-right: 0.2em;
     display: inline;
-    padding: 0.5em 0
+    padding: 0.5em 0;
+}
+
+#recipe-title>h1 {
+    font-size: 1.8em;
+    margin: 0;
 }
 
 #template-button {
     width: fit-content;
-    margin-top: 1em;
+    margin: 0.5em 0;
 }
 
-@media screen and (max-width: 600px) {
-    .inner-container {
-        width: fit-content;
-        margin: auto;
+@media screen and (min-width: 600px) {
+    #recipe-content {
+        font-size: 1.5em;
+        padding: 1.5em 0;
     }
 }
 
@@ -446,7 +470,7 @@ p#created-by {
     display: flex;
     border-bottom: 1px solid black;
     margin: 0.5em 0;
-    justify-content: space-around;
+    justify-content: center;
 }
 
 .recipe-card #dietary-tag-container {
@@ -470,13 +494,15 @@ p#created-by {
 
 .recipe-card_title {
     word-wrap: break-word;
+    font-family: "Karla", sans-serif;
+    font-weight: 500;
 }
 
 @media screen and (min-width: 600px) {
     .recipe-card #dietary-tag-container {
         font-size: 0.5em;
         height: 1.1em;
-        margin-left: auto;
+        margin-left: 0.6em;
         margin-top: 0;
     }
 
