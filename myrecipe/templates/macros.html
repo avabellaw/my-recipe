@@ -101,3 +101,37 @@
 {% endfor %}
 
 {% endmacro %}
+
+{% macro displaySearchBox(search_form) %}
+
+<div id="search-box">
+    <form action="{{ url_for('search') }}" method="GET">
+        <div class="row">
+            <div class="col s12">
+                <h4 id="search-box_header">Search for a recipe:</h4>
+            </div>
+            <div class="col s12 m7">
+                <div id="search-form">
+                    {{ search_form.search_bar }}
+
+                    <button class="btn waves-effect waves-light orange" type="submit" name="action">
+                        <i class="material-icons">search</i>
+                    </button>
+                    {% for error in search_form.search_bar.errors %}
+                    <p class="validation-message">
+                        <i class="material-icons">error_outline</i> {{ error }}
+                    </p>
+                    {% endfor %}
+                </div>
+
+            </div>
+            <div class="col s12 m5">
+                <div id="search-tags">
+                    {{ search_form.dietary_tags }}
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+{% endmacro %}

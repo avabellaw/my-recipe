@@ -204,7 +204,8 @@ def search():
                 
         recipes = search_all_recipes(search_query, dietary_tags)
         add_created_by_to_recipes(recipes)
-        return render_template("search-results.html", recipes=recipes, search_query=search_query)
+        search_form = SearchForm()
+        return render_template("search-results.html", recipes=recipes, search_query=search_query, search_form=search_form)
     # If doesn't validate, redirect to home with error message.
     recipes = get_all_recipes()
     add_created_by_to_recipes(recipes)

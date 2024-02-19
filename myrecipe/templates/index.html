@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% from "macros.html" import displayRecipes %}
+{% from "macros.html" import displayRecipes, displaySearchBox %}
 
 {% block content %}
 <section>
@@ -12,35 +12,7 @@
                 <p id="hero_tagline">Discover new recipes and make them yours.</p>
             </div>
         </div>
-        <div id="search-box">
-            <form action="{{ url_for('search') }}" method="GET">
-                <div class="row">
-                    <div class="col s12">
-                        <h4 id="search-box_header">Search for a recipe:</h4>
-                    </div>
-                    <div class="col s12 m7">
-                        <div id="search-form">
-                            {{ search_form.search_bar }}
-
-                            <button class="btn waves-effect waves-light orange" type="submit" name="action">
-                                <i class="material-icons">search</i>
-                            </button>
-                            {% for error in search_form.search_bar.errors %}
-                            <p class="validation-message">
-                                <i class="material-icons">error_outline</i> {{ error }}
-                            </p>
-                            {% endfor %}
-                        </div>
-
-                    </div>
-                    <div class="col s12 m5">
-                        <div id="search-tags">
-                            {{ search_form.dietary_tags }}
-                        </div>
-                    </div>
-                </div>
-        </div>
-        </form>
+       {{ displaySearchBox(search_form) }}
     </div>
 </section>
 
@@ -52,6 +24,7 @@
 {% endblock %}
 
 {% block scripts %}
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         select = document.querySelectorAll('select');
