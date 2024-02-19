@@ -258,10 +258,11 @@ def get_user(username):
 
 def get_all_recipes():
     all_recipes = Recipe.query.all()
+    all_recipes.extend(get_all_modified_recipes())
     return all_recipes
 
 def get_all_modified_recipes():
-    modified_recipes = ModifiedRecipe.query.filter_by(modified_by_id = current_user.id).all()
+    modified_recipes = ModifiedRecipe.query.all()
         
     for m_recipe in modified_recipes:
         m_recipe = get_modified_recipe(m_recipe.id)

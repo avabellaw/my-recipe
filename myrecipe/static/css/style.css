@@ -389,6 +389,10 @@ p#created-by {
     flex-wrap: wrap;
 }
 
+#recipe-title>a {
+    margin-bottom: 0.5em;
+}
+
 #recipe-title>a,
 #recipe-title button {
     display: inline-flex;
