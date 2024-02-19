@@ -8,7 +8,22 @@
     <div class="container">
         <div class="row">
             <div class="col s12">
-                <h2 class="page-header left"><strong>Showing {{ recipes|length }} results for "<span class="search-query">{{ search_query }}</span>"</strong></h2>
+                <h2 class="page-header left">
+                    <strong>Showing {{ recipes|length }} {{ "results" if recipes|length > 1 else "result" }}
+                        {% if search_query != "" %}
+                        for "<span class="search-query">{{ search_query }}</span>"
+                        {% endif %}
+                    </strong>
+                </h2>                
+            </div>
+            <div class="col s12">
+                {% if dietary_tags %}
+                <span id="search-results-filters" class="no-margin center-on-mobile">Filters:
+                    {% for tag in dietary_tags %}
+                    <span class="chip">{{ tag }}</span>
+                    {% endfor %}
+                </span>
+                {% endif %}
             </div>
         </div>
         {{ displaySearchBox(search_form) }}

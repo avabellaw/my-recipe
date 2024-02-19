@@ -32,6 +32,12 @@ html {
     font-size: 2em;
 }
 
+@media screen and (max-width: 600px) {
+    .center-on-mobile {
+        text-align: center;
+    }
+}
+
 /* From Stackoverflow [https://stackoverflow.com/questions/44846068/css-equal-height-columns] */
 .equal-height-cols {
     display: flex;
@@ -51,7 +57,10 @@ li::marker {
     display: none;
 }
 
-h1, h2, a, button {
+h1,
+h2,
+a,
+button {
     font-weight: 600;
     font-family: "Karla", sans-serif;
 }
@@ -250,6 +259,18 @@ input#search_bar:focus {
 }
 
 /* End of Homepage */
+
+/* Search results page */
+
+#search-results-filters {
+    font-size: 1.5em;
+}
+
+#search-results-filters > span {
+    font-size: 0.8em;
+}
+
+/* End of Search results page */
 
 /* My recipes */
 
@@ -469,8 +490,8 @@ p#created-by {
     box-sizing: content-box;
     display: flex;
     border-bottom: 1px solid black;
-    margin: 0.5em 0;
     justify-content: center;
+    align-items: center;
 }
 
 .recipe-card #dietary-tag-container {
@@ -480,11 +501,13 @@ p#created-by {
     margin-bottom: 0;
     font-size: 0.6em;
     justify-content: left;
+    margin-left: auto;
 }
 
 .dietary-tag {
     margin-right: 0.5em;
     display: flex;
+    float: inline-end;
 }
 
 .dietary-tag>img {
@@ -496,6 +519,7 @@ p#created-by {
     word-wrap: break-word;
     font-family: "Karla", sans-serif;
     font-weight: 500;
+    display: flex;
 }
 
 @media screen and (min-width: 600px) {

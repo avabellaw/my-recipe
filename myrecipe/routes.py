@@ -250,7 +250,8 @@ def search():
         recipes = search_all_recipes(search_query, dietary_tags)
         add_created_by_to_recipes(recipes)
         search_form = SearchForm()
-        return render_template("search-results.html", recipes=recipes, search_query=search_query, search_form=search_form)
+        dietary_tags = dietary_tag_data_to_names(dietary_tags)
+        return render_template("search-results.html", recipes=recipes, search_query=search_query, dietary_tags=dietary_tags, search_form=search_form)
     # If doesn't validate, redirect to home with error message.
     recipes = get_all_recipes()
     add_created_by_to_recipes(recipes)
@@ -415,6 +416,16 @@ def add_dietary_tags_to_recipes(recipes):
 def dietary_tag_data_to_bools(dietary_tags):
     return [tag in dietary_tags for tag in DIETARY_TAGS]
 
+def dietary_tag_data_to_names(dietary_tags):
+    dietary_str = "-".join(dietary_tags)
+    dietary_str = dietary_str.replace("vv", "Vegan")
+    dietary_str = dietary_str.replace("v", "Vegetarian")
+    dietary_str = dietary_str.replace("gf", "Gluten-free")
+    dietary_str = dietary_str.replace("df", "Dairy-free")
+    dietary_str = dietary_str.replace("nf", "Nut-free")
+    dietary_str = dietary_str.replace("ef", "Egg-free")
+    return dietary_str.split("-")
+
 def dietary_tag_bools_to_data(dietary_tags):
     return [tag for tag in DIETARY_TAGS if dietary_tags[DIETARY_TAGS.index(tag)]]
 
@@ -464,7 +475,11 @@ class AddModifiedRecipeForm(FlaskForm):
     dietary_tags = SelectMultipleField("Dietary tags:", choices=[("vv", "Vegan"), ("v", "Vegetarian"), ("gf", "Gluten-free"), ("df", "Dairy-free"), ("nf", "Nut-free"), ("ef", "Egg-free")])
     
 class SearchForm(FlaskForm):
-    search_bar = StringField("Search:", validators=[DataRequired(), Length(min=2, max=40)])
+    search_bar = StringField("Search:")
      # Dietary tags
     dietary_tags = SelectMultipleField("Dietary tags:", choices=[("vv", "Vegan"), ("v", "Veggie"), ("gf", "GF"), ("df", "Dairy-free"), ("nf", "Nut-free"), ("ef", "Egg-free")])
+    
+    def validate_search_bar(self, search_bar):
+        if not search_bar.data and not self.dietary_tags.data:
+            raise ValidationError("Please enter a search query or select a filter.")
     
