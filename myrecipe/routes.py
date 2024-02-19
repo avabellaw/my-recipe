@@ -378,7 +378,7 @@ class AddRecipeForm(FlaskForm):
     image = FileField('image', validators=[FileAllowed(['jpg', 'jpeg', 'png', 'webp'], 'Please only upload an image (jpg, png, or webp).')])
     
     # Dietary tags
-    dietary_tags = SelectMultipleField("Dietary tags:", choices=[("vv", "Vegan"), ("v", "Vegetarian"), ("gf", "Gluten-free"), ("df", "Dairy-free"), ("nf", "Nut-free"), ("ef", "Egg-free")], validators=[DataRequired()])
+    dietary_tags = SelectMultipleField("Dietary tags:", choices=[("vv", "Vegan"), ("v", "Vegetarian"), ("gf", "Gluten-free"), ("df", "Dairy-free"), ("nf", "Nut-free"), ("ef", "Egg-free")])
     
 class AddModifiedRecipeForm(FlaskForm):
     extended_desc = StringField("Extended description:", validators=[DataRequired(), Length(min=2, max=100)])
