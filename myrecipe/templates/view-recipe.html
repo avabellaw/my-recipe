@@ -40,12 +40,12 @@
                 <div id="recipe-heading-container">
                     <div id="recipe-title">
                         <!-- Recipe title -->
-                        <h2>
+                        <h1>
                             {{ recipe.title }}
                             {% if isModifiedRecipe %}
                             <span class="recipe-card_modified-tag">Modified</span>
                             {% endif %}
-                        </h2>
+                        </h1>
                         {% if current_user.is_authenticated %}
                         {% if isOwnedByUser %}
 
