@@ -296,9 +296,12 @@ def add_created_by_to_recipes(recipes):
 def has_user_saved_recipe(user_id, recipe_id):
     return bool(SavedRecipe.query.filter_by(user_id=user_id, recipe_id=recipe_id).first()) 
 
-def save_image_locally(image):
+def save_image_locally(image):  
     filename = secure_filename(image.filename)
-    image.save(os.path.join(app.config["PACKAGE_NAME"] + "/" + app.config['UPLOAD_FOLDER'], filename))
+    save_path = os.path.join(app.config["PACKAGE_NAME"] + "/" + app.config['UPLOAD_FOLDER'])
+    if not os.path.exists(save_path):
+        os.makedirs(save_path)
+    image.save(save_path, filename)
                 
     return "/" + app.config["UPLOAD_FOLDER"] + "/" + filename 
 
@@ -313,7 +316,7 @@ def user_owns_recipe(user_id, recipe):
 def search_all_recipes(search_query, *args):
     recipes = Recipe.query.filter(Recipe.title.ilike(f"%{search_query}%")).all()
     recipes.extend(Recipe.query.filter(Recipe.desc.ilike(f"%{search_query}%")).all())
-    recipes = list(set(recipes)) # Remove duplicates
+    recipes = set(recipes) # Remove duplicates
     add_dietary_tags_to_recipes(recipes)
     filter = dietary_tag_data_to_bools(args[0])
     if True in filter:
