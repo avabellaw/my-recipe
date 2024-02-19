@@ -313,7 +313,7 @@ def user_owns_recipe(user_id, recipe):
 def search_all_recipes(search_query, *args):
     recipes = Recipe.query.filter(Recipe.title.ilike(f"%{search_query}%")).all()
     recipes.extend(Recipe.query.filter(Recipe.desc.ilike(f"%{search_query}%")).all())
-    recipes = list(set(recipes)) # Remove duplicates
+    recipes = set(recipes) # Remove duplicates
     add_dietary_tags_to_recipes(recipes)
     filter = dietary_tag_data_to_bools(args[0])
     if True in filter:
