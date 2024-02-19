@@ -53,7 +53,7 @@
     <div class="col s12">
         <div class="recipe-card">
             <h3 class="recipe-card_title header">
-                {{ recipe.title }}
+                <span class="recipe-title">{{ recipe.title }}</span>
                 {% if recipe.original_recipe != null %}
                 <span class="recipe-card_modified-tag">Modified</span>
                 {% endif %}
@@ -103,6 +103,8 @@
 
 {% endmacro %}
 
+<!-- Displays the search box -->
+
 {% macro displaySearchBox(search_form) %}
 
 <div id="search-box">
@@ -118,11 +120,6 @@
                     <button class="btn waves-effect waves-light orange" type="submit" name="action">
                         <i class="material-icons">search</i>
                     </button>
-                    {% for error in search_form.search_bar.errors %}
-                    <p class="validation-message">
-                        <i class="material-icons">error_outline</i> {{ error }}
-                    </p>
-                    {% endfor %}
                 </div>
 
             </div>
@@ -132,10 +129,18 @@
                 </div>
             </div>
         </div>
+        
+        {% for error in search_form.search_bar.errors %}
+        <p class="validation-message">
+            <i class="material-icons">error_outline</i> {{ error }}
+        </p>
+        {% endfor %}
     </form>
 </div>
 
 {% endmacro %}
+
+<!-- Load preview image function for image-upload.onchange to use -->
 
 {% macro loadPreviewImageFunction() %}
 <script>
