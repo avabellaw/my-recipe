@@ -171,12 +171,24 @@ def edit_recipe(recipe_id):
                 if instructions != recipe.instructions:
                     recipe.instructions = instructions
                 image = form.image.data
-                if image.filename != recipe.image_url.split("/")[-1]:
-                    if image:
-                        delete_image(recipe.image_url)
-                        recipe.image_url = save_image_locally(image)
+                if image:
+                    if image.filename != recipe.image_url.split("/")[-1]:
+                            delete_image(recipe.image_url)
+                            recipe.image_url = save_image_locally(image)
                 db.session.add(recipe)
                 db.session.commit()
+                
+                dietary_tags = DietaryTags.query.get(recipe.dietary_tags_id)
+                dietart_tag_bools = dietary_tag_bools_to_data(get_recipe_dietary_tags_bools(recipe))
+                if dietart_tag_bools != form.dietary_tags.data:
+                    dietary_tags.is_vegan = "vv" in form.dietary_tags.data
+                    dietary_tags.is_vegetarian = "v" in form.dietary_tags.data
+                    dietary_tags.is_gluten_free = "gf" in form.dietary_tags.data
+                    dietary_tags.is_dairy_free = "df" in form.dietary_tags.data
+                    dietary_tags.is_nut_free = "nf" in form.dietary_tags.data
+                    dietary_tags.is_egg_free = "ef" in form.dietary_tags.data
+                    db.session.add(dietary_tags)
+                    db.session.commit()
                 return redirect(url_for("view_recipe", recipe_id=recipe.id))
             return render_template("edit-recipe.html", form=form)
         set_default_dietary_tags(form, dietary_tag_bools_to_data(get_recipe_dietary_tags_bools(recipe)))

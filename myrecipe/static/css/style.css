@@ -466,6 +466,7 @@ p#created-by {
 #recipe-title>h1 {
     font-size: 1.8em;
     margin: 0;
+    margin-right: 0.2em;
 }
 
 #template-button {
@@ -491,17 +492,15 @@ p#created-by {
     display: flex;
     border-bottom: 1px solid black;
     justify-content: center;
-    align-items: center;
 }
 
 .recipe-card #dietary-tag-container {
-    height: initial;
     padding: 0;
     border-bottom: none;
     margin-bottom: 0;
     font-size: 0.6em;
     justify-content: left;
-    margin-left: auto;
+    margin-top: 0.5em;
 }
 
 .dietary-tag {
@@ -520,13 +519,18 @@ p#created-by {
     font-family: "Karla", sans-serif;
     font-weight: 500;
     display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+}
+
+.recipe-card_title > span.recipe-title {
+    margin-right: 0.3em;
 }
 
 @media screen and (min-width: 600px) {
     .recipe-card #dietary-tag-container {
         font-size: 0.5em;
         height: 1.1em;
-        margin-left: 0.6em;
         margin-top: 0;
     }
 
