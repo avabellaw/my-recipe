@@ -321,15 +321,22 @@ def user_owns_recipe(user_id, recipe):
         return recipe.user_id == user_id
     
 def search_all_recipes(search_query, *args):
+    # Get all recipes that match the search query
     recipes = Recipe.query.filter(Recipe.title.ilike(f"%{search_query}%")).all()
     recipes.extend(Recipe.query.filter(Recipe.desc.ilike(f"%{search_query}%")).all())
+    
+    # Get all modified recipes that match the search query
     modified_recipes = ModifiedRecipe.query.join(ModifiedRecipe.original_recipe).filter(Recipe.title.ilike(f"%{search_query}%")).all() #type: ignore
     modified_recipes.extend(ModifiedRecipe.query.join(ModifiedRecipe.original_recipe).filter(Recipe.desc.ilike(f"%{search_query}%")).all()) #type: ignore
     add_recipe_data_to_modified_recipes(modified_recipes)
+    
+    # Extend recipes with modified recipes
     recipes.extend(modified_recipes) # type: ignore
     recipes = set(recipes) # Remove duplicates
     add_dietary_tags_to_recipes(recipes)
     filter = dietary_tag_data_to_bools(args[0])
+    
+    # Apply dietary tags filter
     if True in filter:
         filtered_recipes = []
         for recipe in recipes:
