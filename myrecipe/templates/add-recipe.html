@@ -101,23 +101,25 @@
 {% block scripts %}
 <!-- Front-end validation of image uploads -->
 <script>
-    imageUploadBtn = document.getElementById("image-upload-btn");
+    document.addEventListener('DOMContentLoaded', function () {
+        imageUploadBtn = document.getElementById("image-upload-btn");
 
-    imageUploadBtn.onchange = function () {
-        const fileFormatsAllowed = [".webp", ".jpg", ".jpeg", ".png"]
+        imageUploadBtn.onchange = function () {
+            const fileFormatsAllowed = [".webp", ".jpg", ".jpeg", ".png"]
 
-        let isValid = fileFormatsAllowed.some(format => imageUploadBtn.value.endsWith(format));
+            let isValid = fileFormatsAllowed.some(format => imageUploadBtn.value.endsWith(format));
 
-        if (isValid) {
-            imageUploadBtn.classList.remove("invalid");
-            imageUploadBtn.classList.add("valid");
-        } else {
-            imageUploadBtn.classList.remove("valid");
-            imageUploadBtn.classList.add("invalid");
-        }
-    };
+            if (isValid) {
+                imageUploadBtn.classList.remove("invalid");
+                imageUploadBtn.classList.add("valid");
+            } else {
+                imageUploadBtn.classList.remove("valid");
+                imageUploadBtn.classList.add("invalid");
+            }
+        };
 
-    select = document.querySelectorAll('select');
-    M.FormSelect.init(select);
+        select = document.querySelectorAll('select');
+        M.FormSelect.init(select);
+    });
 </script>
 {% endblock %}
