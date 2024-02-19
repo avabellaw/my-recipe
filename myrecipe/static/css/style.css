@@ -476,7 +476,7 @@ p#created-by {
     .recipe-card #dietary-tag-container {
         font-size: 0.5em;
         height: 1.1em;
-        margin-left: auto;
+        margin-left: 0.6em;
         margin-top: 0;
     }
 

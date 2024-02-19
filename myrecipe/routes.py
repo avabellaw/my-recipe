@@ -275,12 +275,18 @@ def get_recipe(recipe_id):
         recipe = get_modified_recipe(recipe_id)
     return recipe
 
+def add_recipe_data_to_modified_recipes(modified_recipe):
+    for m_recipe in modified_recipe:
+        recipe = Recipe.query.get(m_recipe.recipe_id)
+        m_recipe.title = recipe.title # type: ignore
+        m_recipe.desc = recipe.desc # type: ignore
+        m_recipe.image_url = recipe.image_url # type: ignore
+        m_recipe.modified_by = User.query.filter_by(id=m_recipe.modified_by_id).first().username # type: ignore
+   
+
 def get_modified_recipe(recipe_id):
     recipe = ModifiedRecipe.query.get(recipe_id)
-    recipe.title = recipe.original_recipe.title # type: ignore
-    recipe.desc = recipe.original_recipe.desc # type: ignore
-    recipe.image_url = recipe.original_recipe.image_url # type: ignore
-    recipe.modified_by = User.query.filter_by(id=recipe.modified_by_id).first().username # type: ignore
+    add_recipe_data_to_modified_recipes(recipe)
     return recipe
 
 def add_dietary_tags_to_db(form_dietary_tags):
@@ -317,6 +323,10 @@ def user_owns_recipe(user_id, recipe):
 def search_all_recipes(search_query, *args):
     recipes = Recipe.query.filter(Recipe.title.ilike(f"%{search_query}%")).all()
     recipes.extend(Recipe.query.filter(Recipe.desc.ilike(f"%{search_query}%")).all())
+    modified_recipes = ModifiedRecipe.query.join(ModifiedRecipe.original_recipe).filter(Recipe.title.ilike(f"%{search_query}%")).all() #type: ignore
+    modified_recipes.extend(ModifiedRecipe.query.join(ModifiedRecipe.original_recipe).filter(Recipe.desc.ilike(f"%{search_query}%")).all()) #type: ignore
+    add_recipe_data_to_modified_recipes(modified_recipes)
+    recipes.extend(modified_recipes) # type: ignore
     recipes = set(recipes) # Remove duplicates
     add_dietary_tags_to_recipes(recipes)
     filter = dietary_tag_data_to_bools(args[0])
