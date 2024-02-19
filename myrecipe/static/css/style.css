@@ -323,15 +323,21 @@ input#search_bar:focus {
     margin-top: 0;
 }
 
+#recipe-content h2 {
+    font-size: 1.5em;
+    margin-top: 0;
+}
+
+#recipe-content h3 {
+    font-size: 1em;
+    font-weight: 500;
+    margin-bottom: 0.2em;
+}
+
 #recipe-header,
 #recipe-content {
     font-size: 1.5em;
     padding: 1.5em 0;
-}
-
-#recipe-content h2 {
-    font-size: 1.5em;
-    margin-top: 0;
 }
 
 #recipe-header_image {
@@ -446,7 +452,7 @@ p#created-by {
     display: flex;
     border-bottom: 1px solid black;
     margin: 0.5em 0;
-    justify-content: space-around;
+    justify-content: center;
 }
 
 .recipe-card #dietary-tag-container {
