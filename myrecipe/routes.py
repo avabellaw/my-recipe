@@ -192,9 +192,17 @@ def search():
     search_form = SearchForm(request.args, meta={'csrf': False})
 
     if search_form.validate():
-        search_query_url = request.query_string.decode("utf-8").split("&")[0].split("=")
-        search_query = search_query_url[1] 
-        recipes = search_all_recipes(search_query)
+        url_parts = request.query_string.decode("utf-8").split("&")
+        
+        dietary_tags = []
+        for url_part in url_parts:
+            if url_part.startswith("search_bar"):
+                search_query_url = url_parts[0].split("=")
+                search_query = search_query_url[1] 
+            if url_part.startswith("dietary_tags"):
+                dietary_tags.append(url_part.split("=")[1])
+                
+        recipes = search_all_recipes(search_query, dietary_tags)
         add_created_by_to_recipes(recipes)
         return render_template("search-results.html", recipes=recipes, search_query=search_query)
     # If doesn't validate, redirect to home with error message.
@@ -274,10 +282,26 @@ def user_owns_recipe(user_id, recipe):
         # If normal recipe, just check the user_id with user_id
         return recipe.user_id == user_id
     
-def search_all_recipes(search_query):
+def search_all_recipes(search_query, *args):
     recipes = Recipe.query.filter(Recipe.title.ilike(f"%{search_query}%")).all()
     recipes.extend(Recipe.query.filter(Recipe.desc.ilike(f"%{search_query}%")).all())
-    return recipes
+    add_dietary_tags_to_recipes(recipes)
+    filter = [tag in args[0] for tag in ["vv", "v", "gf", "df", "nf", "ef"]]
+    print(filter)
+    if True in filter:
+        filtered_recipes = []
+        for recipe in recipes:
+            recipe_filter = [recipe.is_vegan, recipe.is_vegetarian, recipe.is_gluten_free, recipe.is_dairy_free, recipe.is_nut_free, recipe.is_egg_free]
+            passed = []
+            for i in range(len(filter)):
+                if filter[i]:
+                    passed.append(recipe_filter[i])
+            if all(passed):
+                filtered_recipes.append(recipe)
+    else:
+        filtered_recipes = recipes
+                
+    return filtered_recipes
 
 def set_default_dietary_tags(form, default_values):
     # Set default dietary tags [https://stackoverflow.com/questions/5519729/wtforms-how-to-select-options-in-selectmultiplefield]
