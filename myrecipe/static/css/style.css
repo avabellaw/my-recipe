@@ -47,6 +47,10 @@ li::marker {
     font-size: 0.8em;
 }
 
+.hide {
+    display: none;
+}
+
 /* End of general page styles */
 
 /* Flash message */
@@ -300,6 +304,10 @@ input#search_bar:focus {
 
 #image-upload-btn {
     border-bottom: 1px solid #9e9e9e;
+}
+
+.file-field.input-field {
+    margin-bottom: 0;
 }
 
 /* End of Add Recipe */

@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% from "macros.html" import loadPreviewImageFunction %}
+
 {% block content %}
 <div class="container">
     <div class="row">
@@ -40,13 +42,15 @@
                 <div class="file-field input-field">
                     <div class="btn orange darken-3" aria-label="Upload image">
                         <span>Upload Image</span>
-                        {{ form.image }}
+                        {{ form.image(onchange="previewImage(event)") }}
                     </div>
                     <div class="file-path-wrapper">
                         <input id="image-upload-btn" class="file-path" placeholder="Click to upload image." type="text"
                             disabled>
                         <span class="helper-text" data-error="Must be in jpg, png or webp format."></span>
                     </div>
+
+                    <img id="recipe-header_image" class="responsive-img hide">
                 </div>
 
                 <label for="image-upload-btn">* An aspect ratio of 1:1 is best
@@ -122,4 +126,7 @@
         M.FormSelect.init(select);
     });
 </script>
+
+{{ loadPreviewImageFunction() }}
+
 {% endblock %}
