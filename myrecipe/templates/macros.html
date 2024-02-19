@@ -54,11 +54,14 @@
 <div class="row">
     <div class="col s12">
         <div class="recipe-card">
-            <h3 id="recipe-card_title" class="header">
+            <h3 class="recipe-card_title header">
                 {{ recipe.title }}
                 {% if recipe.original_recipe != null %}
                 <span class="recipe-card_modified-tag">Modified</span>
                 {% endif %}
+
+                <!-- Display dietary tags -->
+                {{ displayDietaryTags(recipe) }}
             </h3>
             <div class="card horizontal">
                 <div class="card-image">
@@ -77,8 +80,6 @@
                         {% else %}
                         <p>{{ recipe.desc }}</p>
                         {% endif %}
-                        <!-- Display dietary tags -->
-                        {{ displayDietaryTags(recipe) }}
                     </div>
                     <div class="card-action">
                         <a class="view-recipe-btn" href="{{ url_for('view_recipe', recipe_id=recipe.id) }}">View Recipe</a>
