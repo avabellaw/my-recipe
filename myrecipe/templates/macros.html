@@ -1,6 +1,8 @@
 <!-- Displays recipe dietary tags -->
 {% macro displayDietaryTags(recipe) %}
 
+{% if recipe.has_dietary_tags %}
+
 <div id="dietary-tag-container">
     {% if recipe.is_vegan %}
     <div class="dietary-tag hint--bottom" aria-label="Vegan">
@@ -38,6 +40,8 @@
     </div>
     {% endif %}
 </div>
+
+{% endif %}
 
 {% endmacro %}
 

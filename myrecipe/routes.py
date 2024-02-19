@@ -336,6 +336,10 @@ def add_dietary_tags_to_recipes(recipes):
             recipe.is_dairy_free = tags.is_dairy_free # type: ignore
             recipe.is_nut_free = tags.is_nut_free # type: ignore
             recipe.is_egg_free = tags.is_egg_free # type: ignore
+        
+            recipe.has_dietary_tags = all([recipe.is_vegan, recipe.is_vegetarian, recipe.is_gluten_free, recipe.is_dairy_free, recipe.is_nut_free, recipe.is_egg_free]) # type: ignore
+        else:
+            recipe.has_dietary_tags = False
             
 def dietary_tag_data_to_bools(dietary_tags):
     return [tag in dietary_tags for tag in DIETARY_TAGS]
