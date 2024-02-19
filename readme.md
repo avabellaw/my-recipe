@@ -224,6 +224,12 @@ $ git clone https://github.com/avabellaw/my-recipe
 
 ### Content
 
+#### Recipes
+
+* Chilli con carnne
+    * Image from unspash by Micheile Henderson [https://unsplash.com/photos/red-and-green-chili-peppers-in-white-ceramic-bowl-FhMB8pMge5U]
+    * Content based on recipe by bbcgoodfood [https://www.bbcgoodfood.com/recipes/chilli-con-carne-recipe]
+
 ### Code
 
 * "# type: ignore" will ignore errors [https://stackoverflow.com/questions/58936116/pycharm-warns-about-unexpected-arguments-for-sqlalchemy-user-model] 
