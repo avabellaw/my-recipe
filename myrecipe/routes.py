@@ -286,7 +286,7 @@ def add_recipe_data_to_modified_recipes(modified_recipe):
 
 def get_modified_recipe(recipe_id):
     recipe = ModifiedRecipe.query.get(recipe_id)
-    add_recipe_data_to_modified_recipes(recipe)
+    add_recipe_data_to_modified_recipes([recipe])
     return recipe
 
 def add_dietary_tags_to_db(form_dietary_tags):
@@ -334,10 +334,8 @@ def search_all_recipes(search_query, *args):
         filtered_recipes = []
         for recipe in recipes:
             recipe_filter = get_recipe_dietary_tags_bools(recipe)
-            passed = []
-            for i in range(len(filter)):
-                if filter[i]:
-                    passed.append(recipe_filter[i])
+            passed = [recipe_filter[i] for i in range(len(filter)) if filter[i]]
+            
             if all(passed):
                 filtered_recipes.append(recipe)
     else:
