@@ -214,6 +214,11 @@ span#login-btn {
     background-color: #fffaf4d6;
 }
 
+#search-tags ::placeholder {
+    color: rgba(0, 0, 0, 0.586);
+    text-align: center;
+}
+
 /* ID is name is chosen and set by wtforms */
 input#search_bar:focus {
     /* Override MaterializeCSS styles to change colour */

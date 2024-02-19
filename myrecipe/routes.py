@@ -2,13 +2,13 @@ import os
 from flask import url_for, redirect, render_template, request, send_from_directory, flash
 from flask_login import login_user, logout_user, login_required, current_user, LoginManager, login_user
 from flask_bcrypt import Bcrypt
-from sqlalchemy import null
+from sqlalchemy import Boolean, null
 from myrecipe import db, app
 from myrecipe.models import DietaryTags, User, Recipe, SavedRecipe, ModifiedRecipe
 
 # WTForms imports
 from flask_wtf import FlaskForm
-from wtforms import FileField, PasswordField, SelectMultipleField, StringField, TextAreaField
+from wtforms import BooleanField, FileField, PasswordField, SelectMultipleField, StringField, TextAreaField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from werkzeug.utils import secure_filename
 from flask_wtf.file import FileField, FileAllowed
@@ -336,3 +336,6 @@ class AddModifiedRecipeForm(FlaskForm):
     
 class SearchForm(FlaskForm):
     search_bar = StringField("Search:", validators=[DataRequired(), Length(min=2, max=40)])
+     # Dietary tags
+    dietary_tags = SelectMultipleField("Dietary tags:", choices=[("vv", "Vegan"), ("v", "Veggie"), ("gf", "GF"), ("df", "Dairy-free"), ("nf", "Nut-free"), ("ef", "Egg-free")])
+    

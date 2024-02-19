@@ -13,33 +13,34 @@
             </div>
         </div>
         <div id="search-box">
-            <div class="row">
-                <div class="col s12">
-                    <h4 id="search-box_header">Search for a recipe:</h4>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col s12 m8">
-                    <form id="search-form" action="{{ url_for('search') }}" method="GET">
-                        {{ search_form.search_bar }}
+            <form action="{{ url_for('search') }}" method="GET">
+                <div class="row">
+                    <div class="col s12">
+                        <h4 id="search-box_header">Search for a recipe:</h4>
+                    </div>
+                    <div class="col s12 m7">
+                        <div id="search-form">
+                            {{ search_form.search_bar }}
 
-                        <button class="btn waves-effect waves-light orange" type="submit" name="action">
-                            <i class="material-icons">search</i>
-                        </button>
-                    </form>
-                    {% for error in search_form.search_bar.errors %}
-                    <p class="validation-message">
-                        <i class="material-icons">error_outline</i> {{ error }}
-                    </p>
-                    {% endfor %}
-                </div>
-                <div class="col s12 m4">
-                    <div id="search-tags">
+                            <button class="btn waves-effect waves-light orange" type="submit" name="action">
+                                <i class="material-icons">search</i>
+                            </button>
+                            {% for error in search_form.search_bar.errors %}
+                            <p class="validation-message">
+                                <i class="material-icons">error_outline</i> {{ error }}
+                            </p>
+                            {% endfor %}
+                        </div>
 
                     </div>
+                    <div class="col s12 m5">
+                        <div id="search-tags">
+                            {{ search_form.dietary_tags }}
+                        </div>
+                    </div>
                 </div>
-            </div>
         </div>
+        </form>
     </div>
 </section>
 
@@ -48,4 +49,16 @@
         {{ displayRecipes(recipes) }}
     </div>
 </section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        select = document.querySelectorAll('select');
+        M.FormSelect.init(select);
+
+        document.getElementsByClassName("select-dropdown")[0].placeholder = "Add dietary filters";
+    });
+</script>
+
 {% endblock %}
