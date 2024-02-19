@@ -298,10 +298,10 @@ def has_user_saved_recipe(user_id, recipe_id):
 
 def save_image_locally(image):  
     filename = secure_filename(image.filename)
-    save_path = os.path.join(app.config["PACKAGE_NAME"] + "/" + app.config['UPLOAD_FOLDER'])
+    save_path = app.config["PACKAGE_NAME"] + "/" + app.config['UPLOAD_FOLDER']
     if not os.path.exists(save_path):
         os.makedirs(save_path)
-    image.save(save_path, filename)
+    image.save(os.path.join(save_path, filename))
                 
     return "/" + app.config["UPLOAD_FOLDER"] + "/" + filename 
 
