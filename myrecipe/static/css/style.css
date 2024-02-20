@@ -456,13 +456,6 @@ p#created-by {
     margin-right: 0.2em;
 }
 
-#recipe-title>h2 {
-    margin-bottom: 0;
-    margin-right: 0.2em;
-    display: inline;
-    padding: 0.5em 0;
-}
-
 #recipe-title>h1 {
     font-size: 1.8em;
     margin: 0;

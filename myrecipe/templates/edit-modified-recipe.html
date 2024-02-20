@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col s12">
+            <h1 class="page-header">Edit recipe</h1>
+        </div>
+    </div>
+    <div class="row equal-height-cols">
+        <div class="col s12 m3">
+            <div id="recipe-header_image-container" class="valign-wrapper center">
+                {% if recipe.original_recipe.image_url == None %}
+                <img id="recipe-header_image" src="{{ url_for('static', filename='images/default-recipe-image.webp') }}"
+                    alt="Default recipe image" class="responsive-img">
+                {% else %}
+                <img id="recipe-header_image" src="{{ recipe.original_recipe.image_url }}" alt="{{ recipe.original_recipe.title }}"
+                    class="responsive-img">
+                {% endif %}
+            </div>
+        </div>
+        <div class="col s12 m9">
+            <div id="recipe-heading-container">
+                <div id="recipe-title">
+                    <!-- Recipe title -->
+                    <h2 class="no-margin">
+                        {{ recipe.original_recipe.title }}
+                    </h2>
+                </div>
+
+                <!-- Recipe Description -->
+                <p class="">{{ recipe.original_recipe.desc }}</p>
+
+                <!-- Recipe created by -->
+                <p id="created-by"><small>~ Originally created by {{ recipe.original_recipe.created_by }}</small></p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12">
+            <form action="{{ url_for('add_modified_recipe', recipe_id=recipe.original_recipe.id) }}" method="post"
+                enctype="multipart/form-data">
+                {{ form.csrf_token }}
+
+                <!-- Extended description field -->
+                <div class="input-field">
+                    {{ form.extended_desc }}
+                    {{ form.extended_desc.label }}
+                </div>
+
+                {% for error in form.extended_desc.errors %}
+                <p class="validation-message">
+                    <i class="material-icons">error_outline</i> {{ error }}
+                </p>
+                {% endfor %}
+
+                <!-- Ingredients field -->
+                <div class="input-field">
+                    {{ form.ingredients(class_="materialize-textarea") }}
+                    {{ form.ingredients.label }}
+                </div>
+
+                {% for error in form.ingredients.errors %}
+                <p class="validation-message">
+                    <i class="material-icons">error_outline</i> {{ error }}
+                </p>
+                {% endfor %}
+
+                <!-- Instructions field -->
+                <div class="input-field">
+                    {{ form.instructions(class_="materialize-textarea") }}
+                    {{ form.instructions.label }}
+                </div>
+
+                {% for error in form.instructions.errors %}
+                <p class="validation-message">
+                    <i class="material-icons">error_outline</i> {{ error }}
+                </p>
+                {% endfor %}
+
+                <!-- Dietary Tags -->
+                <div class="input-field select-wrapper">
+                    {{ form.dietary_tags }}
+                    <label>Add dietary tags</label>
+                </div>
+
+                <!-- Submit form button -->
+                <button class="btn waves-effect waves-light orange darken-3" type="submit" name="action">Save changes
+                    <i class="material-icons right">send</i>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        select = document.querySelectorAll('select');
+        M.FormSelect.init(select);
+    });
+</script>
+
+{% endblock %}
