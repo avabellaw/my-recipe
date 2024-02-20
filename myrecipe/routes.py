@@ -26,7 +26,9 @@ def load_user(user_id):
 # Homepage
 @app.route("/")
 def home():
-    s3 = boto3.client('s3')
+    s3 = boto3.client('s3',
+        aws_access_key_id=os.environ.get("CLOUDCUBE_ACCESS_KEY_ID"),
+        aws_secret_access_key=os.environ.get("CLOUDCUBE_SECRET_ACCESS_KEY"))
     response = s3.list_buckets()
 
     buckets = response['Buckets']
