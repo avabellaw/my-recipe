@@ -122,8 +122,8 @@ def add_recipe():
     if request.method == "POST":
         title = form.title.data
         desc = form.desc.data 
-        ingredients = form.ingredients.data
-        instructions = form.instructions.data
+        ingredients = form.ingredients.data.strip()
+        instructions = form.instructions.data.strip()
         if form.validate_on_submit():
             image = form.image.data
             if image:
@@ -147,8 +147,8 @@ def add_modified_recipe(recipe_id):
     
     if request.method == "POST":
         if form.validate_on_submit():
-            ingredients = form.ingredients.data
-            instructions = form.instructions.data
+            ingredients = form.ingredients.data.strip()
+            instructions = form.instructions.data.strip()
             extended_desc = form.extended_desc.data
             dietary_tags_id = add_dietary_tags_to_db(form.dietary_tags.data)
             modified_recipe = ModifiedRecipe(modified_by_id=current_user.id, recipe_id=recipe_id, dietary_tags_id=dietary_tags_id, extended_desc=extended_desc, ingredients=ingredients, instructions=instructions) # type: ignore
@@ -174,8 +174,8 @@ def edit_recipe(recipe_id):
         form = AddRecipeForm() if not is_modified_recipe(recipe) else AddModifiedRecipeForm()
         if request.method == "POST":
             if form.validate_on_submit():
-                ingredients = form.ingredients.data
-                instructions = form.instructions.data
+                ingredients = form.ingredients.data.strip()
+                instructions = form.instructions.data.strip()
                 
                 if is_modified_recipe(recipe):
                     extended_desc = form.extended_desc.data
