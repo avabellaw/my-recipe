@@ -19,20 +19,17 @@ login_manager = LoginManager(app)
 login_manager.init_app(app)
 DIETARY_TAGS = ["vv", "v", "gf", "df", "nf", "ef"]
 
+s3 = boto3.client('s3',
+    aws_access_key_id=os.environ.get("CLOUDCUBE_ACCESS_KEY_ID"),
+    aws_secret_access_key=os.environ.get("CLOUDCUBE_SECRET_ACCESS_KEY"))
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
 
 # Homepage
 @app.route("/")
-def home():
-    s3 = boto3.client('s3',
-        aws_access_key_id=os.environ.get("CLOUDCUBE_ACCESS_KEY_ID"),
-        aws_secret_access_key=os.environ.get("CLOUDCUBE_SECRET_ACCESS_KEY"))
-    response = s3.list_buckets()
-
-    buckets = response['Buckets']
-    
+def home():    
     search_form = SearchForm()
     recipes = get_all_recipes()
     add_created_by_to_recipes(recipes)
@@ -119,7 +116,7 @@ def add_recipe():
             image = form.image.data
             if image:
                 # image_url = save_image_locally(image)
-                upload_file(image, 'cloud-cube-eu2')
+                s3.upload_fileobj(image, 'cloud-cube-eu2', '/public/')
                 
             dietary_tags_id = add_dietary_tags_to_db(form.dietary_tags.data)
             recipe = Recipe(user_id=current_user.id, title=title, desc=desc, ingredients=ingredients, instructions=instructions, image_url=image_url if image else null(), dietary_tags_id=dietary_tags_id) # type: ignore
