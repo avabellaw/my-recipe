@@ -34,7 +34,7 @@ def load_user(user_id):
 
 # Homepage
 @app.route("/")
-def home():    
+def home():
     search_form = SearchForm()
     recipes = get_all_recipes()
     add_created_by_to_recipes(recipes)
@@ -127,7 +127,7 @@ def add_recipe():
         if form.validate_on_submit():
             image = form.image.data
             if image:
-                image_url = save_image_locally(image)
+                image_url = save_image(image)
                 
             dietary_tags_id = add_dietary_tags_to_db(form.dietary_tags.data)
             recipe = Recipe(user_id=current_user.id, title=title, desc=desc, ingredients=ingredients, instructions=instructions, image_url=image_url if image else null(), dietary_tags_id=dietary_tags_id) # type: ignore
