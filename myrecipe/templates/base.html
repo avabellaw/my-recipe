@@ -65,8 +65,9 @@
                             </a>
                         </li>
                         {% else %}
-                        <li><a href="{{ url_for('login') }}" class="waves-effect waves-light btn"
-                                id="login-btn">Login</a></li>
+                        <li>
+                            <a href="{{ url_for('login') }}" class="waves-effect waves-light btn login-btn">Login</a>
+                        </li>
                         {% endif %}
                     </ul>
                 </div>
@@ -89,8 +90,7 @@
             </ul>
             {% else %}
             <li id="mobile-sidenav_login-btn">
-                <a href="{{ url_for('login') }}"><span class="waves-effect waves-light btn"
-                        id="login-btn">Login</span></a>
+                <a href="{{ url_for('login') }}"><span class="waves-effect waves-light btn login-btn">Login</span></a>
             </li>
             {% endif %}
         </ul>

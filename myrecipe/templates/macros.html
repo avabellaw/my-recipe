@@ -3,34 +3,34 @@
 
 {% if recipe.has_dietary_tags %}
 
-<div id="dietary-tag-container">
+<div class="dietary-tag-container">
     {% if recipe.is_vegan %}
     <div class="dietary-tag hint--bottom" aria-label="Vegan">
-        <img src="{{ url_for('static', filename='images/dietary-tags/vegan-icon.webp')}}" alt="Vegan">
+        <img src="{{ url_for('static', filename='images/dietary-tags/vegan-icon.webp')}}" aria-hidden="true">
     </div>
     {% endif %}
 
     {% if recipe.is_vegetarian %}
     <div class="dietary-tag hint--bottom" aria-label="Vegetarian">
-        <img src="{{ url_for('static', filename='images/dietary-tags/vegetarian-icon.webp')}}" alt="Vegetarian">
+        <img src="{{ url_for('static', filename='images/dietary-tags/vegetarian-icon.webp')}}" aria-hidden="true">
     </div>
     {% endif %}
 
     {% if recipe.is_gluten_free %}
     <div class="dietary-tag hint--bottom" aria-label="Gluten-Free">
-        <img src="{{ url_for('static', filename='images/dietary-tags/gluten-free-icon.webp')}}" alt="Gluten-Free">
+        <img src="{{ url_for('static', filename='images/dietary-tags/gluten-free-icon.webp')}}" aria-hidden="true">
     </div>
     {% endif %}
 
     {% if recipe.is_dairy_free %}
     <div class="dietary-tag hint--bottom" aria-label="Dairy-Free">
-        <img src="{{ url_for('static', filename='images/dietary-tags/dairy-free-icon.webp')}}" alt="Dairy-Free">
+        <img src="{{ url_for('static', filename='images/dietary-tags/dairy-free-icon.webp')}}" aria-hidden="true">
     </div>
     {% endif %}
 
     {% if recipe.is_nut_free %}
     <div class="dietary-tag hint--bottom" aria-label="Nut-Free">
-        <img src="{{ url_for('static', filename='images/dietary-tags/nut-free-icon.webp')}}" alt="Nut-Free">
+        <img src="{{ url_for('static', filename='images/dietary-tags/nut-free-icon.webp')}}" aria-hidden="true">
     </div>
     {% endif %}
 
@@ -57,17 +57,16 @@
                 {% if recipe.original_recipe != null %}
                 <span class="recipe-card_modified-tag">Modified</span>
                 {% endif %}
-
-                <!-- Display dietary tags -->
-                {{ displayDietaryTags(recipe) }}
             </h3>
+            <!-- Display dietary tags -->
+            {{ displayDietaryTags(recipe) }}
             <div class="card horizontal">
                 <div class="card-image">
                     {% if recipe.image_url == None %}
                     <img src="{{ url_for('static', filename='images/default-recipe-image.webp') }}"
                         alt="Default recipe image">
                     {% else %}
-                    <img src="{{ recipe.image_url }}" aria-labelledby="recipe-card_title">
+                    <img src="{{ recipe.image_url }}" alt="Recipe image">
                     {% endif %}
                 </div>
                 <div class="card-stacked">
