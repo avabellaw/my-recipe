@@ -137,14 +137,14 @@ nav>.nav-wrapper ul a {
     font-size: 1.2em;
 }
 
-#login-btn {
+.login-btn {
     margin-right: 0;
     background-color: #ffc87f;
     text-transform: capitalize;
     border-radius: 10%;
 }
 
-#login-btn:hover {
+.login-btn:hover {
     background-color: #ffcd61;
 }
 
@@ -177,7 +177,7 @@ i.right.arrow-dropdown-icon {
     background-color: rgba(240, 248, 255, 0.719);
 }
 
-span#login-btn {
+span.login-btn {
     height: 100%;
     display: flex;
     justify-content: center;
@@ -485,7 +485,7 @@ p#created-by {
 
 /* Recipe styles */
 
-#dietary-tag-container {
+.dietary-tag-container {
     height: 1.2em;
     padding: 1em;
     box-sizing: content-box;
@@ -494,13 +494,16 @@ p#created-by {
     justify-content: center;
 }
 
-.recipe-card #dietary-tag-container {
+.recipe-card .dietary-tag-container {
     padding: 0;
     border-bottom: none;
     margin-bottom: 0;
-    font-size: 0.6em;
+    font-size: 1em;
     justify-content: left;
     margin-top: 0.5em;
+    display: inline-flex;
+    align-items: baseline;
+    height: fit-content;
 }
 
 .dietary-tag {
@@ -518,9 +521,7 @@ p#created-by {
     word-wrap: break-word;
     font-family: "Karla", sans-serif;
     font-weight: 500;
-    display: flex;
-    align-items: baseline;
-    flex-wrap: wrap;
+    display: inline-flex;
 }
 
 .recipe-card_title > span.recipe-title {
@@ -528,15 +529,9 @@ p#created-by {
 }
 
 @media screen and (min-width: 600px) {
-    .recipe-card #dietary-tag-container {
-        font-size: 0.5em;
+    .recipe-card .dietary-tag-container {
         height: 1.1em;
         margin-top: 0;
-    }
-
-    .recipe-card_title {
-        display: flex;
-        align-items: baseline;
     }
 }
 
@@ -569,7 +564,7 @@ p#created-by {
 /* Hint.css */
 
 [class*=hint--]:after {
-    font-size: 0.7em;
+    font-size: 0.9em;
 }
 
 /* End of Hint.css */
