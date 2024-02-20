@@ -5,6 +5,7 @@ from flask_bcrypt import Bcrypt
 from sqlalchemy import Boolean, null
 from myrecipe import db, app
 from myrecipe.models import DietaryTags, User, Recipe, SavedRecipe, ModifiedRecipe
+import boto3
 
 # WTForms imports
 from flask_wtf import FlaskForm
