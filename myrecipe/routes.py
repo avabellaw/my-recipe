@@ -172,8 +172,9 @@ def edit_recipe(recipe_id):
                     recipe.instructions = instructions
                 image = form.image.data
                 if image:
-                    if image.filename != recipe.image_url.split("/")[-1]:
-                            delete_image(recipe.image_url)
+                    if image.filename != recipe.image_url.split("/")[-1] or not image_exists(recipe.image_url):
+                            if image_exists(recipe.image_url):
+                                delete_image(recipe.image_url)
                             recipe.image_url = save_image_locally(image)
                 db.session.add(recipe)
                 db.session.commit()
@@ -207,11 +208,11 @@ def edit_recipe(recipe_id):
 def delete_recipe(recipe_id):
     recipe = get_recipe(recipe_id)
     if user_owns_recipe(current_user.id, recipe):
-        if recipe.image_url and os.path.exists(app.config["PACKAGE_NAME"] + "/" + recipe.image_url):
+        if recipe.image_url and image_exists(recipe.image_url) and not hasattr(recipe, "original_recipe"):
             delete_image(recipe.image_url) 
+        flash(f'Recipe "{recipe}" deleted.', "success")
         db.session.delete(recipe)
         db.session.commit()
-        flash(f'Recipe "{recipe}" deleted.', "success")
         return redirect(url_for("my_recipes"))
 
     flash("You can only delete your own recipes.", "danger")
@@ -366,6 +367,9 @@ def save_image_locally(image):
 
 def delete_image(image_url):
     os.remove(os.path.join(app.config["PACKAGE_NAME"] + "/" + image_url))
+    
+def image_exists(image_url):
+    return os.path.exists(app.config["PACKAGE_NAME"] + "/" + image_url)
 
 def user_owns_recipe(user_id, recipe):
     if hasattr(recipe, "modified_by_id"):
