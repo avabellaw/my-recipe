@@ -2,18 +2,18 @@
 
 {% from "macros.html" import displayDietaryTags %}
 
-<!-- Initialize isModifiedRecipe -->
+<!-- Initialize is_modified_recipe -->
 {% if recipe.original_recipe == null %}
-{% set isModifiedRecipe = false %}
+{% set is_modified_recipe = false %}
 {% else %}
-{% set isModifiedRecipe = true %}
+{% set is_modified_recipe = true %}
 {% endif %}
 
-<!-- Initialize isOwnedByUser -->
-{% if not isModifiedRecipe %}
-{% set isOwnedByUser = current_user.id == recipe.user_id %}
+<!-- Initialize is_owned_by_user -->
+{% if not is_modified_recipe %}
+{% set is_owned_by_user = current_user.id == recipe.user_id %}
 {% else %}
-{% set isOwnedByUser = current_user.id == recipe.modified_by_id %}
+{% set is_owned_by_user = current_user.id == recipe.modified_by_id %}
 {% endif %}
 
 {% block content %}
@@ -42,19 +42,20 @@
                         <!-- Recipe title -->
                         <h1>
                             {{ recipe.title }}
-                            {% if isModifiedRecipe %}
+                            {% if is_modified_recipe %}
                             <span class="recipe-card_modified-tag">Modified</span>
                             {% endif %}
                         </h1>
                         {% if current_user.is_authenticated %}
-                        {% if isOwnedByUser %}
+                        {% if is_owned_by_user or is_admin %}
 
                         <!-- Settings dropdown trigger -->
-                        <a class='dropdown-trigger orange-text' href='#' data-target='recipe-settings'>
+                        <a id="edit-recipe" class='dropdown-trigger orange-text' href='#' data-target='recipe-settings'>
                             <i class="material-icons">settings</i>
                             EDIT RECIPE
                         </a>
-                        {% else %}
+                        {% endif %}
+                        {% if not is_owned_by_user or is_admin %}
                         <!-- Save recipe heart -->
                         <button id="save-recipe-button" aria-labelledby="save-recipe-button_text" class="orange-text">
                             {% if recipe_is_saved %}
@@ -70,14 +71,14 @@
                         {% endif %}
                     </div>
 
-                    {% if not isModifiedRecipe and isOwnedByUser == false %}
+                    {% if not is_modified_recipe and is_owned_by_user == false %}
                     <a id="template-button" href="{{ url_for('add_modified_recipe', recipe_id=recipe.id) }}"
                         class="btn orange darken-3">
                         Use as template
                     </a>
                     {% endif %}
 
-                    {% if isOwnedByUser %}
+                    {% if is_owned_by_user or is_admin %}
                     <!-- Settings dropdown -->
                     <ul id='recipe-settings' class='dropdown-content'>
                         <li><a href="{{ url_for('edit_recipe', recipe_id=recipe.id) }}">Edit</a></li>
@@ -101,7 +102,7 @@
                     {% endif %}
 
                     <!-- Recipe Description -->
-                    {% if isModifiedRecipe %}
+                    {% if is_modified_recipe %}
                     <a href="{{ url_for('view_recipe', recipe_id=recipe.original_recipe.id)}}">View original recipe,
                         created by {{ recipe.created_by }}</a>
                     <p>"{{ recipe.desc }}"</p>
@@ -113,7 +114,7 @@
                     <!-- Recipe created by -->
                     <p id="created-by">
                         <small>
-                            {% if isModifiedRecipe %}
+                            {% if is_modified_recipe %}
                             ~ Modified by {{ recipe.modified_by }}
                             {% else %}
                             ~ Created by {{ recipe.created_by }}
@@ -168,7 +169,7 @@
     });
 </script>
 
-{% if current_user.is_authenticated and not isOwnedByUser %}
+{% if current_user.is_authenticated and not is_owned_by_user %}
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         let saveRecipeButton = document.getElementById("save-recipe-button");
