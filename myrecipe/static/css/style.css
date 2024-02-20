@@ -467,6 +467,11 @@ p#created-by {
     margin: 0.5em 0;
 }
 
+/* For admin */
+#edit-recipe:has(+ ul + #save-recipe-button) {
+    margin-right: 0.5em;
+}
+
 @media screen and (min-width: 600px) {
     #recipe-content {
         font-size: 1.5em;

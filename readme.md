@@ -234,6 +234,8 @@ $ git clone https://github.com/avabellaw/my-recipe
     * Content based on recipe by bbcgoodfood [https://www.bbcgoodfood.com/recipes/chilli-con-carne-recipe]
 * Simple pasta
     * Image from unsplash by Ben Lei [https://unsplash.com/photos/potato-fries-on-white-ceramic-plate-flFd8L7_B3g]
+* Pizza
+    Image from pixabay by igorovsyannykov [https://pixabay.com/photos/pizza-italian-homemade-cheese-3007395/]
 
 ### Code
 

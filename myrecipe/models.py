@@ -8,6 +8,11 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
     password = db.Column(db.String(), nullable=False)
+    user_type = db.Column(db.String(20), nullable=False)
+    
+    recipes = db.relationship("Recipe", backref="user", cascade="all, delete")
+    saved_recipes = db.relationship("SavedRecipe", backref="user", cascade="all, delete")
+    modified_recipes = db.relationship("ModifiedRecipe", backref="user", cascade="all, delete")
     
     def __repr__(self):
         return f"User {self.id} - {self.username}"

@@ -6,6 +6,7 @@ from sqlalchemy import Boolean, null
 from myrecipe import db, app
 from myrecipe.models import DietaryTags, User, Recipe, SavedRecipe, ModifiedRecipe
 import boto3
+from enum import Enum
 
 # WTForms imports
 from flask_wtf import FlaskForm
@@ -18,6 +19,9 @@ bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 login_manager.init_app(app)
 DIETARY_TAGS = ["vv", "v", "gf", "df", "nf", "ef"]
+class UserType(Enum):
+    STANDARD = "STANDARD"
+    ADMIN = "ADMIN"
 
 if not app.config["SAVE_IMAGES_LOCALLY"]:
     s3 = boto3.client('s3',
@@ -42,6 +46,11 @@ def home():
 def login():
     if current_user.is_authenticated:
         return redirect(url_for("home"))
+    
+    if User.query.filter_by(user_type=UserType.ADMIN.value).first() == None:
+        admin = User(username="admin", password=bcrypt.generate_password_hash("password").decode("utf-8"), user_type=UserType.ADMIN.value)
+        db.session.add(admin)
+        db.session.commit()
     
     form = LoginForm()
         
@@ -74,7 +83,7 @@ def register():
             username = form.username.data
             password = form.password.data
             encrypted_pass = bcrypt.generate_password_hash(password).decode("utf-8")
-            user = User(username=username, password=encrypted_pass) # type: ignore
+            user = User(username=username, password=encrypted_pass, user_type=UserType.STANDARD.value) # type: ignore
             db.session.add(user)
             db.session.commit()
             return redirect(url_for("login"))
@@ -100,7 +109,9 @@ def view_recipe(recipe_id):
     add_created_by_to_recipes([recipe])
     add_dietary_tags_to_recipes([recipe])
     
-    return render_template("view-recipe.html", recipe=recipe, recipe_is_saved=recipe_is_saved)
+    is_admin = is_user_admin(current_user.id) if current_user.is_authenticated else False
+    
+    return render_template("view-recipe.html", recipe=recipe, recipe_is_saved=recipe_is_saved, is_admin=is_admin)
 
 # Add recipe
 @app.route("/add-recipe", methods=["GET", "POST"])
@@ -159,7 +170,7 @@ def add_modified_recipe(recipe_id):
 def edit_recipe(recipe_id):
     recipe = get_recipe(recipe_id)
     add_dietary_tags_to_recipes([recipe])
-    if user_owns_recipe(current_user.id, recipe): #type: ignore
+    if user_owns_recipe(current_user.id, recipe) or is_user_admin(current_user.id):
         form = AddRecipeForm() if not is_modified_recipe(recipe) else AddModifiedRecipeForm()
         if request.method == "POST":
             if form.validate_on_submit():
@@ -201,7 +212,7 @@ def edit_recipe(recipe_id):
 @login_required
 def delete_recipe(recipe_id):
     recipe = get_recipe(recipe_id)
-    if user_owns_recipe(current_user.id, recipe):
+    if user_owns_recipe(current_user.id, recipe) or is_user_admin(current_user.id):
         if recipe.image_url and image_exists(recipe.image_url) and not is_modified_recipe(recipe):
             delete_image(recipe.image_url) 
         flash(f'Recipe "{recipe}" deleted.', "success")
@@ -483,7 +494,6 @@ def update_modified_recipe(recipe, instructions, ingredients, extended_desc):
     db.session.add(recipe)
     db.session.commit()
 
-# CHECK THIS WORK PROPERLY
 def update_dietary_tags(recipe, new_dietary_tags_data):
     dietary_tags = DietaryTags.query.get(recipe.dietary_tags_id)
     dietart_tag_data = dietary_tag_bools_to_data(get_recipe_dietary_tags_bools(recipe))
@@ -497,27 +507,9 @@ def update_dietary_tags(recipe, new_dietary_tags_data):
         db.session.add(dietary_tags)
         db.session.commit()
         
-def upload_file(file_name, bucket, object_name=None):
-    """Upload a file to an S3 bucket
+def is_user_admin(user_id):
+    return User.query.filter_by(id=user_id, user_type=UserType.ADMIN.value).first() != None
 
-    :param file_name: File to upload
-    :param bucket: Bucket to upload to
-    :param object_name: S3 object name. If not specified then file_name is used
-    :return: True if file was uploaded, else False
-    """
-
-    # If S3 object_name was not specified, use file_name
-    if object_name is None:
-        object_name = os.path.basename(file_name)
-
-    # Upload the file
-    s3_client = boto3.client('s3')
-    try:
-        response = s3_client.upload_file(file_name, bucket, object_name)
-    except ClientError as e:
-        logging.error(e)
-        return False
-    return True
 
 # Wtforms
 

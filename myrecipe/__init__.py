@@ -33,3 +33,4 @@ db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 
 from myrecipe import routes
+from myrecipe.models import User
