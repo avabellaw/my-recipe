@@ -154,51 +154,39 @@ def edit_recipe(recipe_id):
     recipe = get_recipe(recipe_id)
     add_dietary_tags_to_recipes([recipe])
     if user_owns_recipe(current_user.id, recipe): #type: ignore
-        form = AddRecipeForm()
+        form = AddRecipeForm() if not is_modified_recipe(recipe) else AddModifiedRecipeForm()
         if request.method == "POST":
             if form.validate_on_submit():
-                title = form.title.data
-                desc = form.desc.data 
                 ingredients = form.ingredients.data
                 instructions = form.instructions.data
                 
-                if title != recipe.title:
-                    recipe.title = title
-                if desc != recipe.desc:
-                    recipe.desc = desc
-                if ingredients != recipe.ingredients:
-                    recipe.ingredients = ingredients
-                if instructions != recipe.instructions:
-                    recipe.instructions = instructions
-                image = form.image.data
-                if image:
-                    if image.filename != recipe.image_url.split("/")[-1] or not image_exists(recipe.image_url):
-                            if image_exists(recipe.image_url):
-                                delete_image(recipe.image_url)
-                            recipe.image_url = save_image_locally(image)
-                db.session.add(recipe)
-                db.session.commit()
+                if is_modified_recipe(recipe):
+                    extended_desc = form.extended_desc.data
+                    update_modified_recipe(recipe, instructions, ingredients, extended_desc)
+                else:
+                    title = form.title.data
+                    desc = form.desc.data 
+                    image = form.image.data
+                    
+                    update_recipe(recipe, title, desc, ingredients, instructions, image)
                 
-                dietary_tags = DietaryTags.query.get(recipe.dietary_tags_id)
-                dietart_tag_bools = dietary_tag_bools_to_data(get_recipe_dietary_tags_bools(recipe))
-                if dietart_tag_bools != form.dietary_tags.data:
-                    dietary_tags.is_vegan = "vv" in form.dietary_tags.data
-                    dietary_tags.is_vegetarian = "v" in form.dietary_tags.data
-                    dietary_tags.is_gluten_free = "gf" in form.dietary_tags.data
-                    dietary_tags.is_dairy_free = "df" in form.dietary_tags.data
-                    dietary_tags.is_nut_free = "nf" in form.dietary_tags.data
-                    dietary_tags.is_egg_free = "ef" in form.dietary_tags.data
-                    db.session.add(dietary_tags)
-                    db.session.commit()
+                update_dietary_tags(recipe.dietary_tags_id, form.dietary_tags.data)
                 return redirect(url_for("view_recipe", recipe_id=recipe.id))
             return render_template("edit-recipe.html", form=form)
+        
         set_default_dietary_tags(form, dietary_tag_bools_to_data(get_recipe_dietary_tags_bools(recipe)))
-        form.title.data = recipe.title # type: ignore
-        form.desc.data = recipe.desc # type: ignore
+        
         form.ingredients.data = recipe.ingredients # type: ignore
         form.instructions.data = recipe.instructions # type: ignore
-        form.image.data = recipe.image_url # type: ignore
-        return render_template("edit-recipe.html", form=form, recipe=recipe)    
+        
+        if is_modified_recipe(recipe):
+            form.extended_desc.data = recipe.extended_desc # type: ignore
+            return render_template("edit-modified-recipe.html", form=form, recipe=recipe)
+        else:
+            form.title.data = recipe.title # type: ignore
+            form.desc.data = recipe.desc # type: ignore
+            form.image.data = recipe.image_url # type: ignore
+            return render_template("edit-recipe.html", form=form, recipe=recipe)    
     flash("You can only edit your own recipes.", "danger")
     return redirect(url_for("my_recipes"))
 
@@ -208,7 +196,7 @@ def edit_recipe(recipe_id):
 def delete_recipe(recipe_id):
     recipe = get_recipe(recipe_id)
     if user_owns_recipe(current_user.id, recipe):
-        if recipe.image_url and image_exists(recipe.image_url) and not hasattr(recipe, "original_recipe"):
+        if recipe.image_url and image_exists(recipe.image_url) and not is_modified_recipe(recipe):
             delete_image(recipe.image_url) 
         flash(f'Recipe "{recipe}" deleted.', "success")
         db.session.delete(recipe)
@@ -337,7 +325,7 @@ def add_dietary_tags_to_db(form_dietary_tags):
             
 def add_created_by_to_recipes(recipes):
     for recipe in recipes:
-        user_id = recipe.original_recipe.user_id if hasattr(recipe, "original_recipe") else recipe.user_id # type: ignore
+        user_id = recipe.original_recipe.user_id if is_modified_recipe(recipe) else recipe.user_id # type: ignore
         recipe.created_by = User.query.filter_by(id=user_id).first().username # type: ignore            
         
 def has_user_saved_recipe(user_id, recipe_id):
@@ -372,7 +360,7 @@ def image_exists(image_url):
     return os.path.exists(app.config["PACKAGE_NAME"] + "/" + image_url)
 
 def user_owns_recipe(user_id, recipe):
-    if hasattr(recipe, "modified_by_id"):
+    if is_modified_recipe(recipe):
         # If modified recipe, check the modified_by_id with user_id
         return recipe.modified_by_id == user_id # type: ignore
     else:
@@ -447,6 +435,51 @@ def dietary_tag_bools_to_data(dietary_tags):
 
 def get_recipe_dietary_tags_bools(recipe):
     return [recipe.is_vegan, recipe.is_vegetarian, recipe.is_gluten_free, recipe.is_dairy_free, recipe.is_nut_free, recipe.is_egg_free]
+
+def is_modified_recipe(recipe):
+    return hasattr(recipe, "original_recipe")
+
+def update_recipe(recipe, title, desc, ingredients, instructions, image_url):
+    if title != recipe.title:
+        recipe.title = title
+    if desc != recipe.desc:
+        recipe.desc = desc
+    if ingredients != recipe.ingredients:
+        recipe.ingredients = ingredients
+    if instructions != recipe.instructions:
+        recipe.instructions = instructions
+    image = form.image.data
+    if image:
+        if image.filename != recipe.image_url.split("/")[-1] or not image_exists(recipe.image_url):
+                if image_exists(recipe.image_url):
+                    delete_image(recipe.image_url)
+                recipe.image_url = save_image_locally(image)
+    db.session.add(recipe)
+    db.session.commit()
+
+def update_modified_recipe(recipe, instructions, ingredients, extended_desc):
+    if extended_desc != recipe.extended_desc:
+        recipe.extended_desc = extended_desc
+    if ingredients != recipe.ingredients:
+        recipe.ingredients = ingredients
+    if instructions != recipe.instructions:
+        recipe.instructions = instructions
+    db.session.add(recipe)
+    db.session.commit()
+
+# CHECK THIS WORK PROPERLY
+def update_dietary_tags(dietary_tags_id, dietary_tags_data):
+    dietary_tags = DietaryTags.query.get(recipe.dietary_tags_id)
+    dietart_tag_bools = dietary_tag_bools_to_data(get_recipe_dietary_tags_bools(recipe))
+    if dietart_tag_bools != form.dietary_tags.data:
+        dietary_tags.is_vegan = "vv" in form.dietary_tags.data
+        dietary_tags.is_vegetarian = "v" in form.dietary_tags.data
+        dietary_tags.is_gluten_free = "gf" in form.dietary_tags.data
+        dietary_tags.is_dairy_free = "df" in form.dietary_tags.data
+        dietary_tags.is_nut_free = "nf" in form.dietary_tags.data
+        dietary_tags.is_egg_free = "ef" in form.dietary_tags.data
+        db.session.add(dietary_tags)
+        db.session.commit()
 
 # Wtforms
 
