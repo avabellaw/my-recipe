@@ -34,7 +34,7 @@ def home():
     recipes = get_all_recipes()
     add_created_by_to_recipes(recipes)
     add_dietary_tags_to_recipes(recipes)
-    return render_template("index.html", recipes=recipes, search_form=search_form, buckets=buckets)
+    return render_template("index.html", recipes=recipes, search_form=search_form)
 
 # Login user
 @app.route("/login", methods=["GET", "POST"])
