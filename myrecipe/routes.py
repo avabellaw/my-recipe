@@ -176,7 +176,7 @@ def edit_recipe(recipe_id):
                     
                     update_recipe(recipe, title, desc, ingredients, instructions, image)
                 
-                update_dietary_tags(recipe.dietary_tags_id, form.dietary_tags.data)
+                update_dietary_tags(recipe, form.dietary_tags.data)
                 return redirect(url_for("view_recipe", recipe_id=recipe.id))
             return render_template("edit-recipe.html", form=form)
         
@@ -456,7 +456,7 @@ def get_recipe_dietary_tags_bools(recipe):
 def is_modified_recipe(recipe):
     return hasattr(recipe, "original_recipe")
 
-def update_recipe(recipe, title, desc, ingredients, instructions, image_url):
+def update_recipe(recipe, title, desc, ingredients, instructions, image):
     if title != recipe.title:
         recipe.title = title
     if desc != recipe.desc:
@@ -465,7 +465,6 @@ def update_recipe(recipe, title, desc, ingredients, instructions, image_url):
         recipe.ingredients = ingredients
     if instructions != recipe.instructions:
         recipe.instructions = instructions
-    image = form.image.data
     if image:
         if image.filename != recipe.image_url.split("/")[-1] or not image_exists(recipe.image_url):
                 if image_exists(recipe.image_url):
@@ -485,16 +484,16 @@ def update_modified_recipe(recipe, instructions, ingredients, extended_desc):
     db.session.commit()
 
 # CHECK THIS WORK PROPERLY
-def update_dietary_tags(dietary_tags_id, dietary_tags_data):
+def update_dietary_tags(recipe, new_dietary_tags_data):
     dietary_tags = DietaryTags.query.get(recipe.dietary_tags_id)
-    dietart_tag_bools = dietary_tag_bools_to_data(get_recipe_dietary_tags_bools(recipe))
-    if dietart_tag_bools != form.dietary_tags.data:
-        dietary_tags.is_vegan = "vv" in form.dietary_tags.data
-        dietary_tags.is_vegetarian = "v" in form.dietary_tags.data
-        dietary_tags.is_gluten_free = "gf" in form.dietary_tags.data
-        dietary_tags.is_dairy_free = "df" in form.dietary_tags.data
-        dietary_tags.is_nut_free = "nf" in form.dietary_tags.data
-        dietary_tags.is_egg_free = "ef" in form.dietary_tags.data
+    dietart_tag_data = dietary_tag_bools_to_data(get_recipe_dietary_tags_bools(recipe))
+    if dietart_tag_data != new_dietary_tags_data:
+        dietary_tags.is_vegan = "vv" in new_dietary_tags_data
+        dietary_tags.is_vegetarian = "v" in new_dietary_tags_data
+        dietary_tags.is_gluten_free = "gf" in new_dietary_tags_data
+        dietary_tags.is_dairy_free = "df" in new_dietary_tags_data
+        dietary_tags.is_nut_free = "nf" in new_dietary_tags_data
+        dietary_tags.is_egg_free = "ef" in new_dietary_tags_data4
         db.session.add(dietary_tags)
         db.session.commit()
         
