@@ -25,11 +25,16 @@ def load_user(user_id):
 # Homepage
 @app.route("/")
 def home():
+    s3 = boto3.client('s3')
+    response = s3.list_buckets()
+
+    buckets = response['Buckets']
+    
     search_form = SearchForm()
     recipes = get_all_recipes()
     add_created_by_to_recipes(recipes)
     add_dietary_tags_to_recipes(recipes)
-    return render_template("index.html", recipes=recipes, search_form=search_form)
+    return render_template("index.html", recipes=recipes, search_form=search_form, buckets=buckets)
 
 # Login user
 @app.route("/login", methods=["GET", "POST"])
