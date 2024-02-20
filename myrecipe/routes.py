@@ -483,7 +483,6 @@ def update_modified_recipe(recipe, instructions, ingredients, extended_desc):
     db.session.add(recipe)
     db.session.commit()
 
-# CHECK THIS WORK PROPERLY
 def update_dietary_tags(recipe, new_dietary_tags_data):
     dietary_tags = DietaryTags.query.get(recipe.dietary_tags_id)
     dietart_tag_data = dietary_tag_bools_to_data(get_recipe_dietary_tags_bools(recipe))

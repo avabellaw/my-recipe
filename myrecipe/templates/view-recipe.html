@@ -145,7 +145,7 @@
                     <div class="inner-container">
                         <h2 class="center">Instructions</h2>
                         <hr>
-                        {% for instruction in recipe.instructions.split("\r\n\r\n") %}
+                        {% for instruction in recipe.instructions.splitlines(keepends=True) %}
                         <h3>Step {{ loop.index}}</h3>
                         {{ instruction }}
 
