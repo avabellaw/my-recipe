@@ -24,6 +24,10 @@ else:
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['PACKAGE_NAME'] = PACKAGE_NAME
 
+has_aws_creds = os.environ.get("CLOUDCUBE_ACCESS_KEY_ID") != None and os.environ.get("CLOUDCUBE_SECRET_ACCESS_KEY") != None and os.environ.get("CLOUDCUBE_URL") != None
+
+app.config['SAVE_IMAGES_LOCALLY'] = not has_aws_creds
+
 db = SQLAlchemy(model_class=Base)
 
 db.init_app(app)

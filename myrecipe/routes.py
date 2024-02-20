@@ -19,7 +19,8 @@ login_manager = LoginManager(app)
 login_manager.init_app(app)
 DIETARY_TAGS = ["vv", "v", "gf", "df", "nf", "ef"]
 
-s3 = boto3.client('s3',
+if not app.config["SAVE_IMAGES_LOCALLY"]:
+    s3 = boto3.client('s3',
     aws_access_key_id=os.environ.get("CLOUDCUBE_ACCESS_KEY_ID"),
     aws_secret_access_key=os.environ.get("CLOUDCUBE_SECRET_ACCESS_KEY"))
 
@@ -115,8 +116,7 @@ def add_recipe():
         if form.validate_on_submit():
             image = form.image.data
             if image:
-                # image_url = save_image_locally(image)
-                s3.upload_fileobj(image, 'cloud-cube-eu2', '/public/')
+                image_url = save_image_locally(image)
                 
             dietary_tags_id = add_dietary_tags_to_db(form.dietary_tags.data)
             recipe = Recipe(user_id=current_user.id, title=title, desc=desc, ingredients=ingredients, instructions=instructions, image_url=image_url if image else null(), dietary_tags_id=dietary_tags_id) # type: ignore
@@ -337,6 +337,17 @@ def add_created_by_to_recipes(recipes):
 def has_user_saved_recipe(user_id, recipe_id):
     return bool(SavedRecipe.query.filter_by(user_id=user_id, recipe_id=recipe_id).first()) 
 
+def save_image(image):
+    if app.config["SAVE_IMAGES_LOCALLY"]:
+        return save_image_locally(image)
+    else:
+        return upload_image(image)
+    
+def upload_image(image):
+    filename = secure_filename(image.filename)
+    s3.upload_fileobj(image, 'cloud-cube-eu2', 'ucv6br55k8nw/public/' + filename)
+    return f'{os.environ.get("CLOUDCUBE_URL")}/public/{filename}'
+
 def save_image_locally(image):  
     filename = secure_filename(image.filename)
     save_path = app.config["PACKAGE_NAME"] + "/" + app.config['UPLOAD_FOLDER']
@@ -459,7 +470,7 @@ def update_recipe(recipe, title, desc, ingredients, instructions, image_url):
         if image.filename != recipe.image_url.split("/")[-1] or not image_exists(recipe.image_url):
                 if image_exists(recipe.image_url):
                     delete_image(recipe.image_url)
-                recipe.image_url = save_image_locally(image)
+                recipe.image_url = save_image(image)
     db.session.add(recipe)
     db.session.commit()
 
