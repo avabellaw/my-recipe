@@ -3,22 +3,24 @@
 
 {% block content %}
 
-<div class="container">
-    <div class="row">
-        <div class="col s12">
-            <h1 class="page-header">Your recipes</h1>
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col s12">
+                <h1 class="page-header">Your recipes</h1>
 
-            <hr>
+                <hr>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col s12">
-            <a href="{{ url_for('add_recipe') }}" class="waves-effect waves-light btn orange darken-3">
-                Add new recipe
-            </a>
+        <div class="row">
+            <div class="col s12">
+                <a href="{{ url_for('add_recipe') }}" class="waves-effect waves-light btn orange darken-3">
+                    Add new recipe
+                </a>
+            </div>
         </div>
+        {{ displayRecipes(recipes) }}
     </div>
-    {{ displayRecipes(recipes) }}
-</div>
+</section>
 
 {% endblock %}
