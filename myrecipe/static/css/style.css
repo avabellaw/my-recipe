@@ -70,6 +70,22 @@ body {
     font-family: "Crimson Text", serif;
 }
 
+form > .input-field input:not(.browser-default):focus:not([readonly]), 
+form > .input-field textarea:not(.browser-default):focus:not([readonly]),
+form > .input-field .select-wrapper input.select-dropdown:focus {
+    /* Override MaterializeCSS */
+    border-bottom: 1px solid var(--main-colour);
+    -webkit-box-shadow: 0 1px 0 0 var(--main-colour);
+    box-shadow: 0 1px 0 0 var(--main-colour);
+}
+
+form > .input-field input:not(.browser-default):focus:not([readonly])+label, 
+form > .input-field textarea:not(.browser-default):focus:not([readonly])+label,
+form > .input-field .select-wrapper:has(input:focus) +label {
+    /* Override MaterializeCSS */
+    color: var(--main-colour);
+}
+
 /* End of general page styles */
 
 /* Flash message */
