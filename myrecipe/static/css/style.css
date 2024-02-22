@@ -142,6 +142,7 @@ form > .input-field .select-wrapper:has(input:focus) +label {
 
 #profile-form_update-password {
     font-size: 1.5em;
+    margin-bottom: 1.2em;
 }
 
 #profile-form > .row {
