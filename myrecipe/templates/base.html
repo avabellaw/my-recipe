@@ -115,8 +115,15 @@
     {% block content %}
     {% endblock %}
 
-    <footer>
-
+    <footer class="page-footer no-padding">
+        <div class="footer-copyright black-text">
+            <div class="container">
+            © {{ current_date.year }} MyRecipe <small>~ created by Ava</small>
+            <a class="black-text right footer_link" target="_blank" href="https://github.com/avabellaw/my-recipe">
+                <img width="24" height="24" src="{{ url_for('static', filename='icons/github.svg')}}" alt="View project on GitHub">
+            </a>
+            </div>
+          </div>
     </footer>
 
     <!-- Materialize JS -->
@@ -152,7 +159,7 @@
                 this.style.display = "none";
             };
 
-            // Scroll to search form [https://stackoverflow.com/questions/31863582/automatically-scroll-to-a-div-when-flask-returns-rendered-template]
+            // Scroll to search-form [https://stackoverflow.com/questions/31863582/automatically-scroll-to-a-div-when-flask-returns-rendered-template]
             document.location.hash = "#" + "{{ scroll }}";
         });
     </script>

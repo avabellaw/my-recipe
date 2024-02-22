@@ -60,7 +60,8 @@ li::marker {
 h1,
 h2,
 a,
-button {
+button,
+.page-footer {
     font-weight: 600;
     font-family: "Karla", sans-serif;
 }
@@ -120,8 +121,10 @@ body {
 /* Navbar */
 
 nav,
-nav>.nav-wrapper {
+nav>.nav-wrapper,
+.page-footer {
     background-color: var(--main-colour);
+    color: black;
 }
 
 nav>.nav-wrapper,
@@ -192,6 +195,14 @@ span.login-btn {
 }
 
 /* End of Navbar */
+
+/* Footer */
+
+.footer_link {
+    display: flex;
+}
+
+/* End of Footer */
 
 /* Homepage */
 
@@ -266,7 +277,7 @@ input#search_bar:focus {
     font-size: 1.5em;
 }
 
-#search-results-filters > span {
+#search-results-filters>span {
     font-size: 0.8em;
 }
 
@@ -522,7 +533,7 @@ p#created-by {
     display: inline-flex;
 }
 
-.recipe-card_title > span.recipe-title {
+.recipe-card_title>span.recipe-title {
     margin-right: 0.3em;
 }
 
