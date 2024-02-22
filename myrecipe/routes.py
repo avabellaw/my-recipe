@@ -20,6 +20,8 @@ bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 login_manager.init_app(app)
 DIETARY_TAGS = ["vv", "v", "gf", "df", "nf", "ef"]
+ADMIN_DEFAULT_PASSWORD = "password"
+    
 class UserType(Enum):
     STANDARD = "STANDARD"
     ADMIN = "ADMIN"
@@ -28,7 +30,6 @@ if not app.config["SAVE_IMAGES_LOCALLY"]:
     s3 = boto3.client('s3',
     aws_access_key_id=os.environ.get("CLOUDCUBE_ACCESS_KEY_ID"),
     aws_secret_access_key=os.environ.get("CLOUDCUBE_SECRET_ACCESS_KEY"))
-
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -58,7 +59,7 @@ def login():
         return redirect(url_for("home"))
     
     if User.query.filter_by(user_type=UserType.ADMIN.value).first() is None:
-        admin = User(username="admin", password=bcrypt.generate_password_hash("password").decode("utf-8"), user_type=UserType.ADMIN.value)
+        admin = User(username="admin", password=bcrypt.generate_password_hash(ADMIN_DEFAULT_PASSWORD).decode("utf-8"), user_type=UserType.ADMIN.value)
         db.session.add(admin)
         db.session.commit()
     
@@ -68,6 +69,9 @@ def login():
         user = get_user(request.form.get("username"))
         if form.validate_on_submit():
             login_user(user)
+            if user.user_type == UserType.ADMIN.value and bcrypt.check_password_hash(user.password, ADMIN_DEFAULT_PASSWORD):
+                flash("Please change the admin password from default.", "danger")
+                return redirect(url_for("profile"))
             flash(f"Welcome back, {user.username}!", "success") # type: ignore
             return redirect(url_for("home"))
     return render_template("login.html", form=form)
