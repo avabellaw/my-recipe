@@ -271,6 +271,9 @@ $ git clone https://github.com/avabellaw/my-recipe
 * Default image if not uploaded with recipe.
     * From Pixabay [https://www.pexels.com/photo/closeup-photography-of-sauteed-garlic-263022/]
 
+* Footer icons.
+    GitHub svg from FontAwesome [https://fontawesome.com/icons/github?f=brands&s=solid]
+
 * Dietary icons
     * Vegan icon from Flaticon by Pixel Perfect [https://www.flaticon.com/free-icon/vegetarian_723633?term=vegetarian&page=1&position=3&origin=tag&related_id=723633]
     * Vegetarian icon from Freepik by Valeria [https://www.freepik.com/icon/lettuce_12114434#fromView=search&term=vegetarian+&track=ais&page=1&position=76&uuid=f94071d6-1b72-4559-b054-b4b8ecfc2af6]

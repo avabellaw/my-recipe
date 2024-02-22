@@ -7,6 +7,7 @@ from myrecipe import db, app
 from myrecipe.models import DietaryTags, User, Recipe, SavedRecipe, ModifiedRecipe
 import boto3
 from enum import Enum
+from datetime import datetime
 
 # WTForms imports
 from flask_wtf import FlaskForm
@@ -31,6 +32,11 @@ if not app.config["SAVE_IMAGES_LOCALLY"]:
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+# Template context processor, injects date for footer
+@app.context_processor
+def inject_date():
+    return {'current_date': datetime.utcnow()}
 
 # Homepage
 @app.route("/")
