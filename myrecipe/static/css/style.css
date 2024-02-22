@@ -164,7 +164,7 @@ nav>.nav-wrapper ul a {
     background-color: rgb(0, 0, 0, 0.05);
 }
 
-#account-dropdown_person-icon {
+.account-dropdown_person-icon {
     margin-right: 0.5rem;
 }
 
@@ -189,7 +189,7 @@ span.login-btn {
     padding: 0 15%;
 }
 
-#mobile-sidenav>#account-dropdown_menu {
+#mobile-sidenav #account-dropdown_menu {
     width: 80%;
     margin: auto;
 }
