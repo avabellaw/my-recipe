@@ -57,7 +57,7 @@ def login():
     if current_user.is_authenticated:
         return redirect(url_for("home"))
     
-    if User.query.filter_by(user_type=UserType.ADMIN.value).first() == None:
+    if User.query.filter_by(user_type=UserType.ADMIN.value).first() is None:
         admin = User(username="admin", password=bcrypt.generate_password_hash("password").decode("utf-8"), user_type=UserType.ADMIN.value)
         db.session.add(admin)
         db.session.commit()
