@@ -148,12 +148,10 @@ I will use a simple and light colour scheme.
 
 ## Testing
 
-### HTML validation
-
-All pages in production were validated using the website address.
+### [W3C Markup Validator](https://validator.w3.org)
 
 <details>
-<summary>[W3C Markup Validator](https://validator.w3.org)</summary>
+<summary>HTML validation results table</summary>
 
 | URL          | Page               | Comments            | Results                |
 |--------------|--------------------|---------------------|------------------------|
