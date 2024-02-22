@@ -118,6 +118,22 @@ body {
 
 /* End of Flash message */
 
+/* Profile */
+
+#profile-form {
+    padding: 2em;
+}
+
+#profile-form_update-password {
+    font-size: 1.5em;
+}
+
+#profile-form > .row {
+    margin-bottom: 0;
+}
+
+/* End of Profile */
+
 /* Navbar */
 
 nav,

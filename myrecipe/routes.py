@@ -103,6 +103,22 @@ def register():
     return render_template("register.html", form=form)
 
 
+# Profile
+@app.route("/profile", methods=["GET", "POST"])
+@login_required
+def profile():
+    form = NewPasswordForm()
+    user = User.query.get(current_user.id)
+    
+    if request.method == "POST":
+        if form.validate_on_submit():
+            user.password = bcrypt.generate_password_hash(form.new_password.data).decode("utf-8")
+            db.session.add(user)
+            db.session.commit()
+            flash("Password updated.", "success")
+    return render_template("profile.html", user=user, form=form)
+
+
 # My recipies
 @app.route("/my-recipes")
 @login_required
@@ -613,3 +629,15 @@ class SearchForm(FlaskForm):
         if not search_bar.data and not self.dietary_tags.data:
             raise ValidationError("Please enter a search query or select a filter.")
     
+class NewPasswordForm(FlaskForm):
+    current_password = PasswordField("Current password:", validators=[DataRequired(), Length(min=8, max=20)])
+    new_password = PasswordField("New password:", validators=[DataRequired(), Length(min=8, max=20)])
+    confirm_password = PasswordField("Confirm new password:", validators=[DataRequired(), EqualTo("new_password", "Passwords must match.")])
+    
+    def validate_current_password(self, current_password):
+        if not bcrypt.check_password_hash(User.query.get(current_user.id).password, self.current_password.data):
+            raise ValidationError("Current password is incorrect.")
+    
+    def validate_confirm_password(self, new_password):
+        if bcrypt.check_password_hash(User.query.get(current_user.id).password, self.new_password.data):
+            raise ValidationError("New password cannot be the same as the current password.")

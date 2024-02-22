@@ -1,45 +1,47 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container">
-    <div class="row">
-        <div class="col s12">
-            <h1 class="page-header">Login</h1>
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col s12">
+                <h1 class="page-header">Login</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12">
+                <form action="{{ url_for('login') }}" method="POST">
+                    {{ form.csrf_token }}
+                    <div class="input-field">
+                        {{ form.username }}
+                        {{ form.username.label }}
+                    </div>
+
+                    {% for error in form.username.errors %}
+                    <p class="validation-message">
+                        <i class="material-icons">error_outline</i> {{ error }}
+                    </p>
+                    {% endfor %}
+
+                    <div class="input-field">
+                        {{ form.password }}
+                        {{ form.password.label }}
+                    </div>
+
+                    {% for error in form.password.errors %}
+                    <p class="validation-message">
+                        <i class="material-icons">error_outline</i> {{ error }}
+                    </p>
+                    {% endfor %}
+
+                    <button class="waves-effect waves-light btn orange darken-3" type="submit" name="action">Login
+                        <i class="material-icons right">send</i>
+                    </button>
+                </form>
+
+                <p>Click here to <a href="{{ url_for('register') }}">register</a></p>
+            </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col s12">
-            <form action="{{ url_for('login') }}" method="POST">
-                {{ form.csrf_token }}
-                <div class="input-field">
-                    {{ form.username }}
-                    {{ form.username.label }}
-                </div>
-
-                {% for error in form.username.errors %}
-                <p class="validation-message">
-                    <i class="material-icons">error_outline</i> {{ error }}
-                </p>
-                {% endfor %}
-
-                <div class="input-field">
-                    {{ form.password }}
-                    {{ form.password.label }}
-                </div>
-
-                {% for error in form.password.errors %}
-                <p class="validation-message">
-                    <i class="material-icons">error_outline</i> {{ error }}
-                </p>
-                {% endfor %}
-
-                <button class="btn waves-effect waves-light" type="submit" name="action">Login
-                    <i class="material-icons right">send</i>
-                </button>
-            </form>
-
-            <p>Click here to <a href="{{ url_for('register') }}">register</a></p>
-        </div>
-    </div>
-</div>
+</section>
 {% endblock %}
