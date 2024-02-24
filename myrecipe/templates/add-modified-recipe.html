@@ -56,7 +56,8 @@
 
                 <!-- Ingredients field -->
                 <div class="input-field">
-                    {{ form.ingredients(class_="materialize-textarea", placeholder="Add each ingredient onto a new line") }}
+                    {{ form.ingredients(class_="materialize-textarea", placeholder="Add each ingredient onto a new
+                    line") }}
                     {{ form.ingredients.label }}
                 </div>
 
@@ -68,7 +69,8 @@
 
                 <!-- Instructions field -->
                 <div class="input-field">
-                    {{ form.instructions(class_="materialize-textarea", placeholder="Add each instruction onto a new line") }}
+                    {{ form.instructions(class_="materialize-textarea", placeholder="Add each instruction onto a new
+                    line") }}
                     {{ form.instructions.label }}
                 </div>
 
@@ -81,7 +83,8 @@
                 <!-- Dietary Tags -->
                 <div class="input-field select-wrapper">
                     {{ form.dietary_tags }}
-                    <label>Add dietary tags</label>
+                    <!-- ID the below <label> is referencing is created by wtforms -->
+                    <label for="dietary_tags">Add dietary tags</label>
                 </div>
 
                 <!-- Submit form button -->
