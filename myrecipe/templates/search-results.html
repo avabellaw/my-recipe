@@ -16,15 +16,15 @@
                     </strong>
                 </h2>                
             </div>
+            {% if dietary_tags %}
             <div class="col s12">
-                {% if dietary_tags %}
                 <span id="search-results-filters" class="no-margin center-on-mobile">Filters:
                     {% for tag in dietary_tags %}
                     <span class="chip">{{ tag }}</span>
                     {% endfor %}
                 </span>
-                {% endif %}
             </div>
+            {% endif %}
         </div>
         {{ displaySearchBox(search_form) }}
 
