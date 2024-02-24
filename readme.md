@@ -174,6 +174,10 @@ I will use a simple and light colour scheme.
 
 ### [W3C CSS Validator](https://jigsaw.w3.org/css-validator)
 
+[No validation errors for style.css](https://jigsaw.w3.org/css-validator/validator?uri=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Fstatic%2Fcss%2Fstyle.css&profile=css3svg&usermedium=all&warning=1&vextwarning=&lang=en)
+
+There are 2 warnings but that's because I am using a vendor extenstion for MateralizeCSS.
+
 ### Testing User Stories From The User Experience Section
 
 ### Automatic Testing (unit tests)
