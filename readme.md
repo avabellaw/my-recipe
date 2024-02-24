@@ -162,7 +162,8 @@ I will use a simple and light colour scheme.
 | /search?...  | Search results     | No        | Only validation warnings due to hint.css aria-labels | [No errors](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Fsearch%3Fsearch_bar%3D%26action%3D%26dietary_tags%3Dvv)|
 | /recipe/4    | View recipe        | No        | Only validations warnings due to hint.css aria-labels | [No errors](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Frecipe%2F4)|
 | /edit-recipe/| Edit recipe        | Yes       | Same aforementioned MaterializeCSS and wtforms SelectMultipleFields errors. Warnings for misuse of aria-label but this is for hint.css | [All passed apart from explained errors](docs/validation/html/edit-recipe.webp)|
- 
+| /add-recipe  | Add recipe         | Yes       | Same already explained errors/warnings. Also has error for no src on image but this is added though JS to show preview of uploaded image | [All passed apart from explained errors](docs/validation/html/add-recipe.webp)|
+   
 </details>
 
 ### [W3C CSS Validator](https://jigsaw.w3.org/css-validator)
