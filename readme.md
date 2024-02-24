@@ -21,7 +21,10 @@ A main feature is that users are able to use existing recipes as a template that
 **As a first-time and recurring user**
 1. I want to be able to easily search recipes with filters.
 2. I want to be able to create my own recipes.
-3. I want to modify other people's recipes.
+3. I want to view all of my own recipes.
+4. I want to use other user's recipes as a template.
+5. I want to be able to save/unsave recipes.
+6. I want to view my saved recipes.
 
 ### Strategy Plane
 
@@ -180,7 +183,13 @@ There are 2 warnings but that's because I am using a vendor extenstion for Mater
 
 ### Testing User Stories From The User Experience Section
 
-### Automatic Testing (unit tests)
+1. "I want to be able to easily search recipes with filters."
+
+2. "I want to be able to create my own recipes."
+3. "I want to view all of my own recipes."
+4. "I want to use other user's recipes as a template."
+5. "I want to be able to save/unsave recipes."
+6. "I want to view my saved recipes."
 
 ### Manual Testing
 
@@ -193,7 +202,7 @@ There are 2 warnings but that's because I am using a vendor extenstion for Mater
 
 #### Google Lighthouse
 
-### Known Bugs
+### Known Issues/Bugs
 
 * A user can save their own recipes by editing the url.
     * There's no backend code to stop you doing this but it's also not a problem.
@@ -201,19 +210,37 @@ There are 2 warnings but that's because I am using a vendor extenstion for Mater
 * Can't save modified recipes.
     * This is due to an oversight with the database model.
     * Saved_Recipes contains the foreign key for only a standard Recipe
+* "A form field element should have an id or name attribute"
+    * The dietary tag fields are created by wtforms.
+* If there is a validation error when searching recipes, it returns to the homepage with the validation message.
+    * It does this when searching using the search box on the search results page when really it should return to the same page.
 
 ### Deployment
 
-#### GitHub Pages
+#### Heroku
 
-The project was deployed to GitHub Pages using the following steps:
+I deployed to Heroku using the following steps:
 
-1. Log in to GitHub and locate the GitHub Repository.
-2. At the top of the Repository no, locate the "Settings" Button on the menu.
-3. Scroll down the Settings page until you locate the "GitHub Pages" Section.
-4. Under "Source", click the dropdown called "None" and select "Master Branch".
-5. The page will automatically refresh.
-6. Scroll back down through the page to locate the published site link in the "GitHub Pages" section.
+1. Create a production branch based of "main". The main branch will be merged into this branch in order to deploy to production.
+2. On the production branch, run "pip3 freeze --local > requirements.txt" to create the requirements file.
+3. On the production branch, add a utf-8 encoded file, named "Procfile" with no extenstion.
+    * Enter "web: python run.py" into the Procfile
+4. On Heroku, add a new project.
+5. Within the new project, go to the "Deploy" tab. 
+6. Choose "GitHub" and connect the repo containing the project. Set the branch to "production".
+7. Add all the enviroment variables.
+    * IP
+    * PORT
+    * SECRET_KEY
+    * DEBUG
+    * DATABASE_URL
+8. For this project, you will also have to set the variables for Cloudcube (An Amazon s3 bucket).
+9. Under "More" in the top-right, click "Run Console".
+10. Enter "python3".
+11. Enter "from myrecipe import app, db, models"
+12. Next enter "with app.app_context():"
+13. Press enter and add a tab. Then enter "app.create_all()". This creates the tables needed from Models.py.
+14. Click "Open App" to view the deployed project.
 
 #### Forking the GitHub Repository
 

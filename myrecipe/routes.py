@@ -525,6 +525,8 @@ def dietary_tag_data_to_bools(dietary_tags):
 
 
 def dietary_tag_data_to_names(dietary_tags):
+    if len(dietary_tags) == 0:
+        return []
     dietary_str = ",".join(dietary_tags)
     dietary_str = dietary_str.replace("vv", "Vegan")
     dietary_str = dietary_str.replace("v", "Vegetarian")
