@@ -5,17 +5,19 @@
 {% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="row">
-        <div class="col s12">
-            <h1 class="page-header">401 - Unauthorized.</h1>
-            <div id="error-page_message-container">
-                <h2>How did you get here?</h2>
-                <br>
-                <p>{{ e }}</p>
-                <p><small>This page will refresh in 10 seconds.</small></p>
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col s12">
+                <h1 class="page-header">401 - Unauthorized.</h1>
+                <div id="error-page_message-container">
+                    <h2>How did you get here?</h2>
+                    <br>
+                    <p>{{ e }}</p>
+                    <p><small>This page will refresh in 10 seconds.</small></p>
+                </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 {% endblock %}
