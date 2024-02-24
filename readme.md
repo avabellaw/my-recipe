@@ -164,6 +164,7 @@ I will use a simple and light colour scheme.
 | /recipe/modified-recipe/2 | View modified recipe | No        | Only hint.css warnings | [No errors](https://validator.w3.org/nu/?showsource=yes&showoutline=yes&doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Fmodified-recipe%2F2)|
 | /edit-recipe/             | Edit recipe          | Yes       | Same aforementioned MaterializeCSS and wtforms SelectMultipleFields errors. Warnings for misuse of aria-label but this is for hint.css | [All passed apart from explained errors](docs/validation/html/edit-recipe.webp)|
 | /add-recipe               | Add recipe           | Yes       | Same already explained errors/warnings. Also has error for no src on image but this is added though JS to show preview of uploaded image | [All passed apart from explained errors](docs/validation/html/add-recipe.webp)|
+| /add-modified-recipe/2    | Add modified recipe  | Yes       | No new errors/warnings | [No errors](docs/validation/html/add-modified-recipe.webp)
    
 </details>
 
