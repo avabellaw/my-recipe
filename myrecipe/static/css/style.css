@@ -306,8 +306,8 @@ input#search_bar:focus {
 }
 
 #search-box_header {
-    margin-top: 0;
     font-size: 2em;
+    color: black;
 }
 
 /* End of Homepage */
