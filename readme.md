@@ -222,7 +222,10 @@ There are 2 warnings but that's because I am using a vendor extenstion for Mater
 
         ![View saved recipes](docs/testing-user-stories/view-saved-recipes.webp)
 7. "I want to be able to edit my recipes."
+    * Users can edit their own recipes by clicking "Edit" under the settings cog.
 
+        ![Edit recipe cog](docs/testing-user-stories/edit-recipe.webp)
+        ![Edit recipe page](docs/testing-user-stories/edit-recipe-page.webp)
 ### Manual Testing
 
 * I tested file formats on the image upload field when adding a new recipe.
