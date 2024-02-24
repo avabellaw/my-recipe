@@ -226,6 +226,7 @@ There are 2 warnings but that's because I am using a vendor extenstion for Mater
 
         ![Edit recipe cog](docs/testing-user-stories/edit-recipe.webp)
         ![Edit recipe page](docs/testing-user-stories/edit-recipe-page.webp)
+
 ### Manual Testing
 
 * I tested file formats on the image upload field when adding a new recipe.
@@ -236,6 +237,18 @@ There are 2 warnings but that's because I am using a vendor extenstion for Mater
 ### Further Testing
 
 #### Google Lighthouse
+
+**Mobile**
+
+* Hompage
+
+    ![Homepage](docs/lighthouse/homepage-mobile.webp)
+
+**Desktop**
+
+* Hompage
+
+    ![Homepage](docs/lighthouse/homepage-desktop.webp)
 
 ### Known Issues/Bugs
 
