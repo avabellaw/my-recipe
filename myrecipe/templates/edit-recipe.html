@@ -11,7 +11,7 @@
     </div>
     <div class="row">
         <div class="col s12">
-            <form action="{{ url_for('edit_recipe', recipe_id=recipe.id) }}" method="post" enctype="multipart/form-data">
+            <form action="{{ url_for('edit_recipe', recipe_id=recipe.id, modified_recipe=False) }}" method="post" enctype="multipart/form-data">
                 {{ form.csrf_token }}
 
                 <!-- Title field -->
