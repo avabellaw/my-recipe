@@ -80,8 +80,7 @@ form > .input-field .select-wrapper input.select-dropdown:focus {
 }
 
 form > .input-field input:not(.browser-default):focus:not([readonly])+label, 
-form > .input-field textarea:not(.browser-default):focus:not([readonly])+label,
-form > .input-field .select-wrapper:has(input:focus) +label {
+form > .input-field textarea:not(.browser-default):focus:not([readonly])+label {
     /* Override MaterializeCSS */
     color: var(--main-colour);
 }
