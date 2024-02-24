@@ -523,6 +523,7 @@ p#created-by {
 #template-button {
     width: fit-content;
     margin: 0.5em 0;
+    color: black;
 }
 
 /* For admin */

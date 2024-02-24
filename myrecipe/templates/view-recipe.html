@@ -73,7 +73,7 @@
 
                     {% if not is_modified_recipe and is_owned_by_user == false %}
                     <a id="template-button" href="{{ url_for('add_modified_recipe', recipe_id=recipe.id) }}"
-                        class="btn orange darken-3">
+                        class="btn orange">
                         Use as template
                     </a>
                     {% endif %}
