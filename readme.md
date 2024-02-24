@@ -238,17 +238,39 @@ There are 2 warnings but that's because I am using a vendor extenstion for Mater
 
 #### Google Lighthouse
 
+I accessed the different pages with Google Lighthouse while hosting the site locally.
+
+The score bubbles are in the following order:
+
+Performance - Accessibility - Best practices - SEO
+
 **Mobile**
 
 * Hompage
 
     ![Homepage](docs/lighthouse/homepage-mobile.webp)
 
+* View recipe
+
+    ![View recipe](docs/lighthouse/view-recipe-mobile.webp)
+
+* Search results
+
+    ![Search results](docs/lighthouse/search-results-mobile.webp)
+
 **Desktop**
 
 * Hompage
 
     ![Homepage](docs/lighthouse/homepage-desktop.webp)
+    
+* View recipe
+
+    ![View recipe](docs/lighthouse/view-recipe-desktop.webp)
+
+* Search results
+
+    ![Search results](docs/lighthouse/search-results-desktop.webp)
 
 ### Known Issues/Bugs
 
