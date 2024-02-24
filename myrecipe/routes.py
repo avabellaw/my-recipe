@@ -129,7 +129,6 @@ def profile():
 @login_required
 def my_recipes():
     recipes = [recipe for recipe in get_all_recipes() if user_owns_recipe(current_user.id, recipe)]
-    recipes.extend(get_all_modified_recipes())
     add_created_by_to_recipes(recipes)
     return render_template("my-recipes.html", recipes=recipes)
 
