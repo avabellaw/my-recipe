@@ -193,7 +193,7 @@ There are 2 warnings but that's because I am using a vendor extenstion for Mater
 
 #### Google Lighthouse
 
-### Known Bugs
+### Known Issues/Bugs
 
 * A user can save their own recipes by editing the url.
     * There's no backend code to stop you doing this but it's also not a problem.
@@ -201,6 +201,8 @@ There are 2 warnings but that's because I am using a vendor extenstion for Mater
 * Can't save modified recipes.
     * This is due to an oversight with the database model.
     * Saved_Recipes contains the foreign key for only a standard Recipe
+* "A form field element should have an id or name attribute"
+    * The dietary tag fields are created by wtforms.
 
 ### Deployment
 
