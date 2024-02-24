@@ -139,14 +139,24 @@ def my_recipes():
 def view_recipe(recipe_id):
     recipe_is_saved = has_user_saved_recipe(current_user.id, recipe_id) if current_user.is_authenticated else False  
     recipe = Recipe.query.get(recipe_id)
-    if not recipe:
-        recipe = get_modified_recipe(recipe_id)
     add_created_by_to_recipes([recipe])
     add_dietary_tags_to_recipes([recipe])
     
     is_admin = is_user_admin(current_user.id) if current_user.is_authenticated else False
     
     return render_template("view-recipe.html", recipe=recipe, recipe_is_saved=recipe_is_saved, is_admin=is_admin)
+
+
+# View modified recipe
+@app.route("/modified-recipe/<int:recipe_id>", methods=["GET", "POST"])
+def view_modified_recipe(recipe_id):
+    recipe = get_modified_recipe(recipe_id)
+    add_dietary_tags_to_recipes([recipe])
+    add_created_by_to_recipes([recipe])
+    
+    is_admin = is_user_admin(current_user.id) if current_user.is_authenticated else False
+    
+    return render_template("view-recipe.html", recipe=recipe, recipe_is_saved=False, is_admin=is_admin)
 
 
 # Add recipe
