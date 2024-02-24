@@ -38,7 +38,7 @@
     </div>
     <div class="row">
         <div class="col s12">
-            <form action="{{ url_for('add_modified_recipe', recipe_id=recipe.original_recipe.id) }}" method="post"
+            <form action="{{ url_for('edit_recipe', recipe_id=recipe.id, modified_recipe=True) }}" method="post"
                 enctype="multipart/form-data">
                 {{ form.csrf_token }}
 

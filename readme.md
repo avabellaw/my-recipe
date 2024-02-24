@@ -157,6 +157,8 @@ I will use a simple and light colour scheme.
 |---------------------------|----------------------|-----------|---------------------|------------------------|
 | /                         | Homepage             | No        | aria-label is used for hint.css tooltip text | [Only warnings for aria-label](https://validator.w3.org/nu/?doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2F)|
 | /                         | Homepage             | Yes       | There are 13 errors created by the wtforms SelectMultipleFields. In future, I would find away to remove these but the project functions with them as they are bad attribute errors. #account-dropdown-menu is repeated twice because of the mobile-sidenav but this is required for MaterializeCSS. | [Only MaterializeCSS and Wtforms errors](docs/validation/html/homepage_logged-in.webp) |
+| /login                    | Log in               | No        | | [No errors or warnings] (https://validator.w3.org/nu/?showsource=yes&showoutline=yes&doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Flogin)|
+| /register                 | Register             | No        | | [No errors or warnings] (https://validator.w3.org/nu/?showsource=yes&showoutline=yes&doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Fregister)
 | /my-recipes               | View user recipes    | Yes       | Two elements with same ID is for the MaterializeCSS nav + mobile side nav styling | [All passed apart from ID used twice for materialize](docs/validation/html/my-recipes.webp)|
 | /search?...               | Search results       | Yes       | Same aforementioned MaterializeCSS and wtforms SelectMultipleFields errors. Warnings for misuse of aria-label but this is for hint.css | [All passed apart from explained errors/warnings](docs/validation/html/search-results-page_logged-in.webp)|
 | /search?...               | Search results       | No        | Only validation warnings due to hint.css aria-labels | [No errors](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Fsearch%3Fsearch_bar%3D%26action%3D%26dietary_tags%3Dvv)|
@@ -164,10 +166,17 @@ I will use a simple and light colour scheme.
 | /recipe/modified-recipe/2 | View modified recipe | No        | Only hint.css warnings | [No errors](https://validator.w3.org/nu/?showsource=yes&showoutline=yes&doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Fmodified-recipe%2F2)|
 | /edit-recipe/             | Edit recipe          | Yes       | Same aforementioned MaterializeCSS and wtforms SelectMultipleFields errors. Warnings for misuse of aria-label but this is for hint.css | [All passed apart from explained errors](docs/validation/html/edit-recipe.webp)|
 | /add-recipe               | Add recipe           | Yes       | Same already explained errors/warnings. Also has error for no src on image but this is added though JS to show preview of uploaded image | [All passed apart from explained errors](docs/validation/html/add-recipe.webp)|
+| /add-modified-recipe/2    | Add modified recipe  | Yes       | No new errors/warnings | [No errors](docs/validation/html/add-modified-recipe.webp)|
+| /profile                  | Profile              | Yes       | Only the Materialize error and warning | [All passed apart from explained](docs/validation/html/profile.webp)|
+| /view-saved-recipes       | View saved recipes   | Yes       | Only the Materialize error and warning | [All passed apart from explained](docs/validation/html/view-saved-recipes.webp)|
    
 </details>
 
 ### [W3C CSS Validator](https://jigsaw.w3.org/css-validator)
+
+[No validation errors for style.css](https://jigsaw.w3.org/css-validator/validator?uri=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Fstatic%2Fcss%2Fstyle.css&profile=css3svg&usermedium=all&warning=1&vextwarning=&lang=en)
+
+There are 2 warnings but that's because I am using a vendor extenstion for MateralizeCSS.
 
 ### Testing User Stories From The User Experience Section
 

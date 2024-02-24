@@ -212,10 +212,10 @@ def add_modified_recipe(recipe_id):
 
 
 # Edit recipe
-@app.route("/edit-recipe/<int:recipe_id>", methods=["GET", "POST"])
+@app.route("/edit-recipe/<int:recipe_id>/<int:modified_recipe>", methods=["GET", "POST"])
 @login_required
-def edit_recipe(recipe_id):
-    recipe = get_recipe(recipe_id)
+def edit_recipe(recipe_id, modified_recipe):
+    recipe = get_recipe(recipe_id, modified_recipe)
     add_dietary_tags_to_recipes([recipe])
     if user_owns_recipe(current_user.id, recipe) or is_user_admin(current_user.id):
         form = AddRecipeForm() if not is_modified_recipe(recipe) else AddModifiedRecipeForm()
@@ -235,7 +235,7 @@ def edit_recipe(recipe_id):
                     update_recipe(recipe, title, desc, ingredients, instructions, image)
                 
                 update_dietary_tags(recipe, form.dietary_tags.data)
-                return redirect(url_for("view_recipe", recipe_id=recipe.id))
+                return redirect(url_for("view_modified_recipe" if is_modified_recipe(recipe) else "view_recipe", recipe_id=recipe.id))
             return render_template("edit-recipe.html", form=form)
         
         set_default_dietary_tags(form, dietary_tag_bools_to_data(get_recipe_dietary_tags_bools(recipe)))
@@ -256,10 +256,10 @@ def edit_recipe(recipe_id):
 
 
 # Delete recipe
-@app.route("/delete-recipe/<int:recipe_id>", methods=["GET", "POST"])
+@app.route("/delete-recipe/<int:recipe_id>/<int:modified_recipe>", methods=["GET", "POST"])
 @login_required
-def delete_recipe(recipe_id):
-    recipe = get_recipe(recipe_id)
+def delete_recipe(recipe_id, modified_recipe):
+    recipe = get_recipe(recipe_id, modified_recipe)
     if user_owns_recipe(current_user.id, recipe) or is_user_admin(current_user.id):
         if recipe.image_url and image_exists(recipe.image_url) and not is_modified_recipe(recipe):
             delete_image(recipe.image_url) 
@@ -374,10 +374,11 @@ def get_all_modified_recipes():
     return modified_recipes
 
 
-def get_recipe(recipe_id):
-    recipe = Recipe.query.get(recipe_id)
-    if not recipe:
+def get_recipe(recipe_id, get_modified=False):
+    if get_modified:
         recipe = get_modified_recipe(recipe_id)
+    else:
+        recipe = Recipe.query.get(recipe_id)
     return recipe
 
 
