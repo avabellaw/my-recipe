@@ -218,6 +218,9 @@ There are 2 warnings but that's because I am using a vendor extenstion for Mater
 
         ![Save/unsave recipe](docs/testing-user-stories/save-unsave-recipe.webp)
 6. "I want to view my saved recipes."
+    * Users can view their saved recipes by clicking the link under there account tab.
+
+        ![View saved recipes](docs/testing-user-stories/view-saved-recipes.webp)
 7. "I want to be able to edit my recipes."
 
 ### Manual Testing
