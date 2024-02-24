@@ -206,16 +206,30 @@ There are 2 warnings but that's because I am using a vendor extenstion for Mater
 
 ### Deployment
 
-#### GitHub Pages
+#### Heroku
 
-The project was deployed to GitHub Pages using the following steps:
+I deployed to Heroku using the following steps:
 
-1. Log in to GitHub and locate the GitHub Repository.
-2. At the top of the Repository no, locate the "Settings" Button on the menu.
-3. Scroll down the Settings page until you locate the "GitHub Pages" Section.
-4. Under "Source", click the dropdown called "None" and select "Master Branch".
-5. The page will automatically refresh.
-6. Scroll back down through the page to locate the published site link in the "GitHub Pages" section.
+1. Create a production branch based of "main". The main branch will be merged into this branch in order to deploy to production.
+2. On the production branch, run "pip3 freeze --local > requirements.txt" to create the requirements file.
+3. On the production branch, add a utf-8 encoded file, named "Procfile" with no extenstion.
+    * Enter "web: python run.py" into the Procfile
+4. On Heroku, add a new project.
+5. Within the new project, go to the "Deploy" tab. 
+6. Choose "GitHub" and connect the repo containing the project. Set the branch to "production".
+7. Add all the enviroment variables.
+    * IP
+    * PORT
+    * SECRET_KEY
+    * DEBUG
+    * DATABASE_URL
+8. For this project, you will also have to set the variables for Cloudcube (An Amazon s3 bucket).
+9. Under "More" in the top-right, click "Run Console".
+10. Enter "python3".
+11. Enter "from myrecipe import app, db, models"
+12. Next enter "with app.app_context():"
+13. Press enter and add a tab. Then enter "app.create_all()". This creates the tables needed from Models.py.
+14. Click "Open App" to view the deployed project.
 
 #### Forking the GitHub Repository
 
