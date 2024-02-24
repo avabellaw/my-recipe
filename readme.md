@@ -184,7 +184,16 @@ There are 2 warnings but that's because I am using a vendor extenstion for Mater
 ### Testing User Stories From The User Experience Section
 
 1. "I want to be able to easily search recipes with filters."
+    * Search by search term.
 
+        ![Search by search term](docs/testing-user-stories/search-results-no-filters.webp)
+    * Search by search term with filter.
+
+        ![Seach by search term with filter](docs/testing-user-stories/search-results-with-filter.webp)
+    * Search by filter only.
+
+        ![Search by filter only](docs/testing-user-stories/search-results-only-filter.webp)
+        
 2. "I want to be able to create my own recipes."
 3. "I want to view all of my own recipes."
 4. "I want to use other user's recipes as a template."
