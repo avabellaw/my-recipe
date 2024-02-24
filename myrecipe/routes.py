@@ -575,7 +575,7 @@ def update_dietary_tags(recipe, new_dietary_tags_data):
         dietary_tags.is_gluten_free = "gf" in new_dietary_tags_data
         dietary_tags.is_dairy_free = "df" in new_dietary_tags_data
         dietary_tags.is_nut_free = "nf" in new_dietary_tags_data
-        dietary_tags.is_egg_free = "ef" in new_dietary_tags_data4
+        dietary_tags.is_egg_free = "ef" in new_dietary_tags_data
         db.session.add(dietary_tags)
         db.session.commit()
 
