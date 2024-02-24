@@ -25,6 +25,7 @@ A main feature is that users are able to use existing recipes as a template that
 4. I want to use other user's recipes as a template.
 5. I want to be able to save/unsave recipes.
 6. I want to view my saved recipes.
+7. I want to be able to edit my recipes.
 
 ### Strategy Plane
 
@@ -206,8 +207,15 @@ There are 2 warnings but that's because I am using a vendor extenstion for Mater
 
         ![My recipes](docs/testing-user-stories/my-recipes.webp)
 4. "I want to use other user's recipes as a template."
+    * Any recipe the user doesn't own, will see the "Use as template" button when viewing a recipe.
+
+        ![Recipe use as template](docs/testing-user-stories/use-recipe-as-template.webp)
+    * They will be brought to a page to create a modified recipe.
+
+        ![Create modified recipe](docs/testing-user-stories/modify-this-recipe.webp)
 5. "I want to be able to save/unsave recipes."
 6. "I want to view my saved recipes."
+7. "I want to be able to edit my recipes."
 
 ### Manual Testing
 
