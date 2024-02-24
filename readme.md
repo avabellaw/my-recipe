@@ -214,6 +214,9 @@ There are 2 warnings but that's because I am using a vendor extenstion for Mater
 
         ![Create modified recipe](docs/testing-user-stories/modify-this-recipe.webp)
 5. "I want to be able to save/unsave recipes."
+    * Users can click a button to save or unsave recipes when viewing a recipe.
+
+        ![Save/unsave recipe](docs/testing-user-stories/save-unsave-recipe.webp)
 6. "I want to view my saved recipes."
 7. "I want to be able to edit my recipes."
 
