@@ -12,6 +12,7 @@ from datetime import datetime
 # WTForms imports
 from flask_wtf import FlaskForm
 from wtforms import BooleanField, FileField, PasswordField, SelectMultipleField, StringField, TextAreaField
+from wtforms.fields import SelectMultipleField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from werkzeug.utils import secure_filename
 from flask_wtf.file import FileField, FileAllowed
@@ -20,6 +21,8 @@ bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 login_manager.init_app(app)
 DIETARY_TAGS = ["vv", "v", "gf", "df", "nf", "ef"]
+ADMIN_DEFAULT_PASSWORD = "password"
+    
 class UserType(Enum):
     STANDARD = "STANDARD"
     ADMIN = "ADMIN"
@@ -28,7 +31,6 @@ if not app.config["SAVE_IMAGES_LOCALLY"]:
     s3 = boto3.client('s3',
     aws_access_key_id=os.environ.get("CLOUDCUBE_ACCESS_KEY_ID"),
     aws_secret_access_key=os.environ.get("CLOUDCUBE_SECRET_ACCESS_KEY"))
-
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -58,7 +60,7 @@ def login():
         return redirect(url_for("home"))
     
     if User.query.filter_by(user_type=UserType.ADMIN.value).first() is None:
-        admin = User(username="admin", password=bcrypt.generate_password_hash("password").decode("utf-8"), user_type=UserType.ADMIN.value)
+        admin = User(username="admin", password=bcrypt.generate_password_hash(ADMIN_DEFAULT_PASSWORD).decode("utf-8"), user_type=UserType.ADMIN.value)
         db.session.add(admin)
         db.session.commit()
     
@@ -68,6 +70,9 @@ def login():
         user = get_user(request.form.get("username"))
         if form.validate_on_submit():
             login_user(user)
+            if user.user_type == UserType.ADMIN.value and bcrypt.check_password_hash(user.password, ADMIN_DEFAULT_PASSWORD):
+                flash("Please change the admin password from default.", "danger")
+                return redirect(url_for("profile"))
             flash(f"Welcome back, {user.username}!", "success") # type: ignore
             return redirect(url_for("home"))
     return render_template("login.html", form=form)
@@ -101,6 +106,22 @@ def register():
             return redirect(url_for("login"))
         
     return render_template("register.html", form=form)
+
+
+# Profile
+@app.route("/profile", methods=["GET", "POST"])
+@login_required
+def profile():
+    form = NewPasswordForm()
+    user = User.query.get(current_user.id)
+    
+    if request.method == "POST":
+        if form.validate_on_submit():
+            user.password = bcrypt.generate_password_hash(form.new_password.data).decode("utf-8")
+            db.session.add(user)
+            db.session.commit()
+            flash("Password updated.", "success")
+    return render_template("profile.html", user=user, form=form)
 
 
 # My recipies
@@ -554,7 +575,7 @@ def update_dietary_tags(recipe, new_dietary_tags_data):
         dietary_tags.is_gluten_free = "gf" in new_dietary_tags_data
         dietary_tags.is_dairy_free = "df" in new_dietary_tags_data
         dietary_tags.is_nut_free = "nf" in new_dietary_tags_data
-        dietary_tags.is_egg_free = "ef" in new_dietary_tags_data4
+        dietary_tags.is_egg_free = "ef" in new_dietary_tags_data
         db.session.add(dietary_tags)
         db.session.commit()
 
@@ -594,7 +615,7 @@ class AddRecipeForm(FlaskForm):
     image = FileField('image', validators=[FileAllowed(['jpg', 'jpeg', 'png', 'webp'], 'Please only upload an image (jpg, png, or webp).')])
     
     # Dietary tags
-    dietary_tags = SelectMultipleField("Dietary tags:", choices=[("vv", "Vegan"), ("v", "Vegetarian"), ("gf", "Gluten-free"), ("df", "Dairy-free"), ("nf", "Nut-free"), ("ef", "Egg-free")])
+    dietary_tags = SelectMultipleField(choices=[("vv", "Vegan"), ("v", "Vegetarian"), ("gf", "Gluten-free"), ("df", "Dairy-free"), ("nf", "Nut-free"), ("ef", "Egg-free")])
     
 class AddModifiedRecipeForm(FlaskForm):
     extended_desc = StringField("Extended description:", validators=[DataRequired(), Length(min=2, max=100)])
@@ -602,14 +623,26 @@ class AddModifiedRecipeForm(FlaskForm):
     instructions = TextAreaField("Instructions:", validators=[DataRequired(), Length(min=10, max=1000)])
     
     # Dietary tags
-    dietary_tags = SelectMultipleField("Dietary tags:", choices=[("vv", "Vegan"), ("v", "Vegetarian"), ("gf", "Gluten-free"), ("df", "Dairy-free"), ("nf", "Nut-free"), ("ef", "Egg-free")])
+    dietary_tags = SelectMultipleField(choices=[("vv", "Vegan"), ("v", "Vegetarian"), ("gf", "Gluten-free"), ("df", "Dairy-free"), ("nf", "Nut-free"), ("ef", "Egg-free")])
     
 class SearchForm(FlaskForm):
     search_bar = StringField("Search:")
      # Dietary tags
-    dietary_tags = SelectMultipleField("Dietary tags:", choices=[("vv", "Vegan"), ("v", "Veggie"), ("gf", "GF"), ("df", "Dairy-free"), ("nf", "Nut-free"), ("ef", "Egg-free")])
+    dietary_tags = SelectMultipleField(choices=[("vv", "Vegan"), ("v", "Veggie"), ("gf", "GF"), ("df", "Dairy-free"), ("nf", "Nut-free"), ("ef", "Egg-free")])
     
     def validate_search_bar(self, search_bar):
         if not search_bar.data and not self.dietary_tags.data:
             raise ValidationError("Please enter a search query or select a filter.")
     
+class NewPasswordForm(FlaskForm):
+    current_password = PasswordField("Current password:", validators=[DataRequired(), Length(min=8, max=20)])
+    new_password = PasswordField("New password:", validators=[DataRequired(), Length(min=8, max=20)])
+    confirm_password = PasswordField("Confirm new password:", validators=[DataRequired(), EqualTo("new_password", "Passwords must match.")])
+    
+    def validate_current_password(self, current_password):
+        if not bcrypt.check_password_hash(User.query.get(current_user.id).password, self.current_password.data):
+            raise ValidationError("Current password is incorrect.")
+    
+    def validate_confirm_password(self, new_password):
+        if bcrypt.check_password_hash(User.query.get(current_user.id).password, self.new_password.data):
+            raise ValidationError("New password cannot be the same as the current password.")

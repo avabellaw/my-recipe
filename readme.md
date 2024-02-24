@@ -148,9 +148,20 @@ I will use a simple and light colour scheme.
 
 ## Testing
 
-### [W3C Markup Validator](https://validator.w3.org/#validate_by_input)
+### [W3C Markup Validator](https://validator.w3.org)
 
-### [W3C CSS Validator](https://jigsaw.w3.org/css-validator/#validate_by_input)
+<details>
+<summary>HTML validation results table</summary>
+
+| URL          | Page               | Logged in | Comments            | Results                |
+|--------------|--------------------|-----------|---------------------|------------------------|
+| /            | Homepage           | No        | aria-label is used for hint.css tooltip text | [Only warnings for aria-label](https://validator.w3.org/nu/?doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2F)|
+| /            | Homepage           | Yes       | There are 13 errors created by the wtforms SelectMultipleFields. In future, I would find away to remove these but the project functions with them as they are bad attribute errors. #account-dropdown-menu is repeated twice because of the mobile-sidenav but this is required for MaterializeCSS. | [Only MaterializeCSS and Wtforms errors](docs/validation/html/homepage_logged-in.webp) |
+| /my-recipes  | View user recipes  | Yes       | Two elements with same ID is for the MaterializeCSS nav + mobile side nav styling | [All passed apart from ID used twice for materialize](docs/validation/html/my-recipes.webp)|
+| /search?...  | Search results     | Yes       | Same aforementioned MaterializeCSS and wtforms SelectMultipleFields errors. Warnings for misuse of aria-label but this is for hint.css | [All passed apart from explained errors/warnings](docs/validation/html/search-results-page_logged-in.webp)
+</details>
+
+### [W3C CSS Validator](https://jigsaw.w3.org/css-validator)
 
 ### Testing User Stories From The User Experience Section
 

@@ -70,6 +70,22 @@ body {
     font-family: "Crimson Text", serif;
 }
 
+form > .input-field input:not(.browser-default):focus:not([readonly]), 
+form > .input-field textarea:not(.browser-default):focus:not([readonly]),
+form > .input-field .select-wrapper input.select-dropdown:focus {
+    /* Override MaterializeCSS */
+    border-bottom: 1px solid var(--main-colour);
+    -webkit-box-shadow: 0 1px 0 0 var(--main-colour);
+    box-shadow: 0 1px 0 0 var(--main-colour);
+}
+
+form > .input-field input:not(.browser-default):focus:not([readonly])+label, 
+form > .input-field textarea:not(.browser-default):focus:not([readonly])+label,
+form > .input-field .select-wrapper:has(input:focus) +label {
+    /* Override MaterializeCSS */
+    color: var(--main-colour);
+}
+
 /* End of general page styles */
 
 /* Flash message */
@@ -118,6 +134,23 @@ body {
 
 /* End of Flash message */
 
+/* Profile */
+
+#profile-form {
+    padding: 2em;
+}
+
+#profile-form_update-password {
+    font-size: 1.5em;
+    margin-bottom: 1.2em;
+}
+
+#profile-form > .row {
+    margin-bottom: 0;
+}
+
+/* End of Profile */
+
 /* Navbar */
 
 nav,
@@ -164,7 +197,7 @@ nav>.nav-wrapper ul a {
     background-color: rgb(0, 0, 0, 0.05);
 }
 
-#account-dropdown_person-icon {
+.account-dropdown_person-icon {
     margin-right: 0.5rem;
 }
 
@@ -189,7 +222,7 @@ span.login-btn {
     padding: 0 15%;
 }
 
-#mobile-sidenav>#account-dropdown_menu {
+#mobile-sidenav #account-dropdown_menu {
     width: 80%;
     margin: auto;
 }
@@ -200,6 +233,16 @@ span.login-btn {
 
 .footer_link {
     display: flex;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+body > section {
+    flex: 1 0 auto;
 }
 
 /* End of Footer */
