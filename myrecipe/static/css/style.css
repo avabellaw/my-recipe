@@ -349,6 +349,12 @@ input#search_bar:focus {
     margin: 0;
 }
 
+.card-action>a.view-recipe-btn {
+    /* Important to override MaterializeCSS styles */
+    color: rgb(198, 109, 0) !important;
+}
+
+
 @media screen and (max-width: 600px) {
     .card.horizontal {
         display: block;
