@@ -21,7 +21,10 @@ A main feature is that users are able to use existing recipes as a template that
 **As a first-time and recurring user**
 1. I want to be able to easily search recipes with filters.
 2. I want to be able to create my own recipes.
-3. I want to modify other people's recipes.
+3. I want to view all of my own recipes.
+4. I want to use other user's recipes as a template.
+5. I want to be able to save/unsave recipes.
+6. I want to view my saved recipes.
 
 ### Strategy Plane
 
@@ -180,7 +183,13 @@ There are 2 warnings but that's because I am using a vendor extenstion for Mater
 
 ### Testing User Stories From The User Experience Section
 
-### Automatic Testing (unit tests)
+1. "I want to be able to easily search recipes with filters."
+
+2. "I want to be able to create my own recipes."
+3. "I want to view all of my own recipes."
+4. "I want to use other user's recipes as a template."
+5. "I want to be able to save/unsave recipes."
+6. "I want to view my saved recipes."
 
 ### Manual Testing
 
@@ -203,6 +212,8 @@ There are 2 warnings but that's because I am using a vendor extenstion for Mater
     * Saved_Recipes contains the foreign key for only a standard Recipe
 * "A form field element should have an id or name attribute"
     * The dietary tag fields are created by wtforms.
+* If there is a validation error when searching recipes, it returns to the homepage with the validation message.
+    * It does this when searching using the search box on the search results page when really it should return to the same page.
 
 ### Deployment
 
