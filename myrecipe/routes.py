@@ -12,6 +12,7 @@ from datetime import datetime
 # WTForms imports
 from flask_wtf import FlaskForm
 from wtforms import BooleanField, FileField, PasswordField, SelectMultipleField, StringField, TextAreaField
+from wtforms.fields import SelectMultipleField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from werkzeug.utils import secure_filename
 from flask_wtf.file import FileField, FileAllowed
@@ -614,7 +615,7 @@ class AddRecipeForm(FlaskForm):
     image = FileField('image', validators=[FileAllowed(['jpg', 'jpeg', 'png', 'webp'], 'Please only upload an image (jpg, png, or webp).')])
     
     # Dietary tags
-    dietary_tags = SelectMultipleField("Dietary tags:", choices=[("vv", "Vegan"), ("v", "Vegetarian"), ("gf", "Gluten-free"), ("df", "Dairy-free"), ("nf", "Nut-free"), ("ef", "Egg-free")])
+    dietary_tags = SelectMultipleField(choices=[("vv", "Vegan"), ("v", "Vegetarian"), ("gf", "Gluten-free"), ("df", "Dairy-free"), ("nf", "Nut-free"), ("ef", "Egg-free")])
     
 class AddModifiedRecipeForm(FlaskForm):
     extended_desc = StringField("Extended description:", validators=[DataRequired(), Length(min=2, max=100)])
@@ -622,12 +623,12 @@ class AddModifiedRecipeForm(FlaskForm):
     instructions = TextAreaField("Instructions:", validators=[DataRequired(), Length(min=10, max=1000)])
     
     # Dietary tags
-    dietary_tags = SelectMultipleField("Dietary tags:", choices=[("vv", "Vegan"), ("v", "Vegetarian"), ("gf", "Gluten-free"), ("df", "Dairy-free"), ("nf", "Nut-free"), ("ef", "Egg-free")])
+    dietary_tags = SelectMultipleField(choices=[("vv", "Vegan"), ("v", "Vegetarian"), ("gf", "Gluten-free"), ("df", "Dairy-free"), ("nf", "Nut-free"), ("ef", "Egg-free")])
     
 class SearchForm(FlaskForm):
     search_bar = StringField("Search:")
      # Dietary tags
-    dietary_tags = SelectMultipleField("Dietary tags:", choices=[("vv", "Vegan"), ("v", "Veggie"), ("gf", "GF"), ("df", "Dairy-free"), ("nf", "Nut-free"), ("ef", "Egg-free")])
+    dietary_tags = SelectMultipleField(choices=[("vv", "Vegan"), ("v", "Veggie"), ("gf", "GF"), ("df", "Dairy-free"), ("nf", "Nut-free"), ("ef", "Egg-free")])
     
     def validate_search_bar(self, search_bar):
         if not search_bar.data and not self.dietary_tags.data:
