@@ -195,13 +195,16 @@ There are 2 warnings but that's because I am using a vendor extenstion for Mater
         ![Search by filter only](docs/testing-user-stories/search-results-only-filter.webp)
 
 2. "I want to be able to create my own recipes."
-    * User's can add new recipes my going to the "My Recipes" page under there account. Next, click "Add new recipe".
+    * Users can add new recipes my going to the "My Recipes" page under there account. Next, click "Add new recipe".
 
         ![Add new recipe](docs/testing-user-stories/add-new-recipe.webp)
     * The user will be brought to their newly created recipe.
 
         ![Created recipe](docs/testing-user-stories/chilli-recipe.webp)
 3. "I want to view all of my own recipes."
+    * Users can view there own recipes by clicking "My Recipes" under there account tab.
+
+        ![My recipes](docs/testing-user-stories/my-recipes.webp)
 4. "I want to use other user's recipes as a template."
 5. "I want to be able to save/unsave recipes."
 6. "I want to view my saved recipes."
