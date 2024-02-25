@@ -1,5 +1,5 @@
 """
-Contains all the functions used by the routes in My Recipe.
+Contains all the functions used by routes in My Recipe.
 """
 import os
 import cloudinary
