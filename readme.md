@@ -5,7 +5,7 @@
 This project demonstrates my ability to use Python, Flask, and SQLAlchemy. It also includes the use of Google's CSS framework "Materialize".
 It builds on my knowledge gained from previous modules and showcases my skills in creating a website that incorporates database functionilty.
 
-[View the live project here.]()
+[View the live project here.](https://my-recipe-project-3-0dce9d94a33a.herokuapp.com/)
 
 <img src="" alt="Multi-Device Mockup" width="50%">
 
@@ -259,8 +259,6 @@ There are 2 warnings but that's because I am using a vendor extenstion for Mater
 
             ![Correct cloudinary image](docs/manual-testing/correct-cloudinary-url.webp)
 
-### Further Testing
-
 #### Google Lighthouse
 
 I accessed the different pages with Google Lighthouse while hosting the site locally.
@@ -309,6 +307,8 @@ Performance - Accessibility - Best practices - SEO
     * The dietary tag fields are created by wtforms.
 * If there is a validation error when searching recipes, it returns to the homepage with the validation message.
     * It does this when searching using the search box on the search results page when really it should return to the same page.
+* For this release of the project, I'm unable to check image exists on cloudinary and delete.
+    * This means there will be undeleted images. These are handled if stored locally.
 
 ### Deployment
 
@@ -389,7 +389,7 @@ $ git clone https://github.com/avabellaw/my-recipe
 
 * "# type: ignore" will ignore errors [https://stackoverflow.com/questions/58936116/pycharm-warns-about-unexpected-arguments-for-sqlalchemy-user-model] 
     * Otherwise there is an error for unexpected arguments when using models.
-
+    * I avoided having to use this by changing linter configurations.
 * For registering users [https://www.youtube.com/watch?v=71EU8gnZqZQ]
     * I originally just inputted new users into the database.
     * I watched this video to learn about how to properly handle user registration in Flask.
@@ -401,8 +401,8 @@ $ git clone https://github.com/avabellaw/my-recipe
     * I decode the hash to utf-8 before adding [https://stackoverflow.com/questions/34548846/flask-bcrypt-valueerror-invalid-salt]
 
 * flask_wtf 
-    * [https://flask-wtf.readthedocs.io/en/1.2.x/quickstart/#creating-forms]
-    * [https://wtforms.readthedocs.io/en/3.0.x/validators/]
+    * [How to create forms](https://flask-wtf.readthedocs.io/en/1.2.x/quickstart/#creating-forms)
+    * [wtforms validators](https://wtforms.readthedocs.io/en/3.0.x/validators/)
 
 * Add classes to flask_wtf form elements.
     * [https://stackoverflow.com/questions/22084886/add-a-css-class-to-a-field-in-wtform]
@@ -417,15 +417,15 @@ $ git clone https://github.com/avabellaw/my-recipe
 #### Images
 
 * Default image if not uploaded with recipe.
-    * From Pixabay [https://www.pexels.com/photo/closeup-photography-of-sauteed-garlic-263022/]
+    * [From Pixabay](https://www.pexels.com/photo/closeup-photography-of-sauteed-garlic-263022/)
 
 * Footer icons.
-    GitHub svg from FontAwesome [https://fontawesome.com/icons/github?f=brands&s=solid]
+    [GitHub svg from FontAwesome](https://fontawesome.com/icons/github?f=brands&s=solid)
 
 * Dietary icons
-    * Vegan icon from Flaticon by Pixel Perfect [https://www.flaticon.com/free-icon/vegetarian_723633?term=vegetarian&page=1&position=3&origin=tag&related_id=723633]
-    * Vegetarian icon from Freepik by Valeria [https://www.freepik.com/icon/lettuce_12114434#fromView=search&term=vegetarian+&track=ais&page=1&position=76&uuid=f94071d6-1b72-4559-b054-b4b8ecfc2af6]
-    * Gluten-free icon from Flaticon by Freepik [https://www.flaticon.com/free-icon/gluten-free_4807774?term=gluten+free&page=1&position=4&origin=search&related_id=4807774]
-    * Dairy-free icon from Freepik by bsd [https://www.freepik.com/icon/milk-free_12954588#fromView=search&term=dairy+free&track=ais&page=1&position=14&uuid=86065469-2655-4257-97b3-60711af88994]
-    * Nut-free icon from Freepik by Freepik [https://www.freepik.com/icon/fruit_652405#fromView=search&term=nut+free&track=ais&page=1&position=4&uuid=500039e3-cbd4-42b9-bfeb-2361c3d32dd2]
-    * Egg-free icon from Freepik by Freepik [https://www.freepik.com/icon/no-egg_1807571#fromView=search&term=egg+free&track=ais&page=1&position=3&uuid=ac4be750-70f5-4dd6-95ac-02f3ed3769c6]
+    * [Vegan icon from Flaticon by Pixel Perfect](https://www.flaticon.com/free-icon/vegetarian_723633?term=vegetarian&page=1&position=3&origin=tag&related_id=723633)
+    * [Vegetarian icon from Freepik by Valeria](https://www.freepik.com/icon/lettuce_12114434#fromView=search&term=vegetarian+&track=ais&page=1&position=76&uuid=f94071d6-1b72-4559-b054-b4b8ecfc2af6)
+    * [Gluten-free icon from Flaticon by Freepik](https://www.flaticon.com/free-icon/gluten-free_4807774?term=gluten+free&page=1&position=4&origin=search&related_id=4807774)
+    * [Dairy-free icon from Freepik by bsd](https://www.freepik.com/icon/milk-free_12954588#fromView=search&term=dairy+free&track=ais&page=1&position=14&uuid=86065469-2655-4257-97b3-60711af88994)
+    * [Nut-free icon from Freepik by Freepik](https://www.freepik.com/icon/fruit_652405#fromView=search&term=nut+free&track=ais&page=1&position=4&uuid=500039e3-cbd4-42b9-bfeb-2361c3d32dd2)
+    * [Egg-free icon from Freepik by Freepik](https://www.freepik.com/icon/no-egg_1807571#fromView=search&term=egg+free&track=ais&page=1&position=3&uuid=ac4be750-70f5-4dd6-95ac-02f3ed3769c6)
