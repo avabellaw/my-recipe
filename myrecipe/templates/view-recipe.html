@@ -24,12 +24,12 @@
             <div class="col s12 m5">
                 <div id="recipe-header_image-container" class="valign-wrapper center">
                     {% if recipe.image_url == None %}
-                    <img id="recipe-header_image"
+                    <img id="recipe-header_image" width="250" height="250"
                         src="{{ url_for('static', filename='images/default-recipe-image.webp') }}"
                         alt="Default recipe image" class="responsive-img">
                     {% else %}
-                    <img id="recipe-header_image" src="{{ recipe.image_url }}" alt="{{ recipe.title }}"
-                        class="responsive-img">
+                    <img id="recipe-header_image" width="250" height="250" src="{{ recipe.image_url }}"
+                        alt="{{ recipe.title }}" class="responsive-img">
                     {% endif %}
                 </div>
 
@@ -71,9 +71,9 @@
                         {% endif %}
                     </div>
 
-                    {% if not is_modified_recipe and is_owned_by_user == false %}
+                    {% if not is_modified_recipe and current_user.is_authenticated and is_owned_by_user == false %}
                     <a id="template-button" href="{{ url_for('add_modified_recipe', recipe_id=recipe.id) }}"
-                        class="btn orange darken-3">
+                        class="btn orange">
                         Use as template
                     </a>
                     {% endif %}
@@ -81,7 +81,9 @@
                     {% if is_owned_by_user or is_admin %}
                     <!-- Settings dropdown -->
                     <ul id='recipe-settings' class='dropdown-content'>
-                        <li><a href="{{ url_for('edit_recipe', recipe_id=recipe.id, modified_recipe=is_modified_recipe) }}">Edit</a></li>
+                        <li><a
+                                href="{{ url_for('edit_recipe', recipe_id=recipe.id, modified_recipe=is_modified_recipe) }}">Edit</a>
+                        </li>
                         <li><a class="modal-trigger" href="#confirm-deletion">Delete</a></li>
                     </ul>
 

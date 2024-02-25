@@ -16,6 +16,8 @@ from wtforms.fields import SelectMultipleField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from werkzeug.utils import secure_filename
 from flask_wtf.file import FileField, FileAllowed
+import cloudinary
+import cloudinary.uploader
 
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
@@ -27,10 +29,12 @@ class UserType(Enum):
     STANDARD = "STANDARD"
     ADMIN = "ADMIN"
 
-if not app.config["SAVE_IMAGES_LOCALLY"]:
-    s3 = boto3.client('s3',
-    aws_access_key_id=os.environ.get("CLOUDCUBE_ACCESS_KEY_ID"),
-    aws_secret_access_key=os.environ.get("CLOUDCUBE_SECRET_ACCESS_KEY"))
+if not app.config["SAVE_IMAGES_LOCALLY"]:          
+    cloudinary.config( 
+        cloud_name = os.environ.get("cloud_name"), 
+        api_key = os.environ.get("api_key"), 
+        api_secret = os.environ.get("api_secret") 
+    )
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -422,9 +426,9 @@ def save_image(image):
 
 
 def upload_image(image):
-    filename = secure_filename(image.filename)
-    s3.upload_fileobj(image, 'cloud-cube-eu2', 'ucv6br55k8nw/public/' + filename)
-    return f'{os.environ.get("CLOUDCUBE_URL")}/public/{filename}'
+    result = cloudinary.uploader.upload(image, public_id=image.filename, folder="myrecipe/image-uploads")
+    image_url = result['secure_url']
+    return image_url
 
 
 def save_image_locally(image):  

@@ -24,9 +24,9 @@ else:
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['PACKAGE_NAME'] = PACKAGE_NAME
 
-has_aws_creds = os.environ.get("CLOUDCUBE_ACCESS_KEY_ID") != None and os.environ.get("CLOUDCUBE_SECRET_ACCESS_KEY") != None and os.environ.get("CLOUDCUBE_URL") != None
+has_cloudinary_creds = os.environ.get("cloud_name") != None and os.environ.get("api_key") != None and os.environ.get("api_secret") != None
 
-app.config['SAVE_IMAGES_LOCALLY'] = not has_aws_creds
+app.config['SAVE_IMAGES_LOCALLY'] = not has_cloudinary_creds
 
 db = SQLAlchemy(model_class=Base)
 

@@ -25,6 +25,7 @@ A main feature is that users are able to use existing recipes as a template that
 4. I want to use other user's recipes as a template.
 5. I want to be able to save/unsave recipes.
 6. I want to view my saved recipes.
+7. I want to be able to edit my recipes.
 
 ### Strategy Plane
 
@@ -184,12 +185,47 @@ There are 2 warnings but that's because I am using a vendor extenstion for Mater
 ### Testing User Stories From The User Experience Section
 
 1. "I want to be able to easily search recipes with filters."
+    * Search by search term.
+
+        ![Search by search term](docs/testing-user-stories/search-results-no-filters.webp)
+    * Search by search term with filter.
+
+        ![Seach by search term with filter](docs/testing-user-stories/search-results-with-filter.webp)
+    * Search by filter only.
+
+        ![Search by filter only](docs/testing-user-stories/search-results-only-filter.webp)
 
 2. "I want to be able to create my own recipes."
+    * Users can add new recipes my going to the "My Recipes" page under there account. Next, click "Add new recipe".
+
+        ![Add new recipe](docs/testing-user-stories/add-new-recipe.webp)
+    * The user will be brought to their newly created recipe.
+
+        ![Created recipe](docs/testing-user-stories/chilli-recipe.webp)
 3. "I want to view all of my own recipes."
+    * Users can view there own recipes by clicking "My Recipes" under there account tab.
+
+        ![My recipes](docs/testing-user-stories/my-recipes.webp)
 4. "I want to use other user's recipes as a template."
+    * Any recipe the user doesn't own, will see the "Use as template" button when viewing a recipe.
+
+        ![Recipe use as template](docs/testing-user-stories/use-recipe-as-template.webp)
+    * They will be brought to a page to create a modified recipe.
+
+        ![Create modified recipe](docs/testing-user-stories/modify-this-recipe.webp)
 5. "I want to be able to save/unsave recipes."
+    * Users can click a button to save or unsave recipes when viewing a recipe.
+
+        ![Save/unsave recipe](docs/testing-user-stories/save-unsave-recipe.webp)
 6. "I want to view my saved recipes."
+    * Users can view their saved recipes by clicking the link under there account tab.
+
+        ![View saved recipes](docs/testing-user-stories/view-saved-recipes.webp)
+7. "I want to be able to edit my recipes."
+    * Users can edit their own recipes by clicking "Edit" under the settings cog.
+
+        ![Edit recipe cog](docs/testing-user-stories/edit-recipe.webp)
+        ![Edit recipe page](docs/testing-user-stories/edit-recipe-page.webp)
 
 ### Manual Testing
 
@@ -201,6 +237,40 @@ There are 2 warnings but that's because I am using a vendor extenstion for Mater
 ### Further Testing
 
 #### Google Lighthouse
+
+I accessed the different pages with Google Lighthouse while hosting the site locally.
+
+The score bubbles are in the following order:
+
+Performance - Accessibility - Best practices - SEO
+
+**Mobile**
+
+* Hompage
+
+    ![Homepage](docs/lighthouse/homepage-mobile.webp)
+
+* View recipe
+
+    ![View recipe](docs/lighthouse/view-recipe-mobile.webp)
+
+* Search results
+
+    ![Search results](docs/lighthouse/search-results-mobile.webp)
+
+**Desktop**
+
+* Hompage
+
+    ![Homepage](docs/lighthouse/homepage-desktop.webp)
+    
+* View recipe
+
+    ![View recipe](docs/lighthouse/view-recipe-desktop.webp)
+
+* Search results
+
+    ![Search results](docs/lighthouse/search-results-desktop.webp)
 
 ### Known Issues/Bugs
 

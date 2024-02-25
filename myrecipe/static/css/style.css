@@ -164,7 +164,7 @@ nav>.nav-wrapper>.container {
     position: relative;
 }
 
-nav>.nav-wrapper a {
+nav>.nav-wrapper a, .login-btn {
     color: rgb(0, 0, 0);
 }
 
@@ -213,12 +213,11 @@ i.right.arrow-dropdown-icon {
 }
 
 span.login-btn {
-    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     width: fit-content;
-    padding: 0 15%;
+    padding: 0 10%;
 }
 
 #mobile-sidenav #account-dropdown_menu {
@@ -307,8 +306,8 @@ input#search_bar:focus {
 }
 
 #search-box_header {
-    margin-top: 0;
     font-size: 2em;
+    color: black;
 }
 
 /* End of Homepage */
@@ -348,6 +347,12 @@ input#search_bar:focus {
 .card_created-by {
     margin: 0;
 }
+
+.card-action>a.view-recipe-btn {
+    /* Important to override MaterializeCSS styles */
+    color: rgb(122 67 0) !important;
+}
+
 
 @media screen and (max-width: 600px) {
     .card.horizontal {
@@ -518,6 +523,7 @@ p#created-by {
 #template-button {
     width: fit-content;
     margin: 0.5em 0;
+    color: black;
 }
 
 /* For admin */
