@@ -1,4 +1,4 @@
-from myrecipe import app 
+from myrecipe import app
 import os
 
 if __name__ == "__main__":

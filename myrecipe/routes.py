@@ -22,10 +22,11 @@ login_manager.init_app(app)
 DIETARY_TAGS = ["vv", "v", "gf", "df", "nf", "ef"]
 ADMIN_DEFAULT_PASSWORD = "password"
 
+
 class UserType(Enum):
     """
     Enumeration for user types.
-    
+
     Attributes:
         STANDARD (str): Standard user type.
         ADMIN (str): Admin user type.
@@ -45,10 +46,10 @@ if not app.config["SAVE_IMAGES_LOCALLY"]:
 @login_manager.user_loader
 def load_user(user_id):
     """Used by login manager to load the user from the database.
-    
+
     Args:
         user_id (int): The ID of the user to load.
-    
+
     Returns:
         User: The user.
     """
@@ -58,7 +59,7 @@ def load_user(user_id):
 @app.context_processor
 def inject_date():
     """Template context processor
-    
+
     Injects the current date as 'current_date' into all the templates."""
     return {'current_date': datetime.utcnow()}
 
@@ -67,7 +68,7 @@ def inject_date():
 @app.route("/")
 def home():
     """View the homepage.
-    
+
     Returns:
         Rendered template: The homepage.
     """
@@ -82,11 +83,11 @@ def home():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     """Logs in the user
-    
+
     If the user is already logged in, it redirects to the homepage.
     If there is no admin user, it creates an admin user with default password.
     If the login form is  valid, it logs the user in and redirects to the homepage.
-    
+
     Returns:
         Rendered template: The homempage if successful.
     """
@@ -94,7 +95,8 @@ def login():
         return redirect(url_for("home"))
 
     if User.query.filter_by(user_type=UserType.ADMIN.value).first() is None:
-        admin = User(username="admin", password=bcrypt.generate_password_hash(ADMIN_DEFAULT_PASSWORD).decode("utf-8"), user_type=UserType.ADMIN.value)
+        admin = User(username="admin", password=bcrypt.generate_password_hash(
+            ADMIN_DEFAULT_PASSWORD).decode("utf-8"), user_type=UserType.ADMIN.value)
         db.session.add(admin)
         db.session.commit()
 
@@ -131,7 +133,7 @@ def register():
     """Register a new user.
 
     If the user hasn't logged out, it redirects to the homepage.
-    
+
     Returns:
         Rendered template: The login page.
     """
@@ -144,7 +146,8 @@ def register():
         if form.validate_on_submit():
             username = form.username.data
             password = form.password.data
-            encrypted_pass = bcrypt.generate_password_hash(password).decode("utf-8")
+            encrypted_pass = bcrypt.generate_password_hash(
+                password).decode("utf-8")
             user = User(username=username,
                         password=encrypted_pass, user_type=UserType.STANDARD.value)
             db.session.add(user)
@@ -159,9 +162,9 @@ def register():
 @login_required
 def profile():
     """View the current user's profile page.
-    
+
     If the form is valid, update user password and display message.
-    
+
     Returns:
         Rendered template: The profile page.
     """
@@ -170,7 +173,8 @@ def profile():
 
     if request.method == "POST":
         if form.validate_on_submit():
-            user.password = bcrypt.generate_password_hash(form.new_password.data).decode("utf-8")
+            user.password = bcrypt.generate_password_hash(
+                form.new_password.data).decode("utf-8")
             db.session.add(user)
             db.session.commit()
             flash("Password updated.", "success")
@@ -186,7 +190,8 @@ def my_recipes():
     Returns:
         Rendered template: The my recipes page.
     """
-    recipes = [recipe for recipe in get_all_recipes() if user_owns_recipe(current_user.id, recipe)]
+    recipes = [recipe for recipe in get_all_recipes(
+    ) if user_owns_recipe(current_user.id, recipe)]
     add_created_by_to_recipes(recipes)
     return render_template("my-recipes.html", recipes=recipes)
 
@@ -195,19 +200,21 @@ def my_recipes():
 @app.route("/recipe/<int:recipe_id>", methods=["GET", "POST"])
 def view_recipe(recipe_id):
     """View recipe page.
-    
+
     Args:
         recipe_id (int): The ID of the recipe to view.
-        
+
     Returns:
         Rendered template: The recipe page.
     """
-    recipe_is_saved = has_user_saved_recipe(current_user.id, recipe_id) if current_user.is_authenticated else False
+    recipe_is_saved = has_user_saved_recipe(
+        current_user.id, recipe_id) if current_user.is_authenticated else False
     recipe = Recipe.query.get(recipe_id)
     add_created_by_to_recipes([recipe])
     add_dietary_tags_to_recipes([recipe])
 
-    is_admin = is_user_admin(current_user.id) if current_user.is_authenticated else False
+    is_admin = is_user_admin(
+        current_user.id) if current_user.is_authenticated else False
 
     return render_template("view-recipe.html", recipe=recipe, recipe_is_saved=recipe_is_saved, is_admin=is_admin)
 
@@ -216,19 +223,20 @@ def view_recipe(recipe_id):
 @app.route("/modified-recipe/<int:recipe_id>", methods=["GET", "POST"])
 def view_modified_recipe(recipe_id):
     """View modified recipe page.
-    
+
     Args:
         recipe_id (int): The ID of the modified recipe to view.
-        
+
     Returns:
         Rendered template: The recipe page.
     """
     recipe = get_modified_recipe(recipe_id)
     add_dietary_tags_to_recipes([recipe])
     add_created_by_to_recipes([recipe])
-    
-    is_admin = is_user_admin(current_user.id) if current_user.is_authenticated else False
-    
+
+    is_admin = is_user_admin(
+        current_user.id) if current_user.is_authenticated else False
+
     return render_template("view-recipe.html", recipe=recipe, recipe_is_saved=False, is_admin=is_admin)
 
 
@@ -237,12 +245,12 @@ def view_modified_recipe(recipe_id):
 @login_required
 def add_recipe():
     """Adds a new recipe to the database.
-    
+
     Displays page with a form to add a new recipe.
     If the form is valid, it creates a new recipe and redirects to the page of the new recipe.
     """
     form = AddRecipeForm()
-    
+
     if request.method == "POST":
         title = form.title.data
         desc = form.desc.data
@@ -252,9 +260,10 @@ def add_recipe():
             image = form.image.data
             if image:
                 image_url = save_image(image)
-                
+
             dietary_tags_id = add_dietary_tags_to_db(form.dietary_tags.data)
-            recipe = Recipe(user_id=current_user.id, title=title, desc=desc, ingredients=ingredients, instructions=instructions, image_url=image_url if image else null(), dietary_tags_id=dietary_tags_id)
+            recipe = Recipe(user_id=current_user.id, title=title, desc=desc, ingredients=ingredients,
+                            instructions=instructions, image_url=image_url if image else null(), dietary_tags_id=dietary_tags_id)
             db.session.add(recipe)
             db.session.commit()
 
@@ -267,31 +276,34 @@ def add_recipe():
 @login_required
 def add_modified_recipe(recipe_id):
     """Adds a modified recipe.
-    
+
     returns:
         redirect: The page of the modified recipe that was added.
     """
     form = AddModifiedRecipeForm()
     original_recipe = Recipe.query.get(recipe_id)
-    original_recipe.created_by = User.query.filter_by(id=original_recipe.user_id).first().username
-    
+    original_recipe.created_by = User.query.filter_by(
+        id=original_recipe.user_id).first().username
+
     if request.method == "POST":
         if form.validate_on_submit():
             ingredients = form.ingredients.data.strip()
             instructions = form.instructions.data.strip()
             extended_desc = form.extended_desc.data
             dietary_tags_id = add_dietary_tags_to_db(form.dietary_tags.data)
-            modified_recipe = ModifiedRecipe(modified_by_id=current_user.id, recipe_id=recipe_id, dietary_tags_id=dietary_tags_id, extended_desc=extended_desc, ingredients=ingredients, instructions=instructions)
-            
+            modified_recipe = ModifiedRecipe(modified_by_id=current_user.id, recipe_id=recipe_id, dietary_tags_id=dietary_tags_id,
+                                             extended_desc=extended_desc, ingredients=ingredients, instructions=instructions)
+
             db.session.add(modified_recipe)
             db.session.commit()
             return redirect(url_for("view_recipe", recipe_id=modified_recipe.id))
-    
-    form.ingredients.data = original_recipe.ingredients # type: ignore
-    form.instructions.data = original_recipe.instructions # type: ignore
+
+    form.ingredients.data = original_recipe.ingredients  # type: ignore
+    form.instructions.data = original_recipe.instructions  # type: ignore
     add_dietary_tags_to_recipes([original_recipe])
-    form.dietary_tags.data = dietary_tag_bools_to_data(get_recipe_dietary_tags_bools(original_recipe)) # type: ignore
-    
+    form.dietary_tags.data = dietary_tag_bools_to_data(
+        get_recipe_dietary_tags_bools(original_recipe))  # type: ignore
+
     return render_template("add-modified-recipe.html", form=form, original_recipe=original_recipe)
 
 
@@ -300,50 +312,54 @@ def add_modified_recipe(recipe_id):
 @login_required
 def edit_recipe(recipe_id, modified_recipe):
     """Updates recipe in the database.
-    
+
     Args:
         recipe_id (int): The ID of the recipe to be edited.
         modified_recipe (int): 0 if the recipe is not modified, 1 if it is.
-        
+
     Returns:
         redirect: The page of the recipe that was edited.
     """
     recipe = get_recipe(recipe_id, modified_recipe)
     add_dietary_tags_to_recipes([recipe])
     if user_owns_recipe(current_user.id, recipe) or is_user_admin(current_user.id):
-        form = AddRecipeForm() if not is_modified_recipe(recipe) else AddModifiedRecipeForm()
+        form = AddRecipeForm() if not is_modified_recipe(
+            recipe) else AddModifiedRecipeForm()
         if request.method == "POST":
             if form.validate_on_submit():
                 ingredients = form.ingredients.data.strip()
                 instructions = form.instructions.data.strip()
-                
+
                 if is_modified_recipe(recipe):
                     extended_desc = form.extended_desc.data
-                    update_modified_recipe(recipe, instructions, ingredients, extended_desc)
+                    update_modified_recipe(
+                        recipe, instructions, ingredients, extended_desc)
                 else:
                     title = form.title.data
                     desc = form.desc.data
                     image = form.image.data
-                    
-                    update_recipe(recipe, title, desc, ingredients, instructions, image)
+
+                    update_recipe(recipe, title, desc,
+                                  ingredients, instructions, image)
 
                 update_dietary_tags(recipe, form.dietary_tags.data)
                 return redirect(url_for("view_modified_recipe" if is_modified_recipe(recipe) else "view_recipe", recipe_id=recipe.id))
             return render_template("edit-recipe.html", form=form)
-        
-        set_form_dietary_tags(form, dietary_tag_bools_to_data(get_recipe_dietary_tags_bools(recipe)))
-        
-        form.ingredients.data = recipe.ingredients # type: ignore
-        form.instructions.data = recipe.instructions # type: ignore
-        
+
+        set_form_dietary_tags(form, dietary_tag_bools_to_data(
+            get_recipe_dietary_tags_bools(recipe)))
+
+        form.ingredients.data = recipe.ingredients  # type: ignore
+        form.instructions.data = recipe.instructions  # type: ignore
+
         if is_modified_recipe(recipe):
-            form.extended_desc.data = recipe.extended_desc # type: ignore
+            form.extended_desc.data = recipe.extended_desc  # type: ignore
             return render_template("edit-modified-recipe.html", form=form, recipe=recipe)
         else:
-            form.title.data = recipe.title # type: ignore
-            form.desc.data = recipe.desc # type: ignore
-            form.image.data = recipe.image_url # type: ignore
-            return render_template("edit-recipe.html", form=form, recipe=recipe)    
+            form.title.data = recipe.title  # type: ignore
+            form.desc.data = recipe.desc  # type: ignore
+            form.image.data = recipe.image_url  # type: ignore
+            return render_template("edit-recipe.html", form=form, recipe=recipe)
     flash("You can only edit your own recipes.", "danger")
     return redirect(url_for("my_recipes"))
 
@@ -364,7 +380,7 @@ def delete_recipe(recipe_id, modified_recipe):
     recipe = get_recipe(recipe_id, modified_recipe)
     if user_owns_recipe(current_user.id, recipe) or is_user_admin(current_user.id):
         if recipe.image_url and image_exists(recipe.image_url) and not is_modified_recipe(recipe):
-            delete_image(recipe.image_url) 
+            delete_image(recipe.image_url)
         flash(f'Recipe "{recipe}" deleted.', "success")
         db.session.delete(recipe)
         db.session.commit()
@@ -385,7 +401,8 @@ def view_saved_recipes():
     Returns:
         Rendered template: The saved recipes page.
     """
-    saved_recipes_keys = SavedRecipe.query.filter_by(user_id=current_user.id).all()
+    saved_recipes_keys = SavedRecipe.query.filter_by(
+        user_id=current_user.id).all()
 
     saved_recipes = [recipe_key.recipe for recipe_key in saved_recipes_keys]
     add_created_by_to_recipes(saved_recipes)
@@ -402,11 +419,13 @@ def toggle_save_recipe(recipe_id):
     Args:
         recipe_id (int): The ID of the recipe to toggle the save for.
     """
-    if (has_user_saved_recipe(current_user.id, recipe_id)):
-        saved_recipe = SavedRecipe.query.filter_by(user_id=current_user.id, recipe_id=recipe_id).first()
+    if has_user_saved_recipe(current_user.id, recipe_id):
+        saved_recipe = SavedRecipe.query.filter_by(
+            user_id=current_user.id, recipe_id=recipe_id).first()
         db.session.delete(saved_recipe)
     else:
-        saved_recipe = SavedRecipe(user_id=current_user.id, recipe_id=recipe_id) # type: ignore
+        saved_recipe = SavedRecipe(
+            user_id=current_user.id, recipe_id=recipe_id)  # type: ignore
         db.session.add(saved_recipe)
 
     db.session.commit()
@@ -423,29 +442,34 @@ def search():
         The search results page or the home page with an error message.
 
     """
-    # Need to state no crsf token for search form [https://stackoverflow.com/questions/61237524/validating-get-params-with-wtforms-in-flask]
+    # Need to state no crsf token for search form
+    # [https://stackoverflow.com/questions/61237524/validating-get-params-with-wtforms-in-flask]
     search_form = SearchForm(request.args, meta={'csrf': False})
 
     if search_form.validate():
         url_parts = request.query_string.decode("utf-8").split("&")
-        
+
         dietary_tags = []
         for url_part in url_parts:
             if url_part.startswith("search_bar"):
                 search_query_url = url_parts[0].split("=")
-                search_query = search_query_url[1] 
+                search_query = search_query_url[1]
             if url_part.startswith("dietary_tags"):
                 dietary_tags.append(url_part.split("=")[1])
-                
+
         recipes = search_all_recipes(search_query, dietary_tags)
         add_created_by_to_recipes(recipes)
         search_form = SearchForm()
         dietary_tags = dietary_tag_data_to_names(dietary_tags)
-        return render_template("search-results.html", recipes=recipes, search_query=search_query, dietary_tags=dietary_tags, search_form=search_form)
+        return render_template("search-results.html",
+                               recipes=recipes, search_query=search_query,
+                               dietary_tags=dietary_tags, search_form=search_form)
     # If doesn't validate, redirect to home with error message.
     recipes = get_all_recipes()
     add_created_by_to_recipes(recipes)
-    return render_template("index.html", recipes=recipes, search_form=search_form, scroll="search-box")
+    return render_template("index.html",
+                           recipes=recipes, search_form=search_form,
+                           scroll="search-box")
 
 
 # Get image - From Flask documentation
@@ -487,7 +511,6 @@ def internal_server_error(e):
     """Handles 500 error."""
     return render_template("error-pages/500.html", e=e), 500
 
-
 # Helpers
 def get_user(username):
     """Retrieve user from database based using their username.
@@ -519,7 +542,7 @@ def get_all_modified_recipes():
         modified recipes (list): A list of modified recipes.
     """
     modified_recipes = ModifiedRecipe.query.all()
-  
+
     for m_recipe in modified_recipes:
         m_recipe = get_modified_recipe(m_recipe.id)
 
@@ -554,15 +577,16 @@ def add_recipe_data_to_modified_recipes(modified_recipe):
         m_recipe.title = recipe.title
         m_recipe.desc = recipe.desc
         m_recipe.image_url = recipe.image_url
-        m_recipe.modified_by = User.query.filter_by(id=m_recipe.modified_by_id).first().username
-   
+        m_recipe.modified_by = User.query.filter_by(
+            id=m_recipe.modified_by_id).first().username
+
 
 def get_modified_recipe(recipe_id):
     """Get modified recipe from the database using the recipe ID.
-    
+
     Args:
         recipe_id (int): The ID of the recipe to retrieve.
-    
+
     Returns:
         ModifiedRecipe: The modified recipe.
     """
@@ -580,12 +604,17 @@ def add_dietary_tags_to_db(form_dietary_tags):
     Returns:
         int: The ID of the added dietary tags.
     """
-    dietary_tags = DietaryTags(is_vegan="vv" in form_dietary_tags, is_vegetarian="v" in form_dietary_tags, is_gluten_free="gf" in form_dietary_tags, is_dairy_free="df" in form_dietary_tags, is_nut_free="nf" in form_dietary_tags, is_egg_free="ef" in form_dietary_tags) # type: ignore
+    dietary_tags = DietaryTags(is_vegan="vv" in form_dietary_tags,
+                               is_vegetarian="v" in form_dietary_tags,
+                               is_gluten_free="gf" in form_dietary_tags,
+                               is_dairy_free="df" in form_dietary_tags,
+                               is_nut_free="nf" in form_dietary_tags,
+                               is_egg_free="ef" in form_dietary_tags)
     db.session.add(dietary_tags)
     db.session.commit()
     return dietary_tags.id
 
-       
+
 def add_created_by_to_recipes(recipes):
     """Adds the created_by attribute to the recipes
 
@@ -593,21 +622,22 @@ def add_created_by_to_recipes(recipes):
         recipes (list): The recipes to add the created_by attribute to.
     """
     for recipe in recipes:
-        user_id = recipe.original_recipe.user_id if is_modified_recipe(recipe) else recipe.user_id
+        user_id = recipe.original_recipe.user_id if is_modified_recipe(
+            recipe) else recipe.user_id
         recipe.created_by = User.query.filter_by(id=user_id).first().username
 
 
 def has_user_saved_recipe(user_id, recipe_id):
     """Check if user has saved the recipe
-    
+
     args:
         user_id (int): The user id.
         recipe_id (int): The recipe id.
-        
+
     returns: 
         bool: True if user has saved the recipe else false.
     """
-    return bool(SavedRecipe.query.filter_by(user_id=user_id, recipe_id=recipe_id).first()) 
+    return bool(SavedRecipe.query.filter_by(user_id=user_id, recipe_id=recipe_id).first())
 
 
 def save_image(image):
@@ -634,26 +664,28 @@ def upload_image(image):
     Returns: 
         str: The URL of the uploaded image.
     """
-    result = cloudinary.uploader.upload(image, public_id=image.filename, folder="myrecipe/image-uploads")
+    result = cloudinary.uploader.upload(
+        image, public_id=image.filename, folder="myrecipe/image-uploads")
     image_url = result['secure_url']
     return image_url
 
 
-def save_image_locally(image):  
+def save_image_locally(image):
     """Saves an image locally
-    
+
     Args:
         file: The image to be saved.
-        
+
     returns: The image URL
     """
     filename = secure_filename(image.filename)
     save_path = app.config["PACKAGE_NAME"] + "/" + app.config['UPLOAD_FOLDER']
     if not os.path.exists(save_path):
         os.makedirs(save_path)
-        
+
     counter = 2
-    # If file with same name exists, add a number to the end of the filename and increment until a unique filename is found
+    # If file with same name exists, add a number to the end of the filename.
+    # Increment until a unique filename is found
     while os.path.isfile(os.path.join(save_path, filename)):
         filename_parts = filename.split(".")
         filename_name = filename_parts[0]
@@ -662,11 +694,11 @@ def save_image_locally(image):
         else:
             filename_name = filename_name + "_2"
         filename = f'{filename_name}.{".".join(filename_parts[1:])}'
-        counter+=1
+        counter += 1
 
     image.save(os.path.join(save_path, filename))
-                
-    return "/" + app.config["UPLOAD_FOLDER"] + "/" + filename 
+
+    return "/" + app.config["UPLOAD_FOLDER"] + "/" + filename
 
 
 def delete_image(image_url):
@@ -692,8 +724,6 @@ def image_exists(image_url):
     """
     if app.config["SAVE_IMAGES_LOCALLY"]:
         return os.path.exists(app.config["PACKAGE_NAME"] + "/" + image_url)
-    else:
-        False
 
 
 def user_owns_recipe(user_id, recipe):
@@ -708,7 +738,7 @@ def user_owns_recipe(user_id, recipe):
     """
     if is_modified_recipe(recipe):
         # If modified recipe, check the modified_by_id with user_id
-        return recipe.modified_by_id == user_id # type: ignore
+        return recipe.modified_by_id == user_id  # type: ignore
     else:
         # If normal recipe, just check the user_id with user_id
         return recipe.user_id == user_id
@@ -725,17 +755,21 @@ def search_all_recipes(search_query, *args):
         list: Recipes that match the search query and dietary tags filter.
     """
     # Get all recipes that match the search query
-    recipes = Recipe.query.filter(Recipe.title.ilike(f"%{search_query}%")).all()
-    recipes.extend(Recipe.query.filter(Recipe.desc.ilike(f"%{search_query}%")).all())
+    recipes = Recipe.query.filter(
+        Recipe.title.ilike(f"%{search_query}%")).all()
+    recipes.extend(Recipe.query.filter(
+        Recipe.desc.ilike(f"%{search_query}%")).all())
 
     # Get all modified recipes that match the search query
-    modified_recipes = ModifiedRecipe.query.join(ModifiedRecipe.original_recipe).filter(Recipe.title.ilike(f"%{search_query}%")).all() #type: ignore
-    modified_recipes.extend(ModifiedRecipe.query.join(ModifiedRecipe.original_recipe).filter(Recipe.desc.ilike(f"%{search_query}%")).all()) #type: ignore
+    modified_recipes = ModifiedRecipe.query.join(ModifiedRecipe.original_recipe).filter(
+        Recipe.title.ilike(f"%{search_query}%")).all()  # type: ignore
+    modified_recipes.extend(ModifiedRecipe.query.join(ModifiedRecipe.original_recipe).filter(
+        Recipe.desc.ilike(f"%{search_query}%")).all())  # type: ignore
     add_recipe_data_to_modified_recipes(modified_recipes)
 
     # Extend recipes with modified recipes
     recipes.extend(modified_recipes)
-    recipes = set(recipes) # Remove duplicates
+    recipes = set(recipes)  # Remove duplicates
 
     # Create dietary tags boolean filter
     add_dietary_tags_to_recipes(recipes)
@@ -746,31 +780,33 @@ def search_all_recipes(search_query, *args):
         filtered_recipes = []
         for recipe in recipes:
             recipe_filter = get_recipe_dietary_tags_bools(recipe)
-            passed = [recipe_filter[i] for i in range(len(dietary_tags_filter)) if dietary_tags_filter[i]]
-   
+            passed = [recipe_filter[i] for i in range(
+                len(dietary_tags_filter)) if dietary_tags_filter[i]]
+
             if all(passed):
                 filtered_recipes.append(recipe)
     else:
         filtered_recipes = recipes
-        
+
     return filtered_recipes
+
 
 def set_form_dietary_tags(form, dietary_tag_values):
     """ 
     Sets the forms dietary tags to the values provided.
     [https://stackoverflow.com/questions/5519729/wtforms-how-to-select-options-in-selectmultiplefield]
-        
+
     Args:
         form (FlaskForm): The form to set the dietary tags for.
         dietary_tag_values (str list): The dietary tags to set the form to.  
     """
     form.dietary_tags.default = dietary_tag_values
-    form.process()  
+    form.process()
 
 
 def add_dietary_tags_to_recipes(recipes):
     """Adds dietary tags to a list of recipes.
-    
+
     Also sets whether the recipe has dietary tags or not.
 
     Args:
@@ -779,18 +815,23 @@ def add_dietary_tags_to_recipes(recipes):
     for recipe in recipes:
         tags = DietaryTags.query.filter_by(id=recipe.dietary_tags_id).first()
         if tags:
-            recipe.is_vegan = tags.is_vegan 
+            recipe.is_vegan = tags.is_vegan
             recipe.is_vegetarian = tags.is_vegetarian
             recipe.is_gluten_free = tags.is_gluten_free
             recipe.is_dairy_free = tags.is_dairy_free
             recipe.is_nut_free = tags.is_nut_free
             recipe.is_egg_free = tags.is_egg_free
-        
-            recipe.has_dietary_tags = any([recipe.is_vegan, recipe.is_vegetarian, recipe.is_gluten_free, recipe.is_dairy_free, recipe.is_nut_free, recipe.is_egg_free]) # type: ignore
+
+            recipe.has_dietary_tags = any([recipe.is_vegan,
+                                           recipe.is_vegetarian,
+                                           recipe.is_gluten_free,
+                                           recipe.is_dairy_free,
+                                           recipe.is_nut_free,
+                                           recipe.is_egg_free])
         else:
             recipe.has_dietary_tags = False
 
-  
+
 def dietary_tag_data_to_bools(dietary_tags):
     """Converts dietary tag data from the select fields into boolean values."""
     return [tag in dietary_tags for tag in DIETARY_TAGS]
@@ -819,7 +860,7 @@ def dietary_tag_data_to_names(dietary_tags):
 
 def dietary_tag_bools_to_data(dietary_tags):
     """Returns the dietary tag data from the boolean values.
-    
+
     This can be used to set the default values of the dietary tags select field when editing a recipe for example.
     """
     return [tag for tag in DIETARY_TAGS if dietary_tags[DIETARY_TAGS.index(tag)]]
@@ -837,7 +878,7 @@ def is_modified_recipe(recipe):
 
 def update_recipe(recipe, title, desc, ingredients, instructions, image):
     """Update the recipe with the new proposed new version.
-    
+
     Checks whether the data has changed before updating.
 
     Args:
@@ -858,9 +899,9 @@ def update_recipe(recipe, title, desc, ingredients, instructions, image):
         recipe.instructions = instructions
     if image:
         if image.filename != recipe.image_url.split("/")[-1] or not image_exists(recipe.image_url):
-                if image_exists(recipe.image_url):
-                    delete_image(recipe.image_url)
-                recipe.image_url = save_image(image)
+            if image_exists(recipe.image_url):
+                delete_image(recipe.image_url)
+            recipe.image_url = save_image(image)
     db.session.add(recipe)
     db.session.commit()
 
@@ -888,16 +929,17 @@ def update_modified_recipe(recipe, instructions, ingredients, extended_desc):
 
 def update_dietary_tags(recipe, new_dietary_tags_data):
     """Update the dietary tags of a recipe in the db with proposed new version.
-    
+
     Checks whether the data is different to what's already in the db before updating.
 
     Args:
         recipe (Recipe): The recipe object to update the dietary tags for.
         new_dietary_tags_data (str): The new dietary tags data to update the recipe with.
-        
+
     """
     dietary_tags = DietaryTags.query.get(recipe.dietary_tags_id)
-    dietart_tag_data = dietary_tag_bools_to_data(get_recipe_dietary_tags_bools(recipe))
+    dietart_tag_data = dietary_tag_bools_to_data(
+        get_recipe_dietary_tags_bools(recipe))
     if dietart_tag_data != new_dietary_tags_data:
         dietary_tags.is_vegan = "vv" in new_dietary_tags_data
         dietary_tags.is_vegetarian = "v" in new_dietary_tags_data
@@ -908,7 +950,7 @@ def update_dietary_tags(recipe, new_dietary_tags_data):
         db.session.add(dietary_tags)
         db.session.commit()
 
- 
+
 def is_user_admin(user_id):
     """Check if the user is an admin.
 

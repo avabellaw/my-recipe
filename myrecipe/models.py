@@ -97,10 +97,10 @@ class ModifiedRecipe(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     modified_by_id = db.Column(
         db.Integer, db.ForeignKey("users.id"), nullable=False)
-    
+
     recipe_id = db.Column(db.Integer, db.ForeignKey(
         "recipes.id"), nullable=False)
-    
+
     extended_desc = db.Column(db.String(100), nullable=False)
     ingredients = db.Column(db.String(500), nullable=False)
     instructions = db.Column(db.String(1000), nullable=False)
@@ -139,7 +139,12 @@ class DietaryTags(db.Model):
     is_egg_free = db.Column(db.Boolean, nullable=False)
 
     def __repr__(self):
-        return f"dietary tags - vv:{self.is_vegan}, veg:{self.is_vegetarian}, g:{self.is_gluten_free}, d:{self.is_dairy_free}, n:{self.is_nut_free}, e:{self.is_egg_free}"
+        return (f"dietary tags - vv:{self.is_vegan}"
+                + "veg:{self.is_vegetarian},"
+                + "g:{self.is_gluten_free},"
+                + "d:{self.is_dairy_free},"
+                + "n:{self.is_nut_free},"
+                + "e:{self.is_egg_free}")
 
 
 class SavedRecipe(db.Model):

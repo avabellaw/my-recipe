@@ -118,6 +118,18 @@ I will use a simple and light colour scheme.
 * Hint.css
     * A pure CSS library for tooltips.
     * Used to label what each dietary icon means
+* Pylance extension 
+    * IntelliSense
+    * Errors and warnings
+    * Code navigatio
+    * Semantic colourization
+* autopep8 extension/package
+    * Package to automatically format to PEP8 standards.
+* Pylint extension
+    * GUI to validate my code against PEP8 standards.
+    * Informs me warnings, errors and formatting issues
+* pycodestyle package
+    * Commandline package for further validation to PEP8 standards.
 * Google Fonts
     * Easy access to many fonts supplied from a CDN that is close to the user, increasing download speed.
     * The @font-faces are in my stylesheet. This is quicker than the browser making two requests, the first being for the aforementioned stylesheet containing each @font-face.
