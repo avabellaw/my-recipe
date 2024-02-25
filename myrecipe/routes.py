@@ -134,7 +134,7 @@ def logout():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     """Register a new user.
-    
+
     If the user hasn't logged out, it redirects to the homepage.
     
     Returns:
@@ -150,7 +150,8 @@ def register():
             username = form.username.data
             password = form.password.data
             encrypted_pass = bcrypt.generate_password_hash(password).decode("utf-8")
-            user = User(username=username, password=encrypted_pass, user_type=UserType.STANDARD.value)
+            user = User(username=username,
+                        password=encrypted_pass, user_type=UserType.STANDARD.value)
             db.session.add(user)
             db.session.commit()
             return redirect(url_for("login"))
@@ -185,8 +186,8 @@ def profile():
 @app.route("/my-recipes")
 @login_required
 def my_recipes():
-    """View my recipes with all the recipes created by the current user.
-    
+    """View all recipes created by the current user.
+
     Returns:
         Rendered template: The my recipes page.
     """
@@ -261,7 +262,7 @@ def add_recipe():
             recipe = Recipe(user_id=current_user.id, title=title, desc=desc, ingredients=ingredients, instructions=instructions, image_url=image_url if image else null(), dietary_tags_id=dietary_tags_id)
             db.session.add(recipe)
             db.session.commit()
-            
+
             return redirect(url_for("view_recipe", recipe_id=recipe.id))
     return render_template("add-recipe.html", form=form)
 
@@ -330,7 +331,7 @@ def edit_recipe(recipe_id, modified_recipe):
                     image = form.image.data
                     
                     update_recipe(recipe, title, desc, ingredients, instructions, image)
-                
+
                 update_dietary_tags(recipe, form.dietary_tags.data)
                 return redirect(url_for("view_modified_recipe" if is_modified_recipe(recipe) else "view_recipe", recipe_id=recipe.id))
             return render_template("edit-recipe.html", form=form)
@@ -696,6 +697,8 @@ def image_exists(image_url):
     """
     if app.config["SAVE_IMAGES_LOCALLY"]:
         return os.path.exists(app.config["PACKAGE_NAME"] + "/" + image_url)
+    else:
+        False
 
 
 def user_owns_recipe(user_id, recipe):
@@ -859,10 +862,6 @@ def update_dietary_tags(recipe, new_dietary_tags_data):
 
  
 def is_user_admin(user_id):
-    """
-    Params: user_id (int)
-    Returns: True if user is admin
-    """
     return User.query.filter_by(id=user_id, user_type=UserType.ADMIN.value).first() != None
 
 # Wtforms
