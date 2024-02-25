@@ -396,19 +396,19 @@ $ git clone https://github.com/avabellaw/my-recipe
 #### Recipes
 
 * Chilli con carnne
-    * Image from unspash by Micheile Henderson [https://unsplash.com/photos/red-and-green-chili-peppers-in-white-ceramic-bowl-FhMB8pMge5U]
-    * Content based on recipe by bbcgoodfood [https://www.bbcgoodfood.com/recipes/chilli-con-carne-recipe]
+    * [Image from unspash by Micheile Henderson](https://unsplash.com/photos/red-and-green-chili-peppers-in-white-ceramic-bowl-FhMB8pMge5U)
+    * [Content based on recipe by bbcgoodfood](https://www.bbcgoodfood.com/recipes/chilli-con-carne-recipe)
 * Simple pasta
-    * Image from unsplash by Ben Lei [https://unsplash.com/photos/potato-fries-on-white-ceramic-plate-flFd8L7_B3g]
+    * [Image from unsplash by Ben Lei](https://unsplash.com/photos/potato-fries-on-white-ceramic-plate-flFd8L7_B3g)
 * Pizza
-    Image from pixabay by igorovsyannykov [https://pixabay.com/photos/pizza-italian-homemade-cheese-3007395/]
+    [Image from pixabay by igorovsyannykov](https://pixabay.com/photos/pizza-italian-homemade-cheese-3007395/)
 
 ### Code
 
-* "# type: ignore" will ignore errors [https://stackoverflow.com/questions/58936116/pycharm-warns-about-unexpected-arguments-for-sqlalchemy-user-model] 
+* ["# type: ignore" will ignore errors](https://stackoverflow.com/questions/58936116/pycharm-warns-about-unexpected-arguments-for-sqlalchemy-user-model)
     * Otherwise there is an error for unexpected arguments when using models.
     * I avoided having to use this by changing linter configurations.
-* For registering users [https://www.youtube.com/watch?v=71EU8gnZqZQ]
+* [Registering users with Flask](https://www.youtube.com/watch?v=71EU8gnZqZQ)
     * I originally just inputted new users into the database.
     * I watched this video to learn about how to properly handle user registration in Flask.
     * Taught me how to encrypt and check encrypted password.
@@ -416,19 +416,18 @@ $ git clone https://github.com/avabellaw/my-recipe
 
 * bcrypt wasn't able to check_password "Invalid salt".
     * This is because postgres already encodes the hash.
-    * I decode the hash to utf-8 before adding [https://stackoverflow.com/questions/34548846/flask-bcrypt-valueerror-invalid-salt]
+    * [I decode the hash to utf-8 before adding](https://stackoverflow.com/questions/34548846/flask-bcrypt-valueerror-invalid-salt)
 
 * flask_wtf 
     * [How to create forms](https://flask-wtf.readthedocs.io/en/1.2.x/quickstart/#creating-forms)
     * [wtforms validators](https://wtforms.readthedocs.io/en/3.0.x/validators/)
 
-* Add classes to flask_wtf form elements.
-    * [https://stackoverflow.com/questions/22084886/add-a-css-class-to-a-field-in-wtform]
+* [Add classes to flask_wtf form elements](https://stackoverflow.com/questions/22084886/add-a-css-class-to-a-field-in-wtform)
 
 * I learnt how to handle file uploads from flask.palletspro9jects.com and flask-wtf.readthedocs.io
-    * [https://flask.palletsprojects.com/en/2.0.x/patterns/fileuploads/#uploading-files]
-    * [https://flask-wtf.readthedocs.io/en/0.15.x/form/]
-    * I worked out how to point to the 'image-uploads' folder through this Stackoverflow post [https://stackoverflow.com/questions/37901716/flask-uploads-ioerror-errno-2-no-such-file-or-directory] 
+    * https://flask.palletsprojects.com/en/2.0.x/patterns/fileuploads/#uploading-files
+    * https://flask-wtf.readthedocs.io/en/0.15.x/form/
+    * I worked out how to point to the 'image-uploads' folder through [this Stackoverflow post](https://stackoverflow.com/questions/37901716/flask-uploads-ioerror-errno-2-no-such-file-or-directory)
 
 ### Media
 
