@@ -25,7 +25,7 @@ class Recipe(db.Model):
     desc = db.Column(db.String(200), nullable=False)
     ingredients = db.Column(db.String(500), nullable=False)
     instructions = db.Column(db.String(1000), nullable=False)
-    image_url = db.Column(db.String(100), nullable=True)
+    image_url = db.Column(db.String(300), nullable=True)
     dietary_tags_id = db.Column(db.Integer, db.ForeignKey("dietary_tags.id"), nullable=False)
     
     saved_recipes = db.relationship("SavedRecipe", backref="recipe", cascade="all, delete")
