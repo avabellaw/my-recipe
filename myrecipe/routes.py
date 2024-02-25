@@ -21,17 +21,16 @@ import os
 from datetime import datetime
 from flask import (url_for, redirect, render_template,
                    request, send_from_directory, flash)
-from flask_login import (login_user, logout_user, login_required,
-                         current_user, LoginManager)
-from flask_bcrypt import Bcrypt
+from flask_login import (login_user, logout_user,
+                         current_user, login_required)
 from sqlalchemy import null
 
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 
-from myrecipe import db, app, UserType
-from myrecipe.models import User, Recipe, ModifiedRecipe, SavedRecipe  # Helpers
+from myrecipe import db, app, UserType, bcrypt, DEFAULT_ADMIN_PASSWORD, login_manager
+from myrecipe.models import User, Recipe, ModifiedRecipe, SavedRecipe
 from myrecipe.helpers import (get_all_recipes, add_created_by_to_recipes,
                               add_dietary_tags_to_recipes, get_user,
                               user_owns_recipe, is_user_admin, save_image,
@@ -42,11 +41,6 @@ from myrecipe.helpers import (get_all_recipes, add_created_by_to_recipes,
                               dietary_tag_bools_to_data, get_recipe_dietary_tags_bools,
                               set_form_dietary_tags, dietary_tag_data_to_names,
                               add_dietary_tags_to_db, get_recipe, image_exists)
-
-bcrypt = Bcrypt(app)
-login_manager = LoginManager(app)
-login_manager.init_app(app)
-ADMIN_DEFAULT_PASSWORD = "password"
 
 if not app.config["SAVE_IMAGES_LOCALLY"]:
     cloudinary.config(
@@ -109,7 +103,7 @@ def login():
 
     if User.query.filter_by(user_type=UserType.ADMIN.value).first() is None:
         admin = User(username="admin", password=bcrypt.generate_password_hash(
-            ADMIN_DEFAULT_PASSWORD).decode("utf-8"), user_type=UserType.ADMIN.value)
+            DEFAULT_ADMIN_PASSWORD).decode("utf-8"), user_type=UserType.ADMIN.value)
         db.session.add(admin)
         db.session.commit()
 
@@ -120,7 +114,7 @@ def login():
         if form.validate_on_submit():
             login_user(user)
             if (user.user_type == UserType.ADMIN.value
-                    and bcrypt.check_password_hash(user.password, ADMIN_DEFAULT_PASSWORD)):
+                    and bcrypt.check_password_hash(user.password, DEFAULT_ADMIN_PASSWORD)):
                 flash("Please change the admin password from default.", "danger")
                 return redirect(url_for("profile"))
             flash(f"Welcome back, {user.username}!", "success")
@@ -541,4 +535,6 @@ def internal_server_error(e):
 
 
 # Import wtforms
-from myrecipe.forms import RegistrationForm, LoginForm, AddRecipeForm, AddModifiedRecipeForm, SearchForm, NewPasswordForm
+from myrecipe.forms import (RegistrationForm, LoginForm,
+                            AddRecipeForm, AddModifiedRecipeForm,
+                            SearchForm, NewPasswordForm)

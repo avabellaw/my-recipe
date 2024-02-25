@@ -12,8 +12,10 @@ import os
 from enum import Enum
 from pyexpat import model
 from flask import Flask
+from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
+from flask_login import LoginManager
 
 if os.path.exists("env.py"):
     import env
@@ -22,6 +24,7 @@ PACKAGE_NAME = "myrecipe"
 UPLOAD_FOLDER = "image-uploads"
 
 DIETARY_TAGS = ["vv", "v", "gf", "df", "nf", "ef"]
+DEFAULT_ADMIN_PASSWORD = os.environ.get("DEFAULT_ADMIN_PASSWORD")
 
 # Flask configuration
 app = Flask(__name__)
@@ -50,6 +53,10 @@ class Base(DeclarativeBase):
 db = SQLAlchemy(model_class=Base)
 
 db.init_app(app)
+
+bcrypt = Bcrypt(app)
+login_manager = LoginManager(app)
+login_manager.init_app(app)
 
 class UserType(Enum):
     """
