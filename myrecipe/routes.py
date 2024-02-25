@@ -41,6 +41,10 @@ from myrecipe.helpers import (get_all_recipes, add_created_by_to_recipes,
                               dietary_tag_bools_to_data, get_recipe_dietary_tags_bools,
                               set_form_dietary_tags, dietary_tag_data_to_names,
                               add_dietary_tags_to_db, get_recipe, image_exists)
+# Import wtforms
+from myrecipe.forms import (RegistrationForm, LoginForm,
+                            AddRecipeForm, AddModifiedRecipeForm,
+                            SearchForm, NewPasswordForm)
 
 if not app.config["SAVE_IMAGES_LOCALLY"]:
     cloudinary.config(
@@ -532,9 +536,3 @@ def method_not_allowed(e):
 def internal_server_error(e):
     """Handles 500 error."""
     return render_template("error-pages/500.html", e=e), 500
-
-
-# Import wtforms
-from myrecipe.forms import (RegistrationForm, LoginForm,
-                            AddRecipeForm, AddModifiedRecipeForm,
-                            SearchForm, NewPasswordForm)
