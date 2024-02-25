@@ -1,40 +1,50 @@
-import os
-from flask import url_for, redirect, render_template, request, send_from_directory, flash
-from flask_login import login_user, logout_user, login_required, current_user, LoginManager, login_user
-from flask_bcrypt import Bcrypt
-from sqlalchemy import Boolean, null
-from myrecipe import db, app
-from myrecipe.models import DietaryTags, User, Recipe, SavedRecipe, ModifiedRecipe
-import boto3
 from enum import Enum
+import os
 from datetime import datetime
+from flask import (url_for, redirect, render_template,
+                   request, send_from_directory, flash)
+from flask_login import login_user, logout_user, login_required, current_user, LoginManager
+from flask_bcrypt import Bcrypt
+from sqlalchemy import null
 
 # WTForms imports
 from flask_wtf import FlaskForm
-from wtforms import BooleanField, FileField, PasswordField, SelectMultipleField, StringField, TextAreaField
-from wtforms.fields import SelectMultipleField
-from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
+from wtforms import PasswordField, SelectMultipleField, StringField, TextAreaField
+from wtforms.validators import DataRequired, Length, EqualTo, ValidationError
 from werkzeug.utils import secure_filename
 from flask_wtf.file import FileField, FileAllowed
 import cloudinary
 import cloudinary.uploader
+
+# Import from init
+from myrecipe import db, app
+from myrecipe.models import DietaryTags, User, Recipe, SavedRecipe, ModifiedRecipe
 
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 login_manager.init_app(app)
 DIETARY_TAGS = ["vv", "v", "gf", "df", "nf", "ef"]
 ADMIN_DEFAULT_PASSWORD = "password"
-    
+
 class UserType(Enum):
+    """
+    Enumeration for user types.
+    
+    Attributes:
+        STANDARD (str): Standard user type.
+        ADMIN (str): Admin user type.
+    """
     STANDARD = "STANDARD"
     ADMIN = "ADMIN"
 
-if not app.config["SAVE_IMAGES_LOCALLY"]:          
-    cloudinary.config( 
-        cloud_name = os.environ.get("cloud_name"), 
-        api_key = os.environ.get("api_key"), 
-        api_secret = os.environ.get("api_secret") 
+
+if not app.config["SAVE_IMAGES_LOCALLY"]:
+    cloudinary.config(
+        cloud_name=os.environ.get("cloud_name"),
+        api_key=os.environ.get("api_key"),
+        api_secret=os.environ.get("api_secret")
     )
+
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -50,6 +60,10 @@ def inject_date():
 # Homepage
 @app.route("/")
 def home():
+    """
+    Renders the homepage of the application.
+    It displays a search form, all recipes, and injects the current date for the footer.
+    """
     search_form = SearchForm()
     recipes = get_all_recipes()
     add_created_by_to_recipes(recipes)
@@ -60,24 +74,30 @@ def home():
 # Login user
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    """
+    Handles the login functionality.
+    If the user is already authenticated, it redirects to the homepage.
+    If there is no admin user, it creates an admin user with default password.
+    If the login form is submitted and valid, it logs in the user and redirects to the homepage.
+    """
     if current_user.is_authenticated:
         return redirect(url_for("home"))
-    
+
     if User.query.filter_by(user_type=UserType.ADMIN.value).first() is None:
         admin = User(username="admin", password=bcrypt.generate_password_hash(ADMIN_DEFAULT_PASSWORD).decode("utf-8"), user_type=UserType.ADMIN.value)
         db.session.add(admin)
         db.session.commit()
-    
+
     form = LoginForm()
-        
+
     if request.method == "POST":
         user = get_user(request.form.get("username"))
         if form.validate_on_submit():
             login_user(user)
-            if user.user_type == UserType.ADMIN.value and bcrypt.check_password_hash(user.password, ADMIN_DEFAULT_PASSWORD):
+            if (user.user_type == UserType.ADMIN.value and bcrypt.check_password_hash(user.password, ADMIN_DEFAULT_PASSWORD)):
                 flash("Please change the admin password from default.", "danger")
                 return redirect(url_for("profile"))
-            flash(f"Welcome back, {user.username}!", "success") # type: ignore
+            flash(f"Welcome back, {user.username}!", "success")
             return redirect(url_for("home"))
     return render_template("login.html", form=form)
 
@@ -86,6 +106,10 @@ def login():
 @app.route("/logout", methods=["GET", "POST"])
 @login_required
 def logout():
+    """
+    Handles the logout functionality.
+    Logs out the user and redirects to the homepage.
+    """
     logout_user()
     flash("You have been logged out.", "success")
     return redirect(url_for("home"))
@@ -94,21 +118,26 @@ def logout():
 # Register user
 @app.route("/register", methods=["GET", "POST"])
 def register():
+    """
+    Handles the user registration functionality.
+    If the user is already authenticated, it redirects to the homepage.
+    If the registration form is submitted and valid, it creates a new user and redirects to the login page.
+    """
     if current_user.is_authenticated:
         return redirect(url_for("home"))
-    
+
     form = RegistrationForm()
-    
+
     if request.method == "POST":
         if form.validate_on_submit():
             username = form.username.data
             password = form.password.data
             encrypted_pass = bcrypt.generate_password_hash(password).decode("utf-8")
-            user = User(username=username, password=encrypted_pass, user_type=UserType.STANDARD.value) # type: ignore
+            user = User(username=username, password=encrypted_pass, user_type=UserType.STANDARD.value)
             db.session.add(user)
             db.session.commit()
             return redirect(url_for("login"))
-        
+
     return render_template("register.html", form=form)
 
 
@@ -116,9 +145,13 @@ def register():
 @app.route("/profile", methods=["GET", "POST"])
 @login_required
 def profile():
+    """
+    Renders the user profile page.
+    If the form is submitted and valid, it updates the user's password and displays a success message.
+    """
     form = NewPasswordForm()
     user = User.query.get(current_user.id)
-    
+
     if request.method == "POST":
         if form.validate_on_submit():
             user.password = bcrypt.generate_password_hash(form.new_password.data).decode("utf-8")
@@ -128,10 +161,13 @@ def profile():
     return render_template("profile.html", user=user, form=form)
 
 
-# My recipies
+# My recipes
 @app.route("/my-recipes")
 @login_required
 def my_recipes():
+    """
+    Renders the page displaying the recipes created by the current user.
+    """
     recipes = [recipe for recipe in get_all_recipes() if user_owns_recipe(current_user.id, recipe)]
     add_created_by_to_recipes(recipes)
     return render_template("my-recipes.html", recipes=recipes)
@@ -140,19 +176,28 @@ def my_recipes():
 # View recipe
 @app.route("/recipe/<int:recipe_id>", methods=["GET", "POST"])
 def view_recipe(recipe_id):
-    recipe_is_saved = has_user_saved_recipe(current_user.id, recipe_id) if current_user.is_authenticated else False  
+    """
+    Renders the page displaying a specific recipe.
+    If the user is authenticated, it checks if the recipe is saved by the user.
+    If the user is an admin, it sets the `is_admin` flag to True.
+    """
+    recipe_is_saved = has_user_saved_recipe(current_user.id, recipe_id) if current_user.is_authenticated else False
     recipe = Recipe.query.get(recipe_id)
     add_created_by_to_recipes([recipe])
     add_dietary_tags_to_recipes([recipe])
-    
+
     is_admin = is_user_admin(current_user.id) if current_user.is_authenticated else False
-    
+
     return render_template("view-recipe.html", recipe=recipe, recipe_is_saved=recipe_is_saved, is_admin=is_admin)
 
 
 # View modified recipe
 @app.route("/modified-recipe/<int:recipe_id>", methods=["GET", "POST"])
 def view_modified_recipe(recipe_id):
+    """
+    Renders the page displaying a modified recipe.
+    If the user is an admin, it sets the `is_admin` flag to True.
+    """
     recipe = get_modified_recipe(recipe_id)
     add_dietary_tags_to_recipes([recipe])
     add_created_by_to_recipes([recipe])
@@ -166,11 +211,15 @@ def view_modified_recipe(recipe_id):
 @app.route("/add-recipe", methods=["GET", "POST"])
 @login_required
 def add_recipe():
+    """
+    Handles the functionality for adding a new recipe.
+    If the form is submitted and valid, it creates a new recipe and redirects to the recipe view page.
+    """
     form = AddRecipeForm()
     
     if request.method == "POST":
         title = form.title.data
-        desc = form.desc.data 
+        desc = form.desc.data
         ingredients = form.ingredients.data.strip()
         instructions = form.instructions.data.strip()
         if form.validate_on_submit():
@@ -179,7 +228,7 @@ def add_recipe():
                 image_url = save_image(image)
                 
             dietary_tags_id = add_dietary_tags_to_db(form.dietary_tags.data)
-            recipe = Recipe(user_id=current_user.id, title=title, desc=desc, ingredients=ingredients, instructions=instructions, image_url=image_url if image else null(), dietary_tags_id=dietary_tags_id) # type: ignore
+            recipe = Recipe(user_id=current_user.id, title=title, desc=desc, ingredients=ingredients, instructions=instructions, image_url=image_url if image else null(), dietary_tags_id=dietary_tags_id)
             db.session.add(recipe)
             db.session.commit()
             
@@ -191,9 +240,13 @@ def add_recipe():
 @app.route("/add-modified-recipe/<int:recipe_id>", methods=["GET", "POST"])
 @login_required
 def add_modified_recipe(recipe_id):
+    """
+    Handles the functionality for adding a modified recipe.
+    If the form is submitted and valid, it creates a new modified recipe and redirects to the recipe view page.
+    """
     form = AddModifiedRecipeForm()
     original_recipe = Recipe.query.get(recipe_id)
-    original_recipe.created_by = User.query.filter_by(id=original_recipe.user_id).first().username # type: ignore
+    original_recipe.created_by = User.query.filter_by(id=original_recipe.user_id).first().username
     
     if request.method == "POST":
         if form.validate_on_submit():
@@ -201,7 +254,7 @@ def add_modified_recipe(recipe_id):
             instructions = form.instructions.data.strip()
             extended_desc = form.extended_desc.data
             dietary_tags_id = add_dietary_tags_to_db(form.dietary_tags.data)
-            modified_recipe = ModifiedRecipe(modified_by_id=current_user.id, recipe_id=recipe_id, dietary_tags_id=dietary_tags_id, extended_desc=extended_desc, ingredients=ingredients, instructions=instructions) # type: ignore
+            modified_recipe = ModifiedRecipe(modified_by_id=current_user.id, recipe_id=recipe_id, dietary_tags_id=dietary_tags_id, extended_desc=extended_desc, ingredients=ingredients, instructions=instructions)
             
             db.session.add(modified_recipe)
             db.session.commit()
@@ -219,6 +272,11 @@ def add_modified_recipe(recipe_id):
 @app.route("/edit-recipe/<int:recipe_id>/<int:modified_recipe>", methods=["GET", "POST"])
 @login_required
 def edit_recipe(recipe_id, modified_recipe):
+    """
+    Handles the functionality for editing a recipe.
+    If the user owns the recipe or is an admin, it allows editing the recipe.
+    If the form is submitted and valid, it updates the recipe and redirects to the recipe view page.
+    """
     recipe = get_recipe(recipe_id, modified_recipe)
     add_dietary_tags_to_recipes([recipe])
     if user_owns_recipe(current_user.id, recipe) or is_user_admin(current_user.id):
@@ -242,7 +300,7 @@ def edit_recipe(recipe_id, modified_recipe):
                 return redirect(url_for("view_modified_recipe" if is_modified_recipe(recipe) else "view_recipe", recipe_id=recipe.id))
             return render_template("edit-recipe.html", form=form)
         
-        set_default_dietary_tags(form, dietary_tag_bools_to_data(get_recipe_dietary_tags_bools(recipe)))
+        set_form_dietary_tags(form, dietary_tag_bools_to_data(get_recipe_dietary_tags_bools(recipe)))
         
         form.ingredients.data = recipe.ingredients # type: ignore
         form.instructions.data = recipe.instructions # type: ignore
@@ -292,7 +350,7 @@ def view_saved_recipes():
 @app.route("/toggle-save-recipe/<int:recipe_id>", methods=["POST"])
 @login_required
 def toggle_save_recipe(recipe_id):
-    if(has_user_saved_recipe(current_user.id, recipe_id)):
+    if (has_user_saved_recipe(current_user.id, recipe_id)):
         saved_recipe = SavedRecipe.query.filter_by(user_id=current_user.id, recipe_id=recipe_id).first()
         db.session.delete(saved_recipe)
     else:
@@ -389,9 +447,9 @@ def get_recipe(recipe_id, get_modified=False):
 def add_recipe_data_to_modified_recipes(modified_recipe):
     for m_recipe in modified_recipe:
         recipe = Recipe.query.get(m_recipe.recipe_id)
-        m_recipe.title = recipe.title # type: ignore
-        m_recipe.desc = recipe.desc # type: ignore
-        m_recipe.image_url = recipe.image_url # type: ignore
+        m_recipe.title = recipe.title
+        m_recipe.desc = recipe.desc
+        m_recipe.image_url = recipe.image_url
         m_recipe.modified_by = User.query.filter_by(id=m_recipe.modified_by_id).first().username # type: ignore
    
 
@@ -455,14 +513,37 @@ def save_image_locally(image):
 
 
 def delete_image(image_url):
-    os.remove(os.path.join(app.config["PACKAGE_NAME"] + "/" + image_url))
+    if app.config["SAVE_IMAGES_LOCALLY"]:
+        os.remove(app.config["PACKAGE_NAME"] + "/" + image_url)
+    else:
+        cloudinary.uploader.destroy(image_url)
 
 
 def image_exists(image_url):
-    return os.path.exists(app.config["PACKAGE_NAME"] + "/" + image_url)
+    """Check if the image file exists in the specified path.
+
+    Args:
+        image_url (str): The URL of the image file.
+
+    Returns:
+        bool: True if the image file exists, False otherwise.
+    """
+    if app.config["SAVE_IMAGES_LOCALLY"]:
+        return os.path.exists(app.config["PACKAGE_NAME"] + "/" + image_url)
+    else:
+        return cloudinary.api.resource(image_url) != None
 
 
 def user_owns_recipe(user_id, recipe):
+    """Check if the user owns the recipe.
+
+    Args:
+        user_id (int): The ID of the user.
+        recipe (Recipe): The recipe to check.
+
+    Returns:
+        bool: True if the user owns the recipe, False otherwise.
+    """
     if is_modified_recipe(recipe):
         # If modified recipe, check the modified_by_id with user_id
         return recipe.modified_by_id == user_id # type: ignore
@@ -472,39 +553,56 @@ def user_owns_recipe(user_id, recipe):
 
 
 def search_all_recipes(search_query, *args):
+    """Search for recipes that match the given search query and apply dietary tags filter.
+
+    Args:
+        search_query (str): The search query to match against recipe titles and descriptions.
+        *args: Variable number of arguments representing dietary tags filter.
+
+    Returns:
+        list: Recipes that match the search query and dietary tags filter.
+    """
     # Get all recipes that match the search query
     recipes = Recipe.query.filter(Recipe.title.ilike(f"%{search_query}%")).all()
     recipes.extend(Recipe.query.filter(Recipe.desc.ilike(f"%{search_query}%")).all())
-    
+
     # Get all modified recipes that match the search query
     modified_recipes = ModifiedRecipe.query.join(ModifiedRecipe.original_recipe).filter(Recipe.title.ilike(f"%{search_query}%")).all() #type: ignore
     modified_recipes.extend(ModifiedRecipe.query.join(ModifiedRecipe.original_recipe).filter(Recipe.desc.ilike(f"%{search_query}%")).all()) #type: ignore
     add_recipe_data_to_modified_recipes(modified_recipes)
-    
+
     # Extend recipes with modified recipes
-    recipes.extend(modified_recipes) # type: ignore
+    recipes.extend(modified_recipes)
     recipes = set(recipes) # Remove duplicates
+
+    # Create dietary tags boolean filter
     add_dietary_tags_to_recipes(recipes)
-    filter = dietary_tag_data_to_bools(args[0])
-    
+    dietary_tags_filter = dietary_tag_data_to_bools(args[0])
+
     # Apply dietary tags filter
-    if True in filter:
+    if True in dietary_tags_filter:
         filtered_recipes = []
         for recipe in recipes:
             recipe_filter = get_recipe_dietary_tags_bools(recipe)
-            passed = [recipe_filter[i] for i in range(len(filter)) if filter[i]]
-            
+            passed = [recipe_filter[i] for i in range(len(dietary_tags_filter)) if dietary_tags_filter[i]]
+   
             if all(passed):
                 filtered_recipes.append(recipe)
     else:
         filtered_recipes = recipes
-                
+        
     return filtered_recipes
 
-
-def set_default_dietary_tags(form, default_values):
-    # Set default dietary tags [https://stackoverflow.com/questions/5519729/wtforms-how-to-select-options-in-selectmultiplefield]
-    form.dietary_tags.default = default_values
+def set_form_dietary_tags(form, dietary_tag_values):
+    """ 
+    Sets the forms dietary tags to the values provided.
+    [https://stackoverflow.com/questions/5519729/wtforms-how-to-select-options-in-selectmultiplefield]
+        
+    Args:
+        form (FlaskForm): The form to set the dietary tags for.
+        dietary_tag_values (str list): The dietary tags to set the form to.  
+    """
+    form.dietary_tags.default = dietary_tag_values
     form.process()  
 
 
@@ -597,6 +695,10 @@ def update_dietary_tags(recipe, new_dietary_tags_data):
 
  
 def is_user_admin(user_id):
+    """
+    Params: user_id (int)
+    Returns: True if user is admin
+    """
     return User.query.filter_by(id=user_id, user_type=UserType.ADMIN.value).first() != None
 
 # Wtforms
@@ -605,56 +707,59 @@ class RegistrationForm(FlaskForm):
     username = StringField("Username:", validators=[DataRequired(), Length(min=2, max=20)])
     password = PasswordField("Password:", validators=[DataRequired(), Length(min=8, max=20)])
     confirm_password = PasswordField("Confirm your password:", validators=[DataRequired(), EqualTo("password")])
-    
+
     def validate_username(self, username):
         if get_user(username.data):
             raise ValidationError(f"Username already taken: {username.data}")
-        
+    
 class LoginForm(FlaskForm):
     username = StringField("Username:", validators=[DataRequired(), Length(min=2, max=20)])
     password = PasswordField("Password:", validators=[DataRequired(), Length(min=8, max=20)])
-    
+
     def validate_username(self, username):
         if not get_user(username.data):
             raise ValidationError(f"Username does not exist: {username.data}")
-        
+ 
     def validate_password(self, password):
         user = get_user(self.username.data)
         if user and not bcrypt.check_password_hash(user.password, password.data):
             raise ValidationError(f"Password is incorrect.")
-        
+  
 class AddRecipeForm(FlaskForm):
     title = StringField("Title:", validators=[DataRequired(), Length(min=2, max=40)])
     desc = StringField("Description:", validators=[DataRequired(), Length(min=2, max=200)])
     ingredients = TextAreaField("Ingredients:", validators=[DataRequired(), Length(min=10, max=500)])
     instructions = TextAreaField("Instructions:", validators=[DataRequired(), Length(min=10, max=1000)])
     image = FileField('image', validators=[FileAllowed(['jpg', 'jpeg', 'png', 'webp'], 'Please only upload an image (jpg, png, or webp).')])
-    
+
     # Dietary tags
     dietary_tags = SelectMultipleField(choices=[("vv", "Vegan"), ("v", "Vegetarian"), ("gf", "Gluten-free"), ("df", "Dairy-free"), ("nf", "Nut-free"), ("ef", "Egg-free")])
     
 class AddModifiedRecipeForm(FlaskForm):
-    extended_desc = StringField("Extended description:", validators=[DataRequired(), Length(min=2, max=100)])
-    ingredients = TextAreaField("Ingredients:", validators=[DataRequired(), Length(min=10, max=500)])
-    instructions = TextAreaField("Instructions:", validators=[DataRequired(), Length(min=10, max=1000)])
-    
+    extended_desc = StringField("Extended description:",
+                                validators=[DataRequired(), Length(min=2, max=100)])
+    ingredients = TextAreaField("Ingredients:",
+                                validators=[DataRequired(), Length(min=10, max=500)])
+    instructions = TextAreaField("Instructions:",
+                                 validators=[DataRequired(), Length(min=10, max=1000)])
+
     # Dietary tags
     dietary_tags = SelectMultipleField(choices=[("vv", "Vegan"), ("v", "Vegetarian"), ("gf", "Gluten-free"), ("df", "Dairy-free"), ("nf", "Nut-free"), ("ef", "Egg-free")])
-    
+
 class SearchForm(FlaskForm):
     search_bar = StringField("Search:")
      # Dietary tags
     dietary_tags = SelectMultipleField(choices=[("vv", "Vegan"), ("v", "Veggie"), ("gf", "GF"), ("df", "Dairy-free"), ("nf", "Nut-free"), ("ef", "Egg-free")])
-    
+
     def validate_search_bar(self, search_bar):
         if not search_bar.data and not self.dietary_tags.data:
             raise ValidationError("Please enter a search query or select a filter.")
-    
+        
 class NewPasswordForm(FlaskForm):
     current_password = PasswordField("Current password:", validators=[DataRequired(), Length(min=8, max=20)])
     new_password = PasswordField("New password:", validators=[DataRequired(), Length(min=8, max=20)])
     confirm_password = PasswordField("Confirm new password:", validators=[DataRequired(), EqualTo("new_password", "Passwords must match.")])
-    
+
     def validate_current_password(self, current_password):
         if not bcrypt.check_password_hash(User.query.get(current_user.id).password, self.current_password.data):
             raise ValidationError("Current password is incorrect.")

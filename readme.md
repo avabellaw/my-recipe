@@ -233,6 +233,7 @@ There are 2 warnings but that's because I am using a vendor extenstion for Mater
     * I attempted uploading all the allowed formats to ensure they were successful.
     * I tested that invalid file formats were rejected in the back-end and the front-end.
 * Tested that the backend validation works to ensure only the authorized users can delete.
+    * I did this by editing the url to try delete recipes I don't own.
 * I switched filesystem provider from Cloudcube s3 bucket to cloudinary.
     * I needed to increase the size of the string column "image_url" to accomodate a longer url.
     * I used the following SQL to alter the size of the column in the production and local database:
@@ -245,9 +246,6 @@ There are 2 warnings but that's because I am using a vendor extenstion for Mater
         * After setting them, I edited the image again and inspected the url. It was set to the intended cloudinary url:
 
             ![Correct cloudinary image](docs/manual-testing/correct-cloudinary-url.webp)
-
-
-
 
 ### Further Testing
 
