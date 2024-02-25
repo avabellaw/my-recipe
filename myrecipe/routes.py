@@ -3,21 +3,16 @@ import os
 from datetime import datetime
 from flask import (url_for, redirect, render_template,
                    request, send_from_directory, flash)
-from flask_login import login_user, logout_user, login_required, current_user, LoginManager
+from flask_login import (login_user, logout_user, login_required,
+                         current_user, LoginManager)
 from flask_bcrypt import Bcrypt
 from sqlalchemy import null
 
-# WTForms imports
-from flask_wtf import FlaskForm
-from wtforms import PasswordField, SelectMultipleField, StringField, TextAreaField
-from wtforms.validators import DataRequired, Length, EqualTo, ValidationError
 from werkzeug.utils import secure_filename
-from flask_wtf.file import FileField, FileAllowed
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 
-# Import from init
 from myrecipe import db, app
 from myrecipe.models import DietaryTags, User, Recipe, SavedRecipe, ModifiedRecipe
 
@@ -774,15 +769,22 @@ def set_form_dietary_tags(form, dietary_tag_values):
 
 
 def add_dietary_tags_to_recipes(recipes):
+    """Adds dietary tags to a list of recipes.
+    
+    Also sets whether the recipe has dietary tags or not.
+
+    Args:
+        recipes (list): List of recipes.
+    """
     for recipe in recipes:
         tags = DietaryTags.query.filter_by(id=recipe.dietary_tags_id).first()
         if tags:
-            recipe.is_vegan = tags.is_vegan # type: ignore
-            recipe.is_vegetarian = tags.is_vegetarian # type: ignore
-            recipe.is_gluten_free = tags.is_gluten_free # type: ignore
-            recipe.is_dairy_free = tags.is_dairy_free # type: ignore
-            recipe.is_nut_free = tags.is_nut_free # type: ignore
-            recipe.is_egg_free = tags.is_egg_free # type: ignore
+            recipe.is_vegan = tags.is_vegan 
+            recipe.is_vegetarian = tags.is_vegetarian
+            recipe.is_gluten_free = tags.is_gluten_free
+            recipe.is_dairy_free = tags.is_dairy_free
+            recipe.is_nut_free = tags.is_nut_free
+            recipe.is_egg_free = tags.is_egg_free
         
             recipe.has_dietary_tags = any([recipe.is_vegan, recipe.is_vegetarian, recipe.is_gluten_free, recipe.is_dairy_free, recipe.is_nut_free, recipe.is_egg_free]) # type: ignore
         else:
@@ -790,10 +792,19 @@ def add_dietary_tags_to_recipes(recipes):
 
   
 def dietary_tag_data_to_bools(dietary_tags):
+    """Converts dietary tag data from the select fields into boolean values."""
     return [tag in dietary_tags for tag in DIETARY_TAGS]
 
 
 def dietary_tag_data_to_names(dietary_tags):
+    """Converts dietary tag data from select fields into humane-readable names.
+
+    Args:
+        dietary_tags (list): A list of dietary tag data.
+
+    Returns:
+        list: The dietary tag names from the data.
+    """
     if len(dietary_tags) == 0:
         return []
     dietary_str = ",".join(dietary_tags)
@@ -807,18 +818,36 @@ def dietary_tag_data_to_names(dietary_tags):
 
 
 def dietary_tag_bools_to_data(dietary_tags):
+    """Returns the dietary tag data from the boolean values.
+    
+    This can be used to set the default values of the dietary tags select field when editing a recipe for example.
+    """
     return [tag for tag in DIETARY_TAGS if dietary_tags[DIETARY_TAGS.index(tag)]]
 
 
 def get_recipe_dietary_tags_bools(recipe):
+    """Returns a list of booleans from the dietary tags of a recipe."""
     return [recipe.is_vegan, recipe.is_vegetarian, recipe.is_gluten_free, recipe.is_dairy_free, recipe.is_nut_free, recipe.is_egg_free]
 
 
 def is_modified_recipe(recipe):
+    """Returns bool: True if the recipe is a modified recipe else false."""
     return hasattr(recipe, "original_recipe")
 
 
 def update_recipe(recipe, title, desc, ingredients, instructions, image):
+    """Update the recipe with the new proposed new version.
+    
+    Checks whether the data has changed before updating.
+
+    Args:
+        recipe (Recipe): The recipe to be updated.
+        title (str): The title form data.
+        desc (str): The description form data
+        ingredients (str): The ingrediends form data.
+        instructions (str): The instructions form data.
+        image (FileStorage): The image file form data.
+    """
     if title != recipe.title:
         recipe.title = title
     if desc != recipe.desc:
@@ -837,6 +866,16 @@ def update_recipe(recipe, title, desc, ingredients, instructions, image):
 
 
 def update_modified_recipe(recipe, instructions, ingredients, extended_desc):
+    """Update the modified recipe with the proposed new version.
+
+    Checks whether the data has changed before updating.
+
+    Args:
+        recipe (Recipe): The recipe to be updated.
+        ingredients (str): The ingrediends form data.
+        instructions (str): The instructions form data.
+        extended_desc (str): The extended description form data.
+    """
     if extended_desc != recipe.extended_desc:
         recipe.extended_desc = extended_desc
     if ingredients != recipe.ingredients:
@@ -848,6 +887,15 @@ def update_modified_recipe(recipe, instructions, ingredients, extended_desc):
 
 
 def update_dietary_tags(recipe, new_dietary_tags_data):
+    """Update the dietary tags of a recipe in the db with proposed new version.
+    
+    Checks whether the data is different to what's already in the db before updating.
+
+    Args:
+        recipe (Recipe): The recipe object to update the dietary tags for.
+        new_dietary_tags_data (str): The new dietary tags data to update the recipe with.
+        
+    """
     dietary_tags = DietaryTags.query.get(recipe.dietary_tags_id)
     dietart_tag_data = dietary_tag_bools_to_data(get_recipe_dietary_tags_bools(recipe))
     if dietart_tag_data != new_dietary_tags_data:
@@ -862,71 +910,15 @@ def update_dietary_tags(recipe, new_dietary_tags_data):
 
  
 def is_user_admin(user_id):
+    """Check if the user is an admin.
+
+    Args:
+        user_id (int): The ID of the user to check.
+
+    Returns:
+        bool: True if the user is an admin else false.
+    """
     return User.query.filter_by(id=user_id, user_type=UserType.ADMIN.value).first() != None
 
-# Wtforms
-
-class RegistrationForm(FlaskForm):
-    username = StringField("Username:", validators=[DataRequired(), Length(min=2, max=20)])
-    password = PasswordField("Password:", validators=[DataRequired(), Length(min=8, max=20)])
-    confirm_password = PasswordField("Confirm your password:", validators=[DataRequired(), EqualTo("password")])
-
-    def validate_username(self, username):
-        if get_user(username.data):
-            raise ValidationError(f"Username already taken: {username.data}")
-    
-class LoginForm(FlaskForm):
-    username = StringField("Username:", validators=[DataRequired(), Length(min=2, max=20)])
-    password = PasswordField("Password:", validators=[DataRequired(), Length(min=8, max=20)])
-
-    def validate_username(self, username):
-        if not get_user(username.data):
-            raise ValidationError(f"Username does not exist: {username.data}")
- 
-    def validate_password(self, password):
-        user = get_user(self.username.data)
-        if user and not bcrypt.check_password_hash(user.password, password.data):
-            raise ValidationError(f"Password is incorrect.")
-  
-class AddRecipeForm(FlaskForm):
-    title = StringField("Title:", validators=[DataRequired(), Length(min=2, max=40)])
-    desc = StringField("Description:", validators=[DataRequired(), Length(min=2, max=200)])
-    ingredients = TextAreaField("Ingredients:", validators=[DataRequired(), Length(min=10, max=500)])
-    instructions = TextAreaField("Instructions:", validators=[DataRequired(), Length(min=10, max=1000)])
-    image = FileField('image', validators=[FileAllowed(['jpg', 'jpeg', 'png', 'webp'], 'Please only upload an image (jpg, png, or webp).')])
-
-    # Dietary tags
-    dietary_tags = SelectMultipleField(choices=[("vv", "Vegan"), ("v", "Vegetarian"), ("gf", "Gluten-free"), ("df", "Dairy-free"), ("nf", "Nut-free"), ("ef", "Egg-free")])
-    
-class AddModifiedRecipeForm(FlaskForm):
-    extended_desc = StringField("Extended description:",
-                                validators=[DataRequired(), Length(min=2, max=100)])
-    ingredients = TextAreaField("Ingredients:",
-                                validators=[DataRequired(), Length(min=10, max=500)])
-    instructions = TextAreaField("Instructions:",
-                                 validators=[DataRequired(), Length(min=10, max=1000)])
-
-    # Dietary tags
-    dietary_tags = SelectMultipleField(choices=[("vv", "Vegan"), ("v", "Vegetarian"), ("gf", "Gluten-free"), ("df", "Dairy-free"), ("nf", "Nut-free"), ("ef", "Egg-free")])
-
-class SearchForm(FlaskForm):
-    search_bar = StringField("Search:")
-     # Dietary tags
-    dietary_tags = SelectMultipleField(choices=[("vv", "Vegan"), ("v", "Veggie"), ("gf", "GF"), ("df", "Dairy-free"), ("nf", "Nut-free"), ("ef", "Egg-free")])
-
-    def validate_search_bar(self, search_bar):
-        if not search_bar.data and not self.dietary_tags.data:
-            raise ValidationError("Please enter a search query or select a filter.")
-        
-class NewPasswordForm(FlaskForm):
-    current_password = PasswordField("Current password:", validators=[DataRequired(), Length(min=8, max=20)])
-    new_password = PasswordField("New password:", validators=[DataRequired(), Length(min=8, max=20)])
-    confirm_password = PasswordField("Confirm new password:", validators=[DataRequired(), EqualTo("new_password", "Passwords must match.")])
-
-    def validate_current_password(self, current_password):
-        if not bcrypt.check_password_hash(User.query.get(current_user.id).password, self.current_password.data):
-            raise ValidationError("Current password is incorrect.")
-    
-    def validate_confirm_password(self, new_password):
-        if bcrypt.check_password_hash(User.query.get(current_user.id).password, self.new_password.data):
-            raise ValidationError("New password cannot be the same as the current password.")
+# Import wtforms
+from myrecipe.forms import RegistrationForm, LoginForm, AddRecipeForm, AddModifiedRecipeForm, SearchForm, NewPasswordForm
