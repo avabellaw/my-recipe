@@ -194,6 +194,24 @@ I will use a simple and light colour scheme.
 
 There are 2 warnings but that's because I am using a vendor extenstion for MateralizeCSS.
 
+### PEP8 Validation
+
+I used pylint and pycodestyle (formally known as pep8) to validate my Python code to PEP8 standards.
+I also used autopep8 to quickly format my code first.
+
+I decided to keep my line length at a cap of 100. This fits my project needs well and is the default for pylint.
+I followed every other PEP8 guideline.
+
+This is the output from pylint:
+![pylint output](docs/validation/python/final-results.webp)
+
+The import in the init file is unable to be added to the top.
+This is due to routes using variables configured in the __init__ module.
+
+There's also a line in the helpers module that is 2 characters over the line length limit.
+This is due to a link attributing my knowledge of wtforms' SelectMultipleField to a stackoverflow post.
+
+
 ### Testing User Stories From The User Experience Section
 
 1. "I want to be able to easily search recipes with filters."
