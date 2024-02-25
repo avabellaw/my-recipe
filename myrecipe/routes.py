@@ -125,7 +125,8 @@ def login():
         user = get_user(request.form.get("username"))
         if form.validate_on_submit():
             login_user(user)
-            if (user.user_type == UserType.ADMIN.value and bcrypt.check_password_hash(user.password, ADMIN_DEFAULT_PASSWORD)):
+            if (user.user_type == UserType.ADMIN.value
+                    and bcrypt.check_password_hash(user.password, ADMIN_DEFAULT_PASSWORD)):
                 flash("Please change the admin password from default.", "danger")
                 return redirect(url_for("profile"))
             flash(f"Welcome back, {user.username}!", "success")
@@ -235,7 +236,10 @@ def view_recipe(recipe_id):
     is_admin = is_user_admin(
         current_user.id) if current_user.is_authenticated else False
 
-    return render_template("view-recipe.html", recipe=recipe, recipe_is_saved=recipe_is_saved, is_admin=is_admin)
+    return render_template("view-recipe.html",
+                           recipe=recipe,
+                           recipe_is_saved=recipe_is_saved,
+                           is_admin=is_admin)
 
 
 # View modified recipe
@@ -256,7 +260,10 @@ def view_modified_recipe(recipe_id):
     is_admin = is_user_admin(
         current_user.id) if current_user.is_authenticated else False
 
-    return render_template("view-recipe.html", recipe=recipe, recipe_is_saved=False, is_admin=is_admin)
+    return render_template("view-recipe.html",
+                           recipe=recipe,
+                           recipe_is_saved=False,
+                           is_admin=is_admin)
 
 
 # Add recipe
@@ -281,8 +288,10 @@ def add_recipe():
                 image_url = save_image(image)
 
             dietary_tags_id = add_dietary_tags_to_db(form.dietary_tags.data)
-            recipe = Recipe(user_id=current_user.id, title=title, desc=desc, ingredients=ingredients,
-                            instructions=instructions, image_url=image_url if image else null(), dietary_tags_id=dietary_tags_id)
+            recipe = Recipe(user_id=current_user.id, title=title, desc=desc,
+                            ingredients=ingredients, instructions=instructions,
+                            image_url=image_url if image else null(),
+                            dietary_tags_id=dietary_tags_id)
             db.session.add(recipe)
             db.session.commit()
 
@@ -310,8 +319,12 @@ def add_modified_recipe(recipe_id):
             instructions = form.instructions.data.strip()
             extended_desc = form.extended_desc.data
             dietary_tags_id = add_dietary_tags_to_db(form.dietary_tags.data)
-            modified_recipe = ModifiedRecipe(modified_by_id=current_user.id, recipe_id=recipe_id, dietary_tags_id=dietary_tags_id,
-                                             extended_desc=extended_desc, ingredients=ingredients, instructions=instructions)
+            modified_recipe = ModifiedRecipe(modified_by_id=current_user.id,
+                                             recipe_id=recipe_id,
+                                             dietary_tags_id=dietary_tags_id,
+                                             extended_desc=extended_desc,
+                                             ingredients=ingredients,
+                                             instructions=instructions)
 
             db.session.add(modified_recipe)
             db.session.commit()
@@ -362,7 +375,8 @@ def edit_recipe(recipe_id, modified_recipe):
                                   ingredients, instructions, image)
 
                 update_dietary_tags(recipe, form.dietary_tags.data)
-                return redirect(url_for("view_modified_recipe" if is_modified_recipe(recipe) else "view_recipe", recipe_id=recipe.id))
+                return redirect(url_for("view_modified_recipe" if is_modified_recipe(recipe)
+                                        else "view_recipe", recipe_id=recipe.id))
             return render_template("edit-recipe.html", form=form)
 
         set_form_dietary_tags(form, dietary_tag_bools_to_data(
@@ -415,7 +429,8 @@ def delete_recipe(recipe_id, modified_recipe):
 def view_saved_recipes():
     """App route for displaying saved recipes.
 
-    Retrieves the saved recipes associated with the current user and adds the 'created by' information to each recipe.
+    Retrieves the saved recipes associated with the current user.
+    It then adds the 'created by' information to each recipe.
 
     Returns:
         Rendered template: The saved recipes page.
@@ -882,14 +897,21 @@ def dietary_tag_data_to_names(dietary_tags):
 def dietary_tag_bools_to_data(dietary_tags):
     """Returns the dietary tag data from the boolean values.
 
-    This can be used to set the default values of the dietary tags select field when editing a recipe for example.
+    This can be used to set the default values of the dietary tags.
+    This is from the dietary tags select field.
     """
-    return [tag for tag in DIETARY_TAGS if dietary_tags[DIETARY_TAGS.index(tag)]]
+    return [tag for tag in DIETARY_TAGS
+            if dietary_tags[DIETARY_TAGS.index(tag)]]
 
 
 def get_recipe_dietary_tags_bools(recipe):
     """Returns a list of booleans from the dietary tags of a recipe."""
-    return [recipe.is_vegan, recipe.is_vegetarian, recipe.is_gluten_free, recipe.is_dairy_free, recipe.is_nut_free, recipe.is_egg_free]
+    return [recipe.is_vegan,
+            recipe.is_vegetarian,
+            recipe.is_gluten_free,
+            recipe.is_dairy_free,
+            recipe.is_nut_free,
+            recipe.is_egg_free]
 
 
 def is_modified_recipe(recipe):
@@ -981,8 +1003,9 @@ def is_user_admin(user_id):
     Returns:
         bool: True if the user is an admin else false.
     """
-    return User.query.filter_by(id=user_id, user_type=UserType.ADMIN.value).first() != None
-
+    
+    return User.query.filter_by(id=user_id,
+                                user_type=UserType.ADMIN.value).first() is not None
 
 # Import wtforms
 from myrecipe.forms import RegistrationForm, LoginForm, AddRecipeForm, AddModifiedRecipeForm, SearchForm, NewPasswordForm
