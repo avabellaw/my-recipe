@@ -1,3 +1,17 @@
+"""
+Contains the FlaskForms for My Recipe.
+
+Classes:
+
+    RegistrationForm: Used for user registration page.
+    LoginForm: Used for user login page.
+    AddRecipeForm: Used on the add recipe page.
+    AddModifiedRecipeForm: Used on the add modified recipe page.
+    SearchForm: Used for searching for a recipe.
+    NewPasswordForm: Used by profile page to change password.
+
+"""
+
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user

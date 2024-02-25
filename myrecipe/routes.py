@@ -1,3 +1,22 @@
+"""
+Contains the routes for the My Recipe application.
+
+Functions:
+
+    load_user(user_id): Used by login manager to load user from the database.
+    inject_date(): Template context processor to inject the current date into all templates.
+    home(): Route for homepage.
+    login(): Route for login page.
+    logout(): Route for logging out.
+    register(): Route for registration page.
+    profile(): Route for profile page to change password.
+    my_recipes(): Route for my recipes page.
+    view_recipe(recipe_id): Route for page to view a recipe.
+    view_modified_recipe(recipe_id): Route for page to view a modified recipe.
+    add_recipe(): Route for page to add a recipe.
+    add_modified_recipe(recipe_id): Route for page to add a modified recipe.
+"""
+
 from enum import Enum
 import os
 from datetime import datetime
@@ -13,8 +32,8 @@ import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 
-from myrecipe import db, app
 from myrecipe.models import DietaryTags, User, Recipe, SavedRecipe, ModifiedRecipe
+from myrecipe import db, app
 
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
@@ -512,6 +531,8 @@ def internal_server_error(e):
     return render_template("error-pages/500.html", e=e), 500
 
 # Helpers
+
+
 def get_user(username):
     """Retrieve user from database based using their username.
 
@@ -961,6 +982,7 @@ def is_user_admin(user_id):
         bool: True if the user is an admin else false.
     """
     return User.query.filter_by(id=user_id, user_type=UserType.ADMIN.value).first() != None
+
 
 # Import wtforms
 from myrecipe.forms import RegistrationForm, LoginForm, AddRecipeForm, AddModifiedRecipeForm, SearchForm, NewPasswordForm

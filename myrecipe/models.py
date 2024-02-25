@@ -1,3 +1,19 @@
+"""
+Contains the database models for My Recipe.
+
+Each class represents each table in the SQL database and define the relationships.
+
+Classes:
+
+    User: Represents the users table in SQL.
+    Recipe: Represents the recipes table in SQL.
+    ModifiedRecipe: Represents the modified_recipes table in SQL.
+    DietaryTags: Represents the dietary_tags table in SQL.
+    SavedRecipe: Represents the saved_recipes table in SQL.
+
+The attributes in each class represent the columns in the table.
+"""
+
 from flask_login import UserMixin
 from myrecipe import db
 

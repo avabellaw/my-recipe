@@ -1,3 +1,13 @@
+"""
+Contains the intialization code for My Recipe.
+
+Intializes the Flask app and the database connection.
+
+Handles the configuration of the app.
+
+Imports routes.
+"""
+
 import os
 from pyexpat import model
 from flask import Flask
@@ -6,11 +16,6 @@ from sqlalchemy.orm import DeclarativeBase
 
 if os.path.exists("env.py"):
     import env
-
-
-class Base(DeclarativeBase):
-    pass
-
 
 PACKAGE_NAME = "myrecipe"
 UPLOAD_FOLDER = "image-uploads"
@@ -31,6 +36,12 @@ has_cloudinary_creds = os.environ.get("cloud_name") is not None and os.environ.g
     "api_key") is not None and os.environ.get("api_secret") is not None
 
 app.config['SAVE_IMAGES_LOCALLY'] = not has_cloudinary_creds
+
+
+class Base(DeclarativeBase):
+    """Base class for SQLAlchemy models."""
+    __abstract__ = True
+
 
 db = SQLAlchemy(model_class=Base)
 
