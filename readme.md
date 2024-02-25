@@ -5,7 +5,7 @@
 This project demonstrates my ability to use Python, Flask, and SQLAlchemy. It also includes the use of Google's CSS framework "Materialize".
 It builds on my knowledge gained from previous modules and showcases my skills in creating a website that incorporates database functionilty.
 
-[View the live project here.](https://my-recipe-project-3-0dce9d94a33a.herokuapp.com/)
+<a href="https://my-recipe-project-3-0dce9d94a33a.herokuapp.com/" target="_blank">View the live project here.</a>
 
 <img src="" alt="Multi-Device Mockup" width="50%">
 
