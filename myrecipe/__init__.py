@@ -9,6 +9,7 @@ Imports routes.
 """
 
 import os
+from enum import Enum
 from pyexpat import model
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -20,6 +21,9 @@ if os.path.exists("env.py"):
 PACKAGE_NAME = "myrecipe"
 UPLOAD_FOLDER = "image-uploads"
 
+DIETARY_TAGS = ["vv", "v", "gf", "df", "nf", "ef"]
+
+# Flask configuration
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY")
 if os.environ.get("DEVELOPMENT") == "True":
@@ -46,5 +50,16 @@ class Base(DeclarativeBase):
 db = SQLAlchemy(model_class=Base)
 
 db.init_app(app)
+
+class UserType(Enum):
+    """
+    Enumeration for user types.
+
+    Attributes:
+        STANDARD (str): Standard user type.
+        ADMIN (str): Admin user type.
+    """
+    STANDARD = "STANDARD"
+    ADMIN = "ADMIN"
 
 from myrecipe import routes
