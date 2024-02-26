@@ -32,6 +32,10 @@ html {
     font-size: 2em;
 }
 
+#error-page_message-container>h3 {
+    font-size: 1.5em;
+}
+
 /* From Stackoverflow [https://stackoverflow.com/questions/44846068/css-equal-height-columns] */
 .equal-height-cols {
     display: flex;
