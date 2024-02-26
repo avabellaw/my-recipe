@@ -346,6 +346,7 @@ def edit_recipe(recipe_id, modified_recipe):
     """
     recipe = get_recipe(recipe_id, modified_recipe)
     add_dietary_tags_to_recipes([recipe])
+    add_created_by_to_recipes([recipe])
     if user_owns_recipe(current_user.id, recipe) or is_user_admin(current_user.id):
         form = AddRecipeForm() if not is_modified_recipe(
             recipe) else AddModifiedRecipeForm()
@@ -383,11 +384,11 @@ def edit_recipe(recipe_id, modified_recipe):
         if is_modified_recipe(recipe):
             form.extended_desc.data = recipe.extended_desc
             return render_template("edit-modified-recipe.html", form=form, recipe=recipe)
-        else:
-            form.title.data = recipe.title
-            form.desc.data = recipe.desc
-            form.image.data = recipe.image_url
-            return render_template("edit-recipe.html", form=form, recipe=recipe)
+        
+        form.title.data = recipe.title
+        form.desc.data = recipe.desc
+        form.image.data = recipe.image_url
+        return render_template("edit-recipe.html", form=form, recipe=recipe)
     flash("You can only edit your own recipes.", "danger")
     return redirect(url_for("my_recipes"))
 
