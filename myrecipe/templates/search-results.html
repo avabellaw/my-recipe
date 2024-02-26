@@ -36,13 +36,7 @@
 
 {% block scripts %}
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        select = document.querySelectorAll('select');
-        M.FormSelect.init(select);
-
-        document.getElementsByClassName("select-dropdown")[0].placeholder = "Add dietary filters";
-    });
-</script>
+<!-- Init dietary tags select field -->
+<script src="{{ url_for('static', filename='js/init-select-field.js')}}"></script>
 
 {% endblock %}

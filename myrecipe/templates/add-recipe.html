@@ -104,29 +104,12 @@
 
 {% block scripts %}
 <!-- Front-end validation of image uploads -->
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        imageUploadBtn = document.getElementById("image-upload-btn");
+<script src="{{ url_for('static', filename='js/front-end-image-validation.js') }}"></script>
 
-        imageUploadBtn.onchange = function () {
-            const fileFormatsAllowed = [".webp", ".jpg", ".jpeg", ".png"]
+<!-- Init dietary tags select field -->
+<script src="{{ url_for('static', filename='js/init-select-field.js')}}"></script>
 
-            let isValid = fileFormatsAllowed.some(format => imageUploadBtn.value.endsWith(format));
-
-            if (isValid) {
-                imageUploadBtn.classList.remove("invalid");
-                imageUploadBtn.classList.add("valid");
-            } else {
-                imageUploadBtn.classList.remove("valid");
-                imageUploadBtn.classList.add("invalid");
-            }
-        };
-
-        select = document.querySelectorAll('select');
-        M.FormSelect.init(select);
-    });
-</script>
-
+<!-- Load the function to show preview of uploaded images -->
 <script src="{{ url_for('static', filename='js/load-preview-image-function.js')}}"></script>
 
 {% endblock %}
