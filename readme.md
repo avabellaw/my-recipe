@@ -408,7 +408,7 @@ Performance - Accessibility - Best practices - SEO
 
 **Mobile**
 
-* Hompage
+* Homepage
 
     ![Homepage](docs/lighthouse/homepage-mobile.webp)
 
@@ -419,6 +419,10 @@ Performance - Accessibility - Best practices - SEO
 * Search results
 
     ![Search results](docs/lighthouse/search-results-mobile.webp)
+
+* My Recipes results
+
+    ![My Recipes results](docs/lighthouse/my-recipes-mobile.webp)
 
 **Desktop**
 
@@ -433,6 +437,10 @@ Performance - Accessibility - Best practices - SEO
 * Search results
 
     ![Search results](docs/lighthouse/search-results-desktop.webp)
+
+* My Recipes results
+
+    ![My Recipes results](docs/lighthouse/my-recipes-desktop.webp)
 
 ### Known Issues/Bugs
 
