@@ -33,17 +33,42 @@
 </head>
 
 <body>
+    <!-- Navbar - Account menu dropdown items when logged in -->
+    {% macro nav_menu_items() %}
+    <li><a href="{{ url_for('profile') }}">Profile</a></li>
+    <li><a href="{{ url_for('my_recipes') }}">My recipes</a></li>
+    <li><a href="{{ url_for('view_saved_recipes') }}">Saved recipes</a></li>
+    <li class="divider"></li>
+    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+    {% endmacro %}
+
     <header>
         <!-- Account menu dropdown items when logged in -->
         {% if current_user.is_authenticated %}
         <ul id="account-dropdown_menu" class="dropdown-content">
-            <li><a href="{{ url_for('profile') }}">Profile</a></li>
-            <li><a href="{{ url_for('my_recipes') }}">My recipes</a></li>
-            <li><a href="{{ url_for('view_saved_recipes') }}">Saved recipes</a></li>
-            <li class="divider"></li>
-            <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            {{ nav_menu_items() }}
         </ul>
         {% endif %}
+
+        <!-- Mobile sidenav items-->
+        <ul class="sidenav" id="mobile-sidenav">
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            {% if current_user.is_authenticated %}
+            <li id="account-options-title">
+                <i class="account-dropdown_person-icon material-icons">person</i>
+                {{-current_user.username-}}
+            </li>
+            <li>
+                <ul>
+                    {{ nav_menu_items() }}
+                </ul>
+            </li>
+            {% else %}
+            <li id="mobile-sidenav_login-btn">
+                <a href="{{ url_for('login') }}"><span class="waves-effect waves-light btn login-btn">Login</span></a>
+            </li>
+            {% endif %}
+        </ul>
 
         <!-- Navbar -->
         <nav>
@@ -73,29 +98,6 @@
                 </div>
             </div>
         </nav>
-
-        <!-- Mobile nav -->
-        <ul class="sidenav" id="mobile-sidenav">
-            <li><a href="{{ url_for('home') }}">Home</a></li>
-            {% if current_user.is_authenticated %}
-            <li id="account-options-title">
-                <i class="account-dropdown_person-icon material-icons">person</i>
-                {{-current_user.username-}}
-            </li>
-            <li>
-                <ul id="account-dropdown_menu">
-                    <li><a href="{{ url_for('profile') }}">Profile</a></li>
-                    <li><a href="{{ url_for('my_recipes') }}">My recipes</a></li>
-                    <li class="divider"></li>
-                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
-                </ul>
-            </li>
-            {% else %}
-            <li id="mobile-sidenav_login-btn">
-                <a href="{{ url_for('login') }}"><span class="waves-effect waves-light btn login-btn">Login</span></a>
-            </li>
-            {% endif %}
-        </ul>
 
         <!-- Code from flask.palletsprojects [https://flask.palletsprojects.com/en/2.3.x/patterns/flashing/] -->
         <div id="flash-message" class="flash-message">
@@ -135,9 +137,6 @@
     <!-- Materialize initialization JS -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            let elems = document.querySelectorAll('.sidenav');
-            M.Sidenav.init(elems);
-
             let dropdowns = document.querySelectorAll('.dropdown-trigger');
 
             // Add dropdown options from stackoverflow [https://stackoverflow.com/questions/50051540/materialize-dropdown-options]
