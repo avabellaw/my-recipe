@@ -320,7 +320,7 @@ def add_modified_recipe(recipe_id):
 
             db.session.add(modified_recipe)
             db.session.commit()
-            return redirect(url_for("view_recipe", recipe_id=modified_recipe.id))
+            return redirect(url_for("view_modified_recipe", recipe_id=modified_recipe.id))
 
     form.ingredients.data = original_recipe.ingredients  # type: ignore
     form.instructions.data = original_recipe.instructions  # type: ignore
@@ -369,7 +369,8 @@ def edit_recipe(recipe_id, modified_recipe):
                 update_dietary_tags(recipe, form.dietary_tags.data)
                 return redirect(url_for("view_modified_recipe" if is_modified_recipe(recipe)
                                         else "view_recipe", recipe_id=recipe.id))
-            return render_template("edit-recipe.html", form=form)
+            return render_template("edit-modified-recipe.html" if is_modified_recipe(recipe)
+                                        else "edit-recipe", form=form)
 
         set_form_dietary_tags(form, dietary_tag_bools_to_data(
             get_recipe_dietary_tags_bools(recipe)))
