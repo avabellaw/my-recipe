@@ -84,8 +84,13 @@ body {
     font-family: "Crimson Text", serif;
 }
 
-a.btn.orange {
+.btn.orange:not(.darken-3) {
     color: black;
+}
+
+.btn.orange {
+    font-weight: 600;
+    font-family: "Karla", sans-serif;
 }
 
 .center-on-mobile {
