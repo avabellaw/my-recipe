@@ -46,6 +46,10 @@ html {
     margin: 0;
 }
 
+.no-padding {
+    padding: 0;
+}
+
 li::marker {
     color: var(--main-colour);
     font-size: 0.8em;
@@ -53,6 +57,18 @@ li::marker {
 
 .hide {
     display: none;
+}
+
+h1 {
+    font-size: 3.5em;
+}
+
+h2 {
+    font-size: 2.5em;
+}
+
+h3 {
+    font-size: 2em;
 }
 
 h1,
@@ -279,12 +295,13 @@ body>section {
 
 #search-form>button {
     margin-left: 1em;
-    padding: 0 0.6em;
+    padding: 0 0.8em;
     border-radius: 30%;
 }
 
 #search-form>button>i {
-    font-size: 2em;
+    font-size: 1.5em;
+    margin-right: 0.2em;
 }
 
 #search-box #search-bar {
@@ -297,7 +314,7 @@ body>section {
 
 #search-box {
     box-sizing: border-box;
-    padding: 2em;
+    padding: 1em;
     border: 1px solid black;
     background-color: #fffaf4d6;
 }
@@ -326,6 +343,21 @@ input#search_bar:focus {
 #search-box_header {
     font-size: 2em;
     color: black;
+}
+
+@media screen and (min-width: 600px){
+    #search-box {
+        padding: 2em;
+    }
+
+    #search-form>button {
+        padding: 0 0.6em;
+    }
+    
+    #search-form>button>i {
+        font-size: 1.8em;    
+        margin-right: 0;
+    }
 }
 
 /* End of Homepage */
