@@ -6,37 +6,43 @@
 <div class="dietary-tag-container">
     {% if recipe.is_vegan %}
     <div class="dietary-tag hint--bottom" aria-label="Vegan">
-        <img src="{{ url_for('static', filename='images/dietary-tags/vegan-icon.webp')}}" alt="Vegan symbol" width="32" height="32">
+        <img src="{{ url_for('static', filename='images/dietary-tags/vegan-icon.webp')}}" alt="Vegan symbol" width="32"
+            height="32">
     </div>
     {% endif %}
 
     {% if recipe.is_vegetarian %}
     <div class="dietary-tag hint--bottom" aria-label="Vegetarian">
-        <img src="{{ url_for('static', filename='images/dietary-tags/vegetarian-icon.webp')}}" alt="Vegetarian symbol" width="32" height="32">
+        <img src="{{ url_for('static', filename='images/dietary-tags/vegetarian-icon.webp')}}" alt="Vegetarian symbol"
+            width="32" height="32">
     </div>
     {% endif %}
 
     {% if recipe.is_gluten_free %}
     <div class="dietary-tag hint--bottom" aria-label="Gluten-Free">
-        <img src="{{ url_for('static', filename='images/dietary-tags/gluten-free-icon.webp')}}" alt="Gluten-Free symbol" width="32" height="32">
+        <img src="{{ url_for('static', filename='images/dietary-tags/gluten-free-icon.webp')}}" alt="Gluten-Free symbol"
+            width="32" height="32">
     </div>
     {% endif %}
 
     {% if recipe.is_dairy_free %}
     <div class="dietary-tag hint--bottom" aria-label="Dairy-Free">
-        <img src="{{ url_for('static', filename='images/dietary-tags/dairy-free-icon.webp')}}" alt="Dairy-Free symbol" width="32" height="32">
+        <img src="{{ url_for('static', filename='images/dietary-tags/dairy-free-icon.webp')}}" alt="Dairy-Free symbol"
+            width="32" height="32">
     </div>
     {% endif %}
 
     {% if recipe.is_nut_free %}
     <div class="dietary-tag hint--bottom" aria-label="Nut-Free">
-        <img src="{{ url_for('static', filename='images/dietary-tags/nut-free-icon.webp')}}" alt="Nut-Free symbol" width="32" height="32">
+        <img src="{{ url_for('static', filename='images/dietary-tags/nut-free-icon.webp')}}" alt="Nut-Free symbol"
+            width="32" height="32">
     </div>
     {% endif %}
 
     {% if recipe.is_egg_free %}
     <div class="dietary-tag hint--bottom" aria-label="Egg-Free">
-        <img src="{{ url_for('static', filename='images/dietary-tags/egg-free-icon.webp')}}" alt="Egg-Free symbol" width="32" height="32">
+        <img src="{{ url_for('static', filename='images/dietary-tags/egg-free-icon.webp')}}" alt="Egg-Free symbol"
+            width="32" height="32">
     </div>
     {% endif %}
 </div>
@@ -81,7 +87,8 @@
                         {% endif %}
                     </div>
                     <div class="card-action">
-                        <a class="view-recipe-btn" href="{{ url_for('view_recipe' if recipe.original_recipe == null else 'view_modified_recipe', recipe_id=recipe.id) }}">View
+                        <a class="view-recipe-btn"
+                            href="{{ url_for('view_recipe' if recipe.original_recipe == null else 'view_modified_recipe', recipe_id=recipe.id) }}">View
                             Recipe</a>
                         <p class="card_created-by right">
                             <small>
@@ -108,32 +115,37 @@
 
 <div id="search-box">
     <form action="{{ url_for('search') }}" method="GET">
-        <div class="row">
-            <div class="col s12">
-                <label for="search_bar" id="search-box_header">Search for a recipe:</label>
-            </div>
-            <div class="col s12 m7">
-                <div id="search-form">
-                    {{ search_form.search_bar }}
-
-                    <button class="btn waves-effect waves-light orange" type="submit" name="action">
-                        <i class="material-icons">search</i>
-                    </button>
-                </div>
-
-            </div>
-            <div class="col s12 m5">
-                <div id="search-tags">
-                    {{ search_form.dietary_tags }}
+        <div class="container">
+            <div class="row">
+                <div class="col s12">
+                    <label for="search_bar" id="search-box_header">Search for a recipe:</label>
                 </div>
             </div>
+            <div class="row">
+                <div class="col s12 m7">
+                    <div id="search-form">
+                        {{ search_form.search_bar }}
+
+                        <button class="btn waves-effect waves-light orange" type="submit" name="action">
+                            <i class="material-icons">search</i>
+                        </button>
+                    </div>
+
+                </div>
+                <div class="col s12 m5">
+                    <div id="search-tags">
+                        {{ search_form.dietary_tags }}
+                    </div>
+                </div>
+            </div>
+
+            {% for error in search_form.search_bar.errors %}
+            <p class="validation-message">
+                <i class="material-icons">error_outline</i> {{ error }}
+            </p>
+            {% endfor %}
+
         </div>
-        
-        {% for error in search_form.search_bar.errors %}
-        <p class="validation-message">
-            <i class="material-icons">error_outline</i> {{ error }}
-        </p>
-        {% endfor %}
     </form>
 </div>
 
