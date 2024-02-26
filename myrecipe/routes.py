@@ -346,11 +346,12 @@ def edit_recipe(recipe_id, modified_recipe):
     """
     recipe = get_recipe(recipe_id, modified_recipe)
     add_dietary_tags_to_recipes([recipe])
+    add_created_by_to_recipes([recipe])
     if user_owns_recipe(current_user.id, recipe) or is_user_admin(current_user.id):
         form = AddRecipeForm() if not is_modified_recipe(
             recipe) else AddModifiedRecipeForm()
         if request.method == "POST":
-            if form.validate_on_submit():
+            if form.validate_on_submit() and False:
                 ingredients = form.ingredients.data.strip()
                 instructions = form.instructions.data.strip()
 
@@ -369,8 +370,10 @@ def edit_recipe(recipe_id, modified_recipe):
                 update_dietary_tags(recipe, form.dietary_tags.data)
                 return redirect(url_for("view_modified_recipe" if is_modified_recipe(recipe)
                                         else "view_recipe", recipe_id=recipe.id))
+            if not is_modified_recipe(recipe):
+                form.image.data = recipe.image_url
             return render_template("edit-modified-recipe.html" if is_modified_recipe(recipe)
-                                        else "edit-recipe", form=form)
+                                   else "edit-recipe.html", form=form, recipe=recipe)
 
         set_form_dietary_tags(form, dietary_tag_bools_to_data(
             get_recipe_dietary_tags_bools(recipe)))
@@ -381,11 +384,11 @@ def edit_recipe(recipe_id, modified_recipe):
         if is_modified_recipe(recipe):
             form.extended_desc.data = recipe.extended_desc
             return render_template("edit-modified-recipe.html", form=form, recipe=recipe)
-        else:
-            form.title.data = recipe.title
-            form.desc.data = recipe.desc
-            form.image.data = recipe.image_url
-            return render_template("edit-recipe.html", form=form, recipe=recipe)
+        
+        form.title.data = recipe.title
+        form.desc.data = recipe.desc
+        form.image.data = recipe.image_url
+        return render_template("edit-recipe.html", form=form, recipe=recipe)
     flash("You can only edit your own recipes.", "danger")
     return redirect(url_for("my_recipes"))
 
