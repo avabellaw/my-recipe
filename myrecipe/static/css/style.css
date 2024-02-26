@@ -495,6 +495,10 @@ input#search_bar:focus {
 
 #ingredients-container {
     box-shadow: #00000026 0px 0px 0.5em inset;
+    /* Sticky element from w3schools [https://www.w3schools.com/howto/howto_css_sticky_element.asp] */
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: 0;
 }
 
 #ingredients-container ul {
