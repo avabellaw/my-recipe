@@ -384,7 +384,7 @@ def edit_recipe(recipe_id, modified_recipe):
         if is_modified_recipe(recipe):
             form.extended_desc.data = recipe.extended_desc
             return render_template("edit-modified-recipe.html", form=form, recipe=recipe)
-        
+
         form.title.data = recipe.title
         form.desc.data = recipe.desc
         form.image.data = recipe.image_url
