@@ -399,9 +399,9 @@ Performance - Accessibility - Best practices - SEO
     * There's no backend code to stop you from doing this but it's also not a problem.
     * To stop this would mean querying the database an extra time before saving/unsaving recipes which isn't worth it. If someone wants to save their recipe by manually editing the url that's up to them.
 * Can't save modified recipes.
-    * This is due to an oversight with the database model.
-    * Saved_Recipes contains the foreign key for only a standard Recipe
-* "A form field element should have an id or name attribute"
+    * Saved_Recipes contains the foreign key for only a standard Recipe.
+    * Modified recipes should be private but for demonstration purposes, they are public.
+* "A form field element should have an id or name attribute".
     * The dietary tag fields are created by wtforms.
 * If there is a validation error when searching recipes, it returns to the homepage with the validation message.
     * It does this when searching using the search box on the search results page when it should return to the same page.
