@@ -378,10 +378,14 @@ This is due to a link attributing my knowledge of wtforms' SelectMultipleField t
 * I checked to ensure search validation worked. By entering no filter **or** search term.
 
     ![Search box validation](docs/manual-testing/enter-filter-or-search-query.webp)
-* I added a new modified recipe.
+* I created a new modified recipe.
     * Checked it appeared under "My Recipes".
     * Edited every editable field.
     * Then deleted it.
+* I tested the website on my mobile.
+* I clicked all the links.
+    * GitHub link opens a new tab because it's an external link.
+* I had my partner test the website on their phone.
 
 #### Google Lighthouse
 
