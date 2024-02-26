@@ -189,25 +189,38 @@ I will use a simple and light colour scheme.
 
 ### [W3C Markup Validator](https://validator.w3.org)
 
+* Common validator warnings.
+    *  Section lacks heading.
+        * I shoudn't be using section as there are no headings.
+        * However, there are headings for each recipe within containers. 
+        * In future, I would use a div instead.
+    * hint.css warnings.
+        * Possible misuse of aria-label.
+        * aria-label is used for hint.css tooltip text.
+* Common validator errors.
+    * WTForms errors.
+        * There are 13 errors created by the wtforms SelectMultipleFields.
+        * In future, I would find a way to remove these but the project functions with them as they are bad attribute errors.
+
 <details>
 <summary>HTML validation results table</summary>
 
 | URL                       | Page                 | Logged in | Comments            | Results                |
 |---------------------------|----------------------|-----------|---------------------|------------------------|
-| /                         | Homepage             | No        | aria-label is used for hint.css tooltip text. Also that I shoudn't be using section as there are no headings. This is due to the recipes being within containers. | [Only warnings for aria-label](https://validator.w3.org/nu/?doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2F)|
-| /                         | Homepage             | Yes       | There are 13 errors created by the wtforms SelectMultipleFields. In future, I would find a way to remove these but the project functions with them as they are bad attribute errors. #account-dropdown-menu is repeated twice because of the mobile-sidenav but this is required for MaterializeCSS. | [Only MaterializeCSS and Wtforms errors](docs/validation/html/homepage_logged-in.webp) |
+| /                         | Homepage             | No        | hint.css warning    | [All passed apart from explained](https://validator.w3.org/nu/?doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2F)|
+| /                         | Homepage             | Yes       | WTForms errors.     | [All passed apart from explained](docs/validation/html/homepage_logged-in.webp) |
 | /login                    | Log in               | No        | | [No errors or warnings](https://validator.w3.org/nu/?showsource=yes&showoutline=yes&doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Flogin)|
 | /register                 | Register             | No        | | [No errors or warnings](https://validator.w3.org/nu/?showsource=yes&showoutline=yes&doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Fregister)|
-| /my-recipes               | View user recipes    | Yes       | Two elements with same ID is for the MaterializeCSS nav + mobile side nav styling | [All passed apart from ID used twice for materialize](docs/validation/html/my-recipes.webp)|
-| /search?...               | Search results       | Yes       | Same aforementioned MaterializeCSS and wtforms SelectMultipleFields errors. Warnings for misuse of aria-label but this is for hint.css | [All passed apart from explained errors/warnings](docs/validation/html/search-results-page_logged-in.webp)|
-| /search?...               | Search results       | No        | Only validation warnings due to hint.css aria-labels | [No errors](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Fsearch%3Fsearch_bar%3D%26action%3D%26dietary_tags%3Dvv)|
-| /recipe/4                 | View recipe          | No        | Only validations warnings due to hint.css aria-labels | [No errors](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Frecipe%2F4)|
-| /recipe/modified-recipe/2 | View modified recipe | No        | Only hint.css warnings | [No errors](https://validator.w3.org/nu/?showsource=yes&showoutline=yes&doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Fmodified-recipe%2F2)|
-| /edit-recipe/             | Edit recipe          | Yes       | Same aforementioned MaterializeCSS and wtforms SelectMultipleFields errors. Warnings for misuse of aria-label but this is for hint.css | [All passed apart from explained errors](docs/validation/html/edit-recipe.webp)|
-| /add-recipe               | Add recipe           | Yes       | Same already explained errors/warnings. Also has an error for no src on the image but this is added through JS to show a preview of the uploaded image | [All passed apart from explained errors](docs/validation/html/add-recipe.webp)|
-| /add-modified-recipe/2    | Add modified recipe  | Yes       | No new errors/warnings | [No errors](docs/validation/html/add-modified-recipe.webp)|
-| /profile                  | Profile              | Yes       | Only the Materialize error and warning | [All passed apart from explained](docs/validation/html/profile.webp)|
-| /view-saved-recipes       | View saved recipes   | Yes       | Only the Materialize error and warning | [All passed apart from explained](docs/validation/html/view-saved-recipes.webp)|
+| /my-recipes               | View user's recipes  | Yes       | | [No errors or warnings](docs/validation/html/my-recipes.webp)|
+| /search?...               | Search results       | Yes       | WTForms errors. hint.css warning. | [All passed apart from explained](docs/validation/html/search-results-page_logged-in.webp)|
+| /search?...               | Search results       | No        | hint.css warnings. Section lacks headings. Must change "/search%3Fsearch_bar=" to "/search?search_bar=" otherwise validator recieves 404. | [No errors](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Fsearch?search_bar%3D%26action%3D%26dietary_tags%3Dvv)|
+| /recipe/4                 | View recipe          | No        | hint.css warnings | [No errors](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Frecipe%2F4)|
+| /recipe/modified-recipe/2 | View modified recipe | No        | hint.css warnings | [No errors](https://validator.w3.org/nu/?showsource=yes&showoutline=yes&doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Fmodified-recipe%2F2)|
+| /edit-recipe/             | Edit recipe          | Yes       | WTForms errors. hint.css warnings. | [All passed apart from explained](docs/validation/html/edit-recipe.webp)|
+| /add-recipe               | Add recipe           | Yes       | WTForms errors. hint.css warnings. Also has an error for no src on the image but this is added through JS to show a preview of the uploaded image. | [All passed apart from explained](docs/validation/html/add-recipe.webp)|
+| /add-modified-recipe/2    | Add modified recipe  | Yes       | WTForms errors. Duplicate ID error now resolved. | [No errors](docs/validation/html/add-modified-recipe.webp)|
+| /profile                  | Profile              | Yes       | | [All passed](docs/validation/html/profile.webp)|
+| /view-saved-recipes       | View saved recipes   | Yes       | | [All passed](docs/validation/html/view-saved-recipes.webp)|
    
 </details>
 
