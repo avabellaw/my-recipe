@@ -1,9 +1,9 @@
 // Front-end validation of image uploads
 document.addEventListener('DOMContentLoaded', function () {
-    imageUploadBtn = document.getElementById("image-upload-btn");
+    let imageUploadBtn = document.getElementById("image-upload-btn");
 
     imageUploadBtn.onchange = function () {
-        const fileFormatsAllowed = [".webp", ".jpg", ".jpeg", ".png"]
+        const fileFormatsAllowed = [".webp", ".jpg", ".jpeg", ".png"];
 
         let isValid = fileFormatsAllowed.some(format => imageUploadBtn.value.endsWith(format));
 

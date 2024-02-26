@@ -194,6 +194,24 @@ I will use a simple and light colour scheme.
 
 There are 2 warnings but that's because I am using a vendor extension for MateralizeCSS.
 
+### [JSHint JavaScript Validator](https://jshint.com/)
+
+* A common validation message is "M is undefined"
+    * This is used by MaterializeCSS and will be defined at runtime.
+
+<details>
+<summary>JavaScript validation results</summary>
+
+| JS filename                   | Results                                                                      |
+|-------------------------------|------------------------------------------------------------------------------|
+| base.js                       | Passed                                                                       |
+| front-end-image-validation.js | Passed - After adding missing semi-colon and add let to variable declaration |
+| init-materializecss-modal.js  | Passed                                                                       |
+| init-select-field.js          | Passed                                                                       |
+| load-preview-image-function.js| Passed - After adding missing semi-colon and removing one unnecessary semi-colon |
+
+</details>
+
 ### PEP8 Validation
 
 I used pylint and pycodestyle (formally known as pep8) to validate my Python code to PEP8 standards.
@@ -329,7 +347,8 @@ Performance - Accessibility - Best practices - SEO
 * If there is a validation error when searching recipes, it returns to the homepage with the validation message.
     * It does this when searching using the search box on the search results page when it should return to the same page.
 * For this release of the project, I'm unable to check if the image exists on Cloudinary and delete it.
-    * This means there will be undeleted images. These are handled if stored locally.
+    * This means there will be undeleted images.
+    * Image deletion is handled if stored locally.
 
 ### Deployment
 
