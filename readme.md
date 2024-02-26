@@ -151,6 +151,8 @@ I will use a simple and light colour scheme.
     * Informs me of warnings, errors and formatting issues
 * pycodestyle package
     * Commandline package for further validation to PEP8 standards.
+* Bcrypt
+    * Used to encrypt and validate passwords.
 * Google Fonts
     * Easy access to many fonts supplied from a CDN that is close to the user, increasing download speed.
     * The @font-faces are in my stylesheet. This is quicker than the browser making two requests, the first being for the aforementioned stylesheet containing each @font-face.
@@ -232,6 +234,17 @@ There are 2 warnings but that's because I am using a vendor extension for Matera
 | load-preview-image-function.js| Passed - After adding missing semi-colon and removing one unnecessary semi-colon |
 
 </details>
+
+### Security features
+
+* Flask_login is used to manage users.
+    * This helps block users from pages where a login is required.
+    * Manages users and allows me to authentucate them.
+        * It's then decided whether the user is allowed to view certain pages or perform certain actions.
+* User passwords are encrypted in SQL using Bcrypt.
+* The admin is asked to change the default password if they haven't already.
+* Validation of data is performed both at the front and back end.
+* secure_filename is used on images to ensure the filename isn't malicious.
 
 ### PEP8 Validation
 
