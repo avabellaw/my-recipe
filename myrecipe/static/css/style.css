@@ -32,10 +32,8 @@ html {
     font-size: 2em;
 }
 
-@media screen and (max-width: 600px) {
-    .center-on-mobile {
-        text-align: center;
-    }
+#error-page_message-container>h3 {
+    font-size: 1.5em;
 }
 
 /* From Stackoverflow [https://stackoverflow.com/questions/44846068/css-equal-height-columns] */
@@ -70,19 +68,33 @@ body {
     font-family: "Crimson Text", serif;
 }
 
-form > .input-field input:not(.browser-default):focus:not([readonly]), 
-form > .input-field textarea:not(.browser-default):focus:not([readonly]),
-form > .input-field .select-wrapper input.select-dropdown:focus {
+a.btn.orange {
+    color: black;
+}
+
+.center-on-mobile {
+    text-align: center;
+}
+
+form>.input-field input:not(.browser-default):focus:not([readonly]),
+form>.input-field textarea:not(.browser-default):focus:not([readonly]),
+form>.input-field .select-wrapper input.select-dropdown:focus {
     /* Override MaterializeCSS */
     border-bottom: 1px solid var(--main-colour);
     -webkit-box-shadow: 0 1px 0 0 var(--main-colour);
     box-shadow: 0 1px 0 0 var(--main-colour);
 }
 
-form > .input-field input:not(.browser-default):focus:not([readonly])+label, 
-form > .input-field textarea:not(.browser-default):focus:not([readonly])+label {
+form>.input-field input:not(.browser-default):focus:not([readonly])+label,
+form>.input-field textarea:not(.browser-default):focus:not([readonly])+label {
     /* Override MaterializeCSS */
     color: var(--main-colour);
+}
+
+@media screen and (min-width: 600px) {
+    .center-on-mobile {
+        text-align: inherit;
+    }
 }
 
 /* End of general page styles */
@@ -140,7 +152,7 @@ form > .input-field textarea:not(.browser-default):focus:not([readonly])+label {
     margin-bottom: 1.2em;
 }
 
-#profile-form > .row {
+#profile-form>.row {
     margin-bottom: 0;
 }
 
@@ -160,7 +172,8 @@ nav>.nav-wrapper>.container {
     position: relative;
 }
 
-nav>.nav-wrapper a, .login-btn {
+nav>.nav-wrapper a,
+.login-btn {
     color: rgb(0, 0, 0);
 }
 
@@ -240,7 +253,7 @@ body {
     flex-direction: column;
 }
 
-body > section {
+body>section {
     flex: 1 0 auto;
 }
 
@@ -302,11 +315,11 @@ input#search_bar:focus {
     box-shadow: 0 1px 0 0 var(--main-colour);
 }
 
-#search-box .container > .row {
+#search-box .container>.row {
     margin-bottom: 0;
 }
 
-#search-box .container > .row:last-child > .col {
+#search-box .container>.row:last-child>.col {
     margin-top: 0.8em;
 }
 
@@ -332,9 +345,6 @@ input#search_bar:focus {
 /* My recipes */
 
 .recipe-card>.card>.card-image {
-    max-width: 250px;
-
-    max-height: 250px;
     /* Fallback aspect ratio of 1:1 */
     aspect-ratio: 4/3;
     overflow: hidden;
@@ -342,57 +352,62 @@ input#search_bar:focus {
 
 .card-content {
     padding: 1em;
-}
-
-.card-content>p {
     text-align: center;
     font-size: 1.1em;
 }
 
-.card_created-by {
-    margin: 0;
+.card .card-content>a+p {
+    margin-top: 0.4em;
 }
 
 .card-action>a.view-recipe-btn {
     /* Important to override MaterializeCSS styles */
-    color: rgb(122 67 0) !important;
+    color: rgb(180 81 0) !important;
 }
 
+.card.horizontal {
+    display: block;
+}
 
-@media screen and (max-width: 600px) {
-    .card.horizontal {
-        display: block;
-    }
+.card.horizontal>.card-image {
+    max-width: 100%;
+}
 
-    .card.horizontal>.card-image {
-        max-width: 100%;
-    }
+.card-action {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 
-    .card-action {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
+.card_created-by {
+    margin-top: 0.5em;
+}
 
-    .card-action>a.view-recipe-btn {
-        /* "Important" needed to overright extremely specific Materialize styles */
-        margin: 0 !important;
-    }
-
-    .card_created-by {
-        margin-top: 0.5em;
-    }
-
-    .recipe-card {
-        max-width: 350px;
-        margin: auto;
-    }
+.card-action>a.view-recipe-btn {
+    /* "Important" needed to overright extremely specific Materialize styles */
+    margin: 0 !important;
 }
 
 @media screen and (min-width: 600px) {
-    .card-content>p {
+    .card-content {
         text-align: left;
+    }
+    .card.horizontal {
+        display: flex;
+    }
+
+    .recipe-card>.card>.card-image {
+        max-width: 250px;
+        max-height: 250px;
+    }    
+
+    .card-action {
+        display: block;
+    }
+
+    .card_created-by {
+        margin: 0;
     }
 }
 
@@ -528,7 +543,6 @@ p#created-by {
 #template-button {
     width: fit-content;
     margin: 0.5em 0;
-    color: black;
 }
 
 /* For admin */
@@ -587,14 +601,14 @@ p#created-by {
     flex-wrap: wrap;
 }
 
-.recipe-card_title>span.recipe-title {
-    margin-right: 0.3em;
-}
-
 @media screen and (min-width: 600px) {
     .recipe-card .dietary-tag-container {
         height: 1.1em;
         margin-top: 0;
+    }
+
+    .recipe-card_title>span.recipe-title {
+        margin-right: 0.3em;
     }
 }
 
