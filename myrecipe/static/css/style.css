@@ -208,8 +208,13 @@ nav>.nav-wrapper ul a {
     background-color: #ffcd61;
 }
 
-#account-dropdown_menu {
+.account-dropdown_menu-items {
     text-transform: capitalize;
+}
+
+#mobile-sidenav .account-dropdown_menu-items {
+    width: 80%;
+    margin: auto;
 }
 
 #account-dropdown>a {
@@ -242,11 +247,6 @@ span.login-btn {
     align-items: center;
     width: fit-content;
     padding: 0 10%;
-}
-
-#mobile-sidenav #account-dropdown_menu {
-    width: 80%;
-    margin: auto;
 }
 
 @media screen and (min-width: 600px) {

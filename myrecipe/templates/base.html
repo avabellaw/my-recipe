@@ -45,7 +45,7 @@
     <header>
         <!-- Account menu dropdown items when logged in -->
         {% if current_user.is_authenticated %}
-        <ul id="account-dropdown_menu" class="dropdown-content">
+        <ul id="account-dropdown_menu" class="dropdown-content account-dropdown_menu-items">
             {{ nav_menu_items() }}
         </ul>
         {% endif %}
@@ -59,7 +59,7 @@
                 {{-current_user.username-}}
             </li>
             <li>
-                <ul>
+                <ul class="account-dropdown_menu-items">
                     {{ nav_menu_items() }}
                 </ul>
             </li>
