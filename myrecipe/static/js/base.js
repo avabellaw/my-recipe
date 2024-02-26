@@ -21,7 +21,4 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById("flash-message").onclick = function () {
         this.style.display = "none";
     };
-
-    // Scroll to search-form [https://stackoverflow.com/questions/31863582/automatically-scroll-to-a-div-when-flask-returns-rendered-template]
-    document.location.hash = "#" + "{{ scroll }}";
 });
