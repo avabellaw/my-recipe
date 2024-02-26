@@ -386,7 +386,17 @@ This is due to a link attributing my knowledge of wtforms' SelectMultipleField t
 * I clicked all the links.
     * GitHub link opens a new tab because it's an external link.
 * I had my partner test the website on their phone.
-* I used Responsinator to double check how everything looks on different devices. 
+* I used Responsinator to test responsiveness.
+* The ingredients box scrolls with the user as they follow the recipe's instructions.
+    * I tested what would happen in the unlikely case the ingredients box is bigger than the screen.
+    * It resulted in not being able to view the entire ingredients box.
+    * To safeguard against this, I did the following:
+        * Add media query for devices with a width bigger than 600px.
+        * Add "overflow: auto" to the ingredients container and "max-width: 96vh"
+        * Changed "top:1em" to "top:2vh". 
+    
+    ![Ingredients container scroll bar](docs/manual-testing/sticky-ingredients-overflow.webp)
+
 
 #### Google Lighthouse
 
