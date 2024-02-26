@@ -54,8 +54,6 @@ Site owner goals:
 1. Generate traffic to the website through its users sharing recipes.
 2. Own a successful website with an abundance of recipes.
 
-#### Research
-
 ### Scope Plane
 
 Features to include:
@@ -262,6 +260,7 @@ I read this article by Behance to decide on fonts to use:
 [No validation errors for style.css](https://jigsaw.w3.org/css-validator/validator?uri=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Fstatic%2Fcss%2Fstyle.css&profile=css3svg&usermedium=all&warning=1&vextwarning=&lang=en)
 
 There are 2 warnings but that's because I am using a vendor extension for MateralizeCSS.
+--webkit-sticky is to make the sticky ingredients container work on Safari.
 
 ### [JSHint JavaScript Validator](https://jshint.com/)
 
@@ -394,7 +393,7 @@ This is due to a link attributing where I learned more information on WTForms' S
         ![invalid image](docs/manual-testing/invalid-image.webp)
         * This caused the app to break when submitted.
         * I had forgotten ".html" on my template.
-        * I also noticed the image URL was still the invalid one.
+        * After returning to the template, I also noticed the form image URL was still the invalid one.
         * I reset the form image URL before rendering the template with the validation messages.
         * I forced validation to fail and tested this on a modified recipe.
 * I checked to ensure search validation worked. By entering no filter **or** search term.
@@ -418,7 +417,6 @@ This is due to a link attributing where I learned more information on WTForms' S
         * Changed "top:1em" to "top:2vh". 
     
     ![Ingredients container scroll bar](docs/manual-testing/sticky-ingredients-overflow.webp)
-
 
 #### Google Lighthouse
 
@@ -578,7 +576,7 @@ $ git clone https://github.com/avabellaw/my-recipe
 * Simple Pasta
     * [Image from Unsplash by Ben Lei](https://unsplash.com/photos/potato-fries-on-white-ceramic-plate-flFd8L7_B3g)
 * Pizza
-    [Image from Pixabay by igorovsyannykov](https://pixabay.com/photos/pizza-italian-homemade-cheese-3007395/)
+    * [Image from Pixabay by igorovsyannykov](https://pixabay.com/photos/pizza-italian-homemade-cheese-3007395/)
 
 ### Code
 
