@@ -90,6 +90,27 @@ You can find my [Figma wireframe design here](https://www.figma.com/file/g2XzHo2
 
 For the mapping out the database structure, [I created an entity relationship diagram using Lucid.app](https://lucid.app/documents/view/b86f4c01-76f8-480c-be3f-36c04e2dae36)
 
+* users 
+    * User includes the Flask mixin UserMixin to manage users.
+* recipes 
+    * Contains 2 foreign keys:
+        * User ID - The user who created the recipe as a foreign key.
+        * Dietary tag ID - The ID of the dietary tags record associated with this recipe.
+* saved_recipes
+    * Contains 2 foreign keys:
+        * Recipe ID
+        * User ID
+    * The combined foreign keys create a primary key for this table.
+    * A primary key "ID" is added to future-proof the table. 
+        * A primary key would be needed to properly index the table.
+* modified_recipes
+    * Contains 3 foreign keys:
+        * User ID - The user who modified the recipe.
+        * Recipe ID - The original recipe
+        * Dietary tag ID - The ID of the dietary tags record associated with this recipe.
+* dietary_tags
+    * The ID is added as a foreign key to either a recipe or a modified recipe.
+
 ### Surface Plane
 
 I want to have an attractive design that doesn't overwhelm the user. I will do this by adding lots of whitespace and not overcrowding pages with recipes.
@@ -219,6 +240,8 @@ I also used autopep8 to quickly format my code first.
 
 I decided to keep my line length at a cap of 100. This fits my project needs well and is the default for pylint.
 I followed every other PEP8 guideline.
+
+I used Google's doc string format for functions.
 
 This is the output from pylint:
 ![pylint output](docs/validation/python/final-results.webp)
