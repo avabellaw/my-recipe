@@ -1,6 +1,6 @@
 # **MyRecipe** - Milestone Project 3
 
-"MyRecipe" is a place to discover new recipes, and share your own. You can also use other people's recipes as a template for creating your version.
+"MyRecipe" is a place to discover new recipes, and share your own. You can also use other people's recipes as a template for creating your own version.
 
 This project demonstrates my ability to use Python, Flask, and SQLAlchemy. It also includes the use of Google's CSS framework "Materialize".
 It builds on my knowledge gained from previous modules and showcases my skills in creating a website that incorporates database functionality.
@@ -16,9 +16,10 @@ It builds on my knowledge gained from previous modules and showcases my skills i
 The goal is to create a website where users can search for recipes and share their own.
 A main feature is that users can use existing recipes as a template that they can modify to their liking.
 
-It is preferred that modified recipes be private to the user. However, I decided to make them public for demonstration purposes.
+It would make sense for modified recipes to be visible to only the user who created them. However, I decided to make them public for demonstration purposes as doing so isn't an issue.
 
-The following are features that help MyRecipe users:
+The following are additional features that set MyRecipe apart from its competition:
+
 * Sticky ingredients list.
     * If the ingredients list scrolls out of view, it sticks to the top of the page.
 * Dietary tags.
@@ -50,17 +51,15 @@ User goals:
 3. Search for recipes using filters.
 
 Site owner goals:
-3. Generate traffic to the website through its users sharing recipes.
-4. Successful website with an abundance of recipes.
-
-#### Research
+1. Generate traffic to the website through its users sharing recipes.
+2. Own a successful website with an abundance of recipes.
 
 ### Scope Plane
 
 Features to include:
 * Home page with a search bar and an unordered list of recipes underneath.
 * A page for saved recipes.
-* A page for your recipes, including ones you've taken and modified.
+* A page for your recipes, including ones you've used as a template and modified.
 * A tag system where you can tag recipes with dietary metadata such as "vegan", "dairy-free", etc...
 * Search functionality that includes the tag system to filter recipes.
 * Ability to log in.
@@ -81,12 +80,11 @@ After logging in, the Login button will be renamed to the user's username.
 It will then have the following menu items:
 * Profile
 * My recipes
-* Log out 
-* About
+* Log out
 
 Users will be able to click on "Add a Recipe" within the page "My Recipes".
 
-The footer will contain a link to the About page and links to socials.
+The footer will contain a link to the project GitHub.
 
 #### Research
 
@@ -100,8 +98,10 @@ You can find my [Figma wireframe design here](https://www.figma.com/file/g2XzHo2
 
 For the mapping out the database structure, [I created an entity relationship diagram using Lucid.app](https://lucid.app/documents/view/b86f4c01-76f8-480c-be3f-36c04e2dae36)
 
+Data structure explained:
+
 * users 
-    * User includes the Flask mixin UserMixin to manage users.
+    * Includes columns from the Flask mixin UserMixin for login_manager.
 * recipes 
     * Contains 2 foreign keys:
         * User ID - The user who created the recipe as a foreign key.
@@ -124,7 +124,14 @@ For the mapping out the database structure, [I created an entity relationship di
 ### Surface Plane
 
 I want to have an attractive design that doesn't overwhelm the user. I will do this by adding lots of whitespace and not overcrowding pages with recipes.
-I will use a simple and light colour scheme.
+I will use a simple and light colour scheme. It will be close to red because it stimulates the appetite.
+
+I read this article by Behance to decide on fonts to use: 
+[5 Google Fonts Combinations for Food Recipe Blogging](https://www.behance.net/gallery/53487257/5-Google-Fonts-Combinations-for-Food-Recipe-Blogging) 
+
+**Headings:** Karla, _sans-serif_
+
+**Body:** Crimson Text, _serif_
 
 ## Technologies Used
 
@@ -132,6 +139,7 @@ I will use a simple and light colour scheme.
 
 * HTML5  
 * CSS3
+* JavaScript
 * Python
 
 ### Frameworks, Libraries & Programs Used
@@ -148,7 +156,7 @@ I will use a simple and light colour scheme.
     * Used to store data, such as recipes, for MyRecipe within SQL tables.
 * Hint.css
     * A pure CSS library for tooltips.
-    * Used to label what each dietary icon means
+    * Used to label what each dietary icon means.
 * Pylance extension 
     * IntelliSense
     * Errors and warnings
@@ -158,27 +166,39 @@ I will use a simple and light colour scheme.
     * Package to automatically format to PEP8 standards.
 * Pylint extension
     * GUI to validate my code against PEP8 standards.
-    * Informs me of warnings, errors and formatting issues
+    * Informs me of warnings, errors and formatting issues.
 * pycodestyle package
     * Commandline package for further validation to PEP8 standards.
 * Bcrypt
     * Used to encrypt and validate passwords.
 * Google Fonts
     * Easy access to many fonts supplied from a CDN that is close to the user, increasing download speed.
-    * The @font-faces are in my stylesheet. This is quicker than the browser making two requests, the first being for the aforementioned stylesheet containing each @font-face.
 * Font Awesome 
     * Professional icons
 * Git 
     * Used for version control.
 * GitHub
     * Used to store commits.
+* Heroku
+    * Hosts the live project.
+* ElephantSQL
+    * Hosts the database for the live project.
+* Cloudinary
+    * Hosts the images for each recipe.
+* PostgreSQL
+    * Used for the development database.
+* pgAdmin 4
+    * Used to manage the development database.
 * Visual Studio Code
     * Used as the IDE for the project.
     * I set a shortcut for Visual Code to format HTML/CSS/JS (ctrl+shift+f).
+        * This also worked for Python after installing autopep8.
 * Paint.NET
-    * Used to edit and create images for the project.
+    * Used to edit images for the project.
 * Figma
     * Used to create the mockup of the website before developing.
+* Lucid.app
+    * Used to create an Entity Relationship Diagram to model the data.
 * Word 
     * Used to present the project requirements in my own words, for project research, and brainstorming.
 * Notepad and Notepad++
@@ -200,35 +220,36 @@ I will use a simple and light colour scheme.
 ### [W3C Markup Validator](https://validator.w3.org)
 
 * Common validator warnings.
-    *  Section lacks heading.
-        * I shoudn't be using section as there are no headings.
+    *  __Section lacks heading__.
+        * I shouldn't be using the section tag as there are no headings.
         * However, there are headings for each recipe within containers. 
         * In future, I would use a div instead.
-    * hint.css warnings.
+    * __Hint.css warnings__.
         * Possible misuse of aria-label.
-        * aria-label is used for hint.css tooltip text.
+        * aria-label is used for Hint.css tooltip text.
 * Common validator errors.
-    * WTForms errors.
-        * There are 13 errors created by the wtforms SelectMultipleFields.
-        * In future, I would find a way to remove these but the project functions with them as they are bad attribute errors.
+    * __Materialize errors__.
+        * There are 13 errors created by Materialize.
+        * They are bad attribute errors.
+        * I can't stop Materialize from doing this without writing JavaScript to remove all of them individually.
 
 <details>
 <summary>HTML validation results table</summary>
 
 | URL                       | Page                 | Logged in | Comments            | Results                |
 |---------------------------|----------------------|-----------|---------------------|------------------------|
-| /                         | Homepage             | No        | hint.css warning    | [All passed apart from explained](https://validator.w3.org/nu/?doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2F)|
-| /                         | Homepage             | Yes       | WTForms errors.     | [All passed apart from explained](docs/validation/html/homepage_logged-in.webp) |
+| /                         | Homepage             | No        | __Hint.css warning__    | [All passed apart from explained](https://validator.w3.org/nu/?doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2F)|
+| /                         | Homepage             | Yes       | __Materialize errors.__     | [All passed apart from explained](docs/validation/html/homepage_logged-in.webp) |
 | /login                    | Log in               | No        | | [No errors or warnings](https://validator.w3.org/nu/?showsource=yes&showoutline=yes&doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Flogin)|
 | /register                 | Register             | No        | | [No errors or warnings](https://validator.w3.org/nu/?showsource=yes&showoutline=yes&doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Fregister)|
 | /my-recipes               | View user's recipes  | Yes       | | [No errors or warnings](docs/validation/html/my-recipes.webp)|
-| /search?...               | Search results       | Yes       | WTForms errors. hint.css warning. | [All passed apart from explained](docs/validation/html/search-results-page_logged-in.webp)|
-| /search?...               | Search results       | No        | hint.css warnings. Section lacks headings. Must change "/search%3Fsearch_bar=" to "/search?search_bar=" otherwise validator recieves 404. | [No errors](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Fsearch?search_bar%3D%26action%3D%26dietary_tags%3Dvv)|
-| /recipe/4                 | View recipe          | No        | hint.css warnings | [No errors](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Frecipe%2F4)|
-| /recipe/modified-recipe/2 | View modified recipe | No        | hint.css warnings | [No errors](https://validator.w3.org/nu/?showsource=yes&showoutline=yes&doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Fmodified-recipe%2F2)|
-| /edit-recipe/             | Edit recipe          | Yes       | WTForms errors. hint.css warnings. | [All passed apart from explained](docs/validation/html/edit-recipe.webp)|
-| /add-recipe               | Add recipe           | Yes       | WTForms errors. hint.css warnings. Also has an error for no src on the image but this is added through JS to show a preview of the uploaded image. | [All passed apart from explained](docs/validation/html/add-recipe.webp)|
-| /add-modified-recipe/2    | Add modified recipe  | Yes       | WTForms errors. Duplicate ID error now resolved. | [No errors](docs/validation/html/add-modified-recipe.webp)|
+| /search?...               | Search results       | Yes       | __Materialize errors. Hint.css warning.__ | [All passed apart from explained](docs/validation/html/search-results-page_logged-in.webp)|
+| /search?...               | Search results       | No        | __Hint.css warnings. Section lacks headings.__ Must change "/search%3Fsearch_bar=" to "/search?search_bar=" otherwise validator receives 404. | [No errors](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Fsearch?search_bar%3D%26action%3D%26dietary_tags%3Dvv)|
+| /recipe/4                 | View recipe          | No        | __Hint.css warnings__ | [No errors](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Frecipe%2F4)|
+| /recipe/modified-recipe/2 | View modified recipe | No        | __Hint.css warnings__ | [No errors](https://validator.w3.org/nu/?showsource=yes&showoutline=yes&doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Fmodified-recipe%2F2)|
+| /edit-recipe/             | Edit recipe          | Yes       | __Materialize errors. Hint.css warnings.__ | [All passed apart from explained](docs/validation/html/edit-recipe.webp)|
+| /add-recipe               | Add recipe           | Yes       | __Materialize errors. Hint.css warnings.__ Also has an error for no src on the image but this is added through JS to show a preview of the uploaded image. | [All passed apart from explained](docs/validation/html/add-recipe.webp)|
+| /add-modified-recipe/2    | Add modified recipe  | Yes       | __Materialize errors.__ The duplicate ID error is now resolved. | [No errors](docs/validation/html/add-modified-recipe.webp)|
 | /profile                  | Profile              | Yes       | | [All passed](docs/validation/html/profile.webp)|
 | /view-saved-recipes       | View saved recipes   | Yes       | | [All passed](docs/validation/html/view-saved-recipes.webp)|
    
@@ -239,6 +260,7 @@ I will use a simple and light colour scheme.
 [No validation errors for style.css](https://jigsaw.w3.org/css-validator/validator?uri=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Fstatic%2Fcss%2Fstyle.css&profile=css3svg&usermedium=all&warning=1&vextwarning=&lang=en)
 
 There are 2 warnings but that's because I am using a vendor extension for MateralizeCSS.
+--webkit-sticky is to make the sticky ingredients container work on Safari.
 
 ### [JSHint JavaScript Validator](https://jshint.com/)
 
@@ -251,10 +273,10 @@ There are 2 warnings but that's because I am using a vendor extension for Matera
 | JS filename                   | Results                                                                      |
 |-------------------------------|------------------------------------------------------------------------------|
 | base.js                       | Passed                                                                       |
-| front-end-image-validation.js | Passed - After adding missing semi-colon and add let to variable declaration |
+| front-end-image-validation.js | Passed - After adding the missing semi-colon and adding "let" to the variable declaration |
 | init-materializecss-modal.js  | Passed                                                                       |
 | init-select-field.js          | Passed                                                                       |
-| load-preview-image-function.js| Passed - After adding missing semi-colon and removing one unnecessary semi-colon |
+| load-preview-image-function.js| Passed - After adding the missing semi-colon and removing one unnecessary semi-colon |
 
 </details>
 
@@ -262,7 +284,7 @@ There are 2 warnings but that's because I am using a vendor extension for Matera
 
 * Flask_login is used to manage users.
     * This helps block users from pages where a login is required.
-    * Manages users and allows me to authentucate them.
+    * Manages users and allows me to authenticate them.
         * It's then decided whether the user is allowed to view certain pages or perform certain actions.
 * User passwords are encrypted in SQL using Bcrypt.
 * The admin is asked to change the default password if they haven't already.
@@ -283,11 +305,10 @@ This is the output from pylint:
 ![pylint output](docs/validation/python/final-results.webp)
 
 The import in the init file is unable to be added to the top.
-This is due to routes using variables configured in the __init__ module.
+This is due to routes using the variables configured in the __init__ module.
 
 There's also a line in the helpers module that is 2 characters over the line length limit.
-This is due to a link attributing my knowledge of wtforms' SelectMultipleField to a Stackoverflow post.
-
+This is due to a link attributing where I learned more information on WTForms' SelectMultipleField.
 
 ### Testing User Stories From The User Experience Section
 
@@ -341,7 +362,7 @@ This is due to a link attributing my knowledge of wtforms' SelectMultipleField t
     * I tested that invalid file formats were rejected in the back end and the front end.
 * Tested that the backend validation works to ensure only the authorized users can delete.
     * I did this by editing the URL to try to delete recipes I don't own.
-* I switched filesystem provider from Cloudcube s3 bucket to Cloudinary.
+* I switched the filesystem provider from Cloudcube s3 bucket to Cloudinary.
     * I needed to increase the size of the string column "image_url" to accommodate a longer URL.
     * I used the following SQL to alter the size of the column in the production and local database:
     ```
@@ -352,28 +373,28 @@ This is due to a link attributing my knowledge of wtforms' SelectMultipleField t
         * I remembered I hadn't yet set the environment variables in production.
         * After setting them, I edited the image again and inspected the URL. It was set to the intended Cloudinary URL:
 
-            ![Correct cloudinary image](docs/manual-testing/correct-cloudinary-url.webp)
+            ![Correct Cloudinary image](docs/manual-testing/correct-cloudinary-url.webp)
 * When testing the website on my phone.
-    * I noticed that the "Saved recipes" nav item was misssing.
+    * I noticed that the "Saved recipes" nav item was missing.
     * I created a macro to hold the nav items and added it to both mobile and desktop account items.
 * I checked the console for each page.
-    * There are sometimes serveral issues generated by MaterializeCSS. [More on this in known issues](#known-issuesbugs).
+    * There are sometimes several issues generated by MaterializeCSS. [More on this in known issues](#known-issuesbugs).
 * Created a mashed potatoes recipe.
     * I then searched for the recipe with the search query "mashed potatoes".
-        * I discovered that, due to spaces not being handle, the search query was "mashed+potatoes".
+        * I discovered that, due to spaces not being handled, the search query was "mashed+potatoes".
 
             ![0 search results](docs/manual-testing/no-search-results.webp)
         * I fixed this by using .replace("+", " ") on the search_query within the search route.
 
             ![Fixed 0 search results](docs/manual-testing/fixed-no-search-results.webp)
     * I edited the recipe.
-    * I uploaded an invalid image.
+    * I tested uploading an invalid image (for a second time).
 
         ![invalid image](docs/manual-testing/invalid-image.webp)
         * This caused the app to break when submitted.
         * I had forgotten ".html" on my template.
-        * I also noticed the image url was still the invalid one.
-        * I reset the form image url before rendering the template with the validation messages.
+        * After returning to the template, I also noticed the form image URL was still the invalid one.
+        * I reset the form image URL before rendering the template with the validation messages.
         * I forced validation to fail and tested this on a modified recipe.
 * I checked to ensure search validation worked. By entering no filter **or** search term.
 
@@ -384,9 +405,18 @@ This is due to a link attributing my knowledge of wtforms' SelectMultipleField t
     * Then deleted it.
 * I tested the website on my mobile.
 * I clicked all the links.
-    * GitHub link opens a new tab because it's an external link.
+    * The GitHub link opens a new tab because it's an external link.
 * I had my partner test the website on their phone.
-* I used Responsinator to double check how everything looks on different devices. 
+* I used Responsinator to test responsiveness.
+* The ingredients box scrolls with the user as they follow the recipe's instructions.
+    * I tested what would happen in the unlikely case the ingredients box is bigger than the screen.
+    * It resulted in not being able to view the entire ingredients box.
+    * To safeguard against this, I did the following:
+        * Add media query for devices with a width bigger than 600px.
+        * Add "overflow: auto" to the ingredients container and "max-width: 96vh"
+        * Changed "top:1em" to "top:2vh". 
+    
+    ![Ingredients container scroll bar](docs/manual-testing/sticky-ingredients-overflow.webp)
 
 #### Google Lighthouse
 
@@ -398,7 +428,7 @@ Performance - Accessibility - Best practices - SEO
 
 **Mobile**
 
-* Hompage
+* Homepage
 
     ![Homepage](docs/lighthouse/homepage-mobile.webp)
 
@@ -409,6 +439,10 @@ Performance - Accessibility - Best practices - SEO
 * Search results
 
     ![Search results](docs/lighthouse/search-results-mobile.webp)
+
+* My Recipes results
+
+    ![My Recipes results](docs/lighthouse/my-recipes-mobile.webp)
 
 **Desktop**
 
@@ -424,38 +458,47 @@ Performance - Accessibility - Best practices - SEO
 
     ![Search results](docs/lighthouse/search-results-desktop.webp)
 
+* My Recipes results
+
+    ![My Recipes results](docs/lighthouse/my-recipes-desktop.webp)
+
 ### Known Issues/Bugs
 
 * A user can save their recipes by editing the URL.
     * There's no backend code to stop you from doing this but it's also not a problem.
-    * To stop this would mean querying the database an extra time before saving/unsaving recipes which isn't worth it. If someone wants to save their recipe by manually editing the url that's up to them.
+    * To stop this would mean querying the database an extra time before saving/unsaving recipes which isn't worth it. If someone wants to save their recipe, by manually editing the url, that's up to them.
 * Can't save modified recipes.
     * Saved_Recipes contains the foreign key for only a standard Recipe.
     * Modified recipes should be private but for demonstration purposes, they are public.
-* "A form field element should have an id or name attribute".
-    * The dietary tag fields are created by wtforms.
 * If there is a validation error when searching recipes, it returns to the homepage with the validation message.
     * It does this when searching using the search box on the search results page when it should return to the same page.
 * For this release of the project, I'm unable to check if the image exists on Cloudinary and delete it.
     * This means there will be undeleted images.
     * Image deletion is handled if stored locally.
-*  "field element should have an id or name attribute"
+* "A form field element should have an id or name attribute"
+    * The dietary tag input fields are created by MaterializeCSS from the WTForms select element.
     * Violating nodes:
         * Dietary tag input with the placeholder "Add dietary filters".
         * All the dietary tags that are displayed as inputs by Materialize.
     * Materialize uses JavaScript to create the violating nodes from my select element.
-    * The original select tag, that they're based off, have got ID and name attributes.
+    * The original select tag, which they're based on, has ID and name attributes.
     * It is not possible to add the ID and name fields without doing so manually using JavaScript.
-
 
 ### Deployment
 
 #### Deployment dependencies 
 
-In order to deploy to Heroku, a Procfile and requirements.txt file is needed.
+To deploy to Heroku, a Procfile and requirements.txt file is needed.
 
-* The Procfile tells Heroku how to run the app.
-* The requirements.txt file lists the dependecies needed to be installed for the project.
+**Procfile** 
+* Tells Heroku how to run the app.
+* It contains "web: python run.py"
+
+**requirements.txt**
+* lists the dependencies needed to be installed by Heroku for the project.
+* Generate this file by running "pip freeze --local > requirements.txt"
+* Install the project's packages to a virtual Python environment. This will mean your requirements file only has the project's dependencies.
+    * It is best practice to do this for all projects.
 
 I have kept both these files **only** on the production branch. Both branches are identical apart from these two files.
 
@@ -476,13 +519,16 @@ I deployed to Heroku using the following steps:
     * SECRET_KEY
     * DEBUG
     * DATABASE_URL
-8. For this project, you will also have to set the variables for Cloudcube (An Amazon s3 bucket).
-9. Under "More" in the top-right, click "Run Console".
-10. Enter "python3".
-11. Enter "from myrecipe import app, db, models"
-12. Next enter "with app.app_context():"
-13. Press enter and add a tab. Then enter "app.create_all()". This creates the tables needed from Models.py.
-14. Click "Open App" to view the deployed project.
+    * DEFAULT_ADMIN_PASSWORD
+    * api_key _for Cloudinary_
+    * api_secret _for Cloudinary_
+    * cloud_name _for Cloudinary_
+8. Under "More" in the top-right, click "Run Console".
+9. Enter "python3".
+10. Enter "from myrecipe import app, db, models"
+11. Next enter "with app.app_context():"
+12. Press enter and add a tab. Then enter "app.create_all()". This creates the tables needed from Models.py.
+13. Click "Open App" to view the deployed project.
 
 #### Forking the GitHub Repository
 
@@ -530,7 +576,7 @@ $ git clone https://github.com/avabellaw/my-recipe
 * Simple Pasta
     * [Image from Unsplash by Ben Lei](https://unsplash.com/photos/potato-fries-on-white-ceramic-plate-flFd8L7_B3g)
 * Pizza
-    [Image from Pixabay by igorovsyannykov](https://pixabay.com/photos/pizza-italian-homemade-cheese-3007395/)
+    * [Image from Pixabay by igorovsyannykov](https://pixabay.com/photos/pizza-italian-homemade-cheese-3007395/)
 
 ### Code
 

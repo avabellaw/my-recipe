@@ -113,6 +113,12 @@ form>.input-field textarea:not(.browser-default):focus:not([readonly])+label {
     color: var(--main-colour);
 }
 
+[type="checkbox"]:checked+span:not(.lever):before {
+    /* Override MaterializeCSS */
+    border-right: 2px solid rgb(255, 115, 0);
+    border-bottom: 2px solid rgb(255, 115, 0);
+}
+
 @media screen and (min-width: 600px) {
     .center-on-mobile {
         text-align: inherit;
@@ -479,7 +485,7 @@ input#search_bar:focus {
 }
 
 #recipe-content h2 {
-    font-size: 1em;
+    font-size: 1.2em;
     margin-top: 0;
 }
 
@@ -599,7 +605,7 @@ p#created-by {
 
 @media screen and (min-width: 600px) {
     #recipe-content {
-        font-size: 1.5em;
+        font-size: 1.4em;
         padding: 1.5em 0;
     }
 
