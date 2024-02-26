@@ -264,7 +264,7 @@ This is due to a link attributing my knowledge of wtforms' SelectMultipleField t
     * I tested that invalid file formats were rejected in the back end and the front end.
 * Tested that the backend validation works to ensure only the authorized users can delete.
     * I did this by editing the URL to try to delete recipes I don't own.
-* I switched filesystem provider from Cloudcube s3 bucket to cloudinary.
+* I switched filesystem provider from Cloudcube s3 bucket to Cloudinary.
     * I needed to increase the size of the string column "image_url" to accommodate a longer URL.
     * I used the following SQL to alter the size of the column in the production and local database:
     ```
@@ -276,6 +276,9 @@ This is due to a link attributing my knowledge of wtforms' SelectMultipleField t
         * After setting them, I edited the image again and inspected the URL. It was set to the intended Cloudinary URL:
 
             ![Correct cloudinary image](docs/manual-testing/correct-cloudinary-url.webp)
+* When testing the website on my phone.
+    * I noticed that the "Saved recipes" nav item was misssing.
+    * I created a macro to hold the nav items and added it to both mobile and desktop account items.
 
 #### Google Lighthouse
 
