@@ -201,7 +201,7 @@ I will use a simple and light colour scheme.
 
 * Common validator warnings.
     *  Section lacks heading.
-        * I shoudn't be using section as there are no headings.
+        * I shouldn't be using the section tag as there are no headings.
         * However, there are headings for each recipe within containers. 
         * In future, I would use a div instead.
     * hint.css warnings.
@@ -223,12 +223,12 @@ I will use a simple and light colour scheme.
 | /register                 | Register             | No        | | [No errors or warnings](https://validator.w3.org/nu/?showsource=yes&showoutline=yes&doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Fregister)|
 | /my-recipes               | View user's recipes  | Yes       | | [No errors or warnings](docs/validation/html/my-recipes.webp)|
 | /search?...               | Search results       | Yes       | WTForms errors. hint.css warning. | [All passed apart from explained](docs/validation/html/search-results-page_logged-in.webp)|
-| /search?...               | Search results       | No        | hint.css warnings. Section lacks headings. Must change "/search%3Fsearch_bar=" to "/search?search_bar=" otherwise validator recieves 404. | [No errors](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Fsearch?search_bar%3D%26action%3D%26dietary_tags%3Dvv)|
+| /search?...               | Search results       | No        | hint.css warnings. The section lacks headings. Must change "/search%3Fsearch_bar=" to "/search?search_bar=" otherwise validator receives 404. | [No errors](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Fsearch?search_bar%3D%26action%3D%26dietary_tags%3Dvv)|
 | /recipe/4                 | View recipe          | No        | hint.css warnings | [No errors](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Frecipe%2F4)|
 | /recipe/modified-recipe/2 | View modified recipe | No        | hint.css warnings | [No errors](https://validator.w3.org/nu/?showsource=yes&showoutline=yes&doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Fmodified-recipe%2F2)|
 | /edit-recipe/             | Edit recipe          | Yes       | WTForms errors. hint.css warnings. | [All passed apart from explained](docs/validation/html/edit-recipe.webp)|
 | /add-recipe               | Add recipe           | Yes       | WTForms errors. hint.css warnings. Also has an error for no src on the image but this is added through JS to show a preview of the uploaded image. | [All passed apart from explained](docs/validation/html/add-recipe.webp)|
-| /add-modified-recipe/2    | Add modified recipe  | Yes       | WTForms errors. Duplicate ID error now resolved. | [No errors](docs/validation/html/add-modified-recipe.webp)|
+| /add-modified-recipe/2    | Add modified recipe  | Yes       | WTForms errors. The duplicate ID error is now resolved. | [No errors](docs/validation/html/add-modified-recipe.webp)|
 | /profile                  | Profile              | Yes       | | [All passed](docs/validation/html/profile.webp)|
 | /view-saved-recipes       | View saved recipes   | Yes       | | [All passed](docs/validation/html/view-saved-recipes.webp)|
    
@@ -251,10 +251,10 @@ There are 2 warnings but that's because I am using a vendor extension for Matera
 | JS filename                   | Results                                                                      |
 |-------------------------------|------------------------------------------------------------------------------|
 | base.js                       | Passed                                                                       |
-| front-end-image-validation.js | Passed - After adding missing semi-colon and add let to variable declaration |
+| front-end-image-validation.js | Passed - After adding the missing semi-colon and adding "let" to the variable declaration |
 | init-materializecss-modal.js  | Passed                                                                       |
 | init-select-field.js          | Passed                                                                       |
-| load-preview-image-function.js| Passed - After adding missing semi-colon and removing one unnecessary semi-colon |
+| load-preview-image-function.js| Passed - After adding the missing semi-colon and removing one unnecessary semi-colon |
 
 </details>
 
@@ -262,7 +262,7 @@ There are 2 warnings but that's because I am using a vendor extension for Matera
 
 * Flask_login is used to manage users.
     * This helps block users from pages where a login is required.
-    * Manages users and allows me to authentucate them.
+    * Manages users and allows me to authenticate them.
         * It's then decided whether the user is allowed to view certain pages or perform certain actions.
 * User passwords are encrypted in SQL using Bcrypt.
 * The admin is asked to change the default password if they haven't already.
@@ -341,7 +341,7 @@ This is due to a link attributing my knowledge of wtforms' SelectMultipleField t
     * I tested that invalid file formats were rejected in the back end and the front end.
 * Tested that the backend validation works to ensure only the authorized users can delete.
     * I did this by editing the URL to try to delete recipes I don't own.
-* I switched filesystem provider from Cloudcube s3 bucket to Cloudinary.
+* I switched the filesystem provider from Cloudcube s3 bucket to Cloudinary.
     * I needed to increase the size of the string column "image_url" to accommodate a longer URL.
     * I used the following SQL to alter the size of the column in the production and local database:
     ```
@@ -352,15 +352,15 @@ This is due to a link attributing my knowledge of wtforms' SelectMultipleField t
         * I remembered I hadn't yet set the environment variables in production.
         * After setting them, I edited the image again and inspected the URL. It was set to the intended Cloudinary URL:
 
-            ![Correct cloudinary image](docs/manual-testing/correct-cloudinary-url.webp)
+            ![Correct Cloudinary image](docs/manual-testing/correct-cloudinary-url.webp)
 * When testing the website on my phone.
-    * I noticed that the "Saved recipes" nav item was misssing.
+    * I noticed that the "Saved recipes" nav item was missing.
     * I created a macro to hold the nav items and added it to both mobile and desktop account items.
 * I checked the console for each page.
-    * There are sometimes serveral issues generated by MaterializeCSS. [More on this in known issues](#known-issuesbugs).
+    * There are sometimes several issues generated by MaterializeCSS. [More on this in known issues](#known-issuesbugs).
 * Created a mashed potatoes recipe.
     * I then searched for the recipe with the search query "mashed potatoes".
-        * I discovered that, due to spaces not being handle, the search query was "mashed+potatoes".
+        * I discovered that, due to spaces not being handled, the search query was "mashed+potatoes".
 
             ![0 search results](docs/manual-testing/no-search-results.webp)
         * I fixed this by using .replace("+", " ") on the search_query within the search route.
@@ -372,8 +372,8 @@ This is due to a link attributing my knowledge of wtforms' SelectMultipleField t
         ![invalid image](docs/manual-testing/invalid-image.webp)
         * This caused the app to break when submitted.
         * I had forgotten ".html" on my template.
-        * I also noticed the image url was still the invalid one.
-        * I reset the form image url before rendering the template with the validation messages.
+        * I also noticed the image URL was still the invalid one.
+        * I reset the form image URL before rendering the template with the validation messages.
         * I forced validation to fail and tested this on a modified recipe.
 * I checked to ensure search validation worked. By entering no filter **or** search term.
 
@@ -384,7 +384,7 @@ This is due to a link attributing my knowledge of wtforms' SelectMultipleField t
     * Then deleted it.
 * I tested the website on my mobile.
 * I clicked all the links.
-    * GitHub link opens a new tab because it's an external link.
+    * The GitHub link opens a new tab because it's an external link.
 * I had my partner test the website on their phone.
 * I used Responsinator to test responsiveness.
 * The ingredients box scrolls with the user as they follow the recipe's instructions.
@@ -462,7 +462,7 @@ Performance - Accessibility - Best practices - SEO
         * Dietary tag input with the placeholder "Add dietary filters".
         * All the dietary tags that are displayed as inputs by Materialize.
     * Materialize uses JavaScript to create the violating nodes from my select element.
-    * The original select tag, that they're based off, have got ID and name attributes.
+    * The original select tag, which they're based on, has ID and name attributes.
     * It is not possible to add the ID and name fields without doing so manually using JavaScript.
 
 
@@ -470,10 +470,10 @@ Performance - Accessibility - Best practices - SEO
 
 #### Deployment dependencies 
 
-In order to deploy to Heroku, a Procfile and requirements.txt file is needed.
+To deploy to Heroku, a Procfile and requirements.txt file is needed.
 
 * The Procfile tells Heroku how to run the app.
-* The requirements.txt file lists the dependecies needed to be installed for the project.
+* The requirements.txt file lists the dependencies needed to be installed for the project.
 
 I have kept both these files **only** on the production branch. Both branches are identical apart from these two files.
 
