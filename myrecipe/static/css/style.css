@@ -36,6 +36,10 @@ html {
     font-size: 1.5em;
 }
 
+.input-field>label {
+    color: #575757;
+}
+
 /* From Stackoverflow [https://stackoverflow.com/questions/44846068/css-equal-height-columns] */
 .equal-height-cols {
     display: flex;
@@ -84,7 +88,9 @@ body {
     font-family: "Crimson Text", serif;
 }
 
-a.btn.orange {
+.btn.orange {
+    font-weight: 600;
+    font-family: "Karla", sans-serif;
     color: black;
 }
 
@@ -208,8 +214,13 @@ nav>.nav-wrapper ul a {
     background-color: #ffcd61;
 }
 
-#account-dropdown_menu {
+.account-dropdown_menu-items {
     text-transform: capitalize;
+}
+
+#mobile-sidenav .account-dropdown_menu-items {
+    width: 80%;
+    margin: auto;
 }
 
 #account-dropdown>a {
@@ -242,11 +253,6 @@ span.login-btn {
     align-items: center;
     width: fit-content;
     padding: 0 10%;
-}
-
-#mobile-sidenav #account-dropdown_menu {
-    width: 80%;
-    margin: auto;
 }
 
 @media screen and (min-width: 600px) {
@@ -495,6 +501,10 @@ input#search_bar:focus {
 
 #ingredients-container {
     box-shadow: #00000026 0px 0px 0.5em inset;
+    /* Sticky element from w3schools [https://www.w3schools.com/howto/howto_css_sticky_element.asp] */
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: 0;
 }
 
 #ingredients-container ul {

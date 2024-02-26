@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% from "macros.html" import loadPreviewImageFunction %}
+{% from "macros.html" import load_preview_image_function %}
 
 {% block content %}
 <div class="container">
@@ -40,7 +40,7 @@
 
                 <!-- Image upload field -->
                 <div class="file-field input-field">
-                    <div class="btn orange darken-3" aria-label="Upload image">
+                    <div class="btn orange" aria-label="Upload image">
                         <span>Upload Image</span>
                         {{ form.image(onchange="previewImage(event)") }}
                     </div>
@@ -93,7 +93,7 @@
                 </div>
 
                 <!-- Submit form button -->
-                <button class="btn waves-effect waves-light orange darken-3" type="submit" name="action">Add recipe
+                <button class="btn waves-effect waves-light orange" type="submit" name="action">Add recipe
                     <i class="material-icons right">send</i>
                 </button>
             </form>
@@ -104,29 +104,12 @@
 
 {% block scripts %}
 <!-- Front-end validation of image uploads -->
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        imageUploadBtn = document.getElementById("image-upload-btn");
+<script src="{{ url_for('static', filename='js/front-end-image-validation.js') }}"></script>
 
-        imageUploadBtn.onchange = function () {
-            const fileFormatsAllowed = [".webp", ".jpg", ".jpeg", ".png"]
+<!-- Init dietary tags select field -->
+<script src="{{ url_for('static', filename='js/init-select-field.js')}}"></script>
 
-            let isValid = fileFormatsAllowed.some(format => imageUploadBtn.value.endsWith(format));
-
-            if (isValid) {
-                imageUploadBtn.classList.remove("invalid");
-                imageUploadBtn.classList.add("valid");
-            } else {
-                imageUploadBtn.classList.remove("valid");
-                imageUploadBtn.classList.add("invalid");
-            }
-        };
-
-        select = document.querySelectorAll('select');
-        M.FormSelect.init(select);
-    });
-</script>
-
-{{ loadPreviewImageFunction() }}
+<!-- Load the function to show preview of uploaded images -->
+<script src="{{ url_for('static', filename='js/load-preview-image-function.js')}}"></script>
 
 {% endblock %}

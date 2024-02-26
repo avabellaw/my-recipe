@@ -88,7 +88,7 @@
                 </div>
 
                 <!-- Submit form button -->
-                <button class="btn waves-effect waves-light orange darken-3" type="submit" name="action">Save changes
+                <button class="btn waves-effect waves-light orange" type="submit" name="action">Save changes
                     <i class="material-icons right">send</i>
                 </button>
             </form>
@@ -99,12 +99,10 @@
 
 {% block scripts %}
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
+<!-- Front-end validation of image uploads -->
+<script src="{{ url_for('static', filename='js/front-end-image-validation.js') }}"></script>
 
-        select = document.querySelectorAll('select');
-        M.FormSelect.init(select);
-    });
-</script>
+<!-- Init dietary tags select field -->
+<script src="{{ url_for('static', filename='js/init-select-field.js')}}"></script>
 
 {% endblock %}

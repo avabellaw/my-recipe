@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% from "macros.html" import displayDietaryTags %}
+{% from "macros.html" import display_dietary_tags %}
 
 <!-- Initialize is_modified_recipe -->
 {% if recipe.original_recipe == null %}
@@ -34,7 +34,7 @@
                 </div>
 
                 <!-- Recipe dietary tags -->
-                {{ displayDietaryTags(recipe) }}
+                {{ display_dietary_tags(recipe) }}
             </div>
             <div class="col s12 m7">
                 <div id="recipe-heading-container">
@@ -126,7 +126,8 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row equal-height-cols">
+            <!-- Recipe ingredients -->
             <div class="col s12 m5">
                 <div id="ingredients-container">
                     <div class="inner-container">
@@ -144,6 +145,7 @@
                 </div>
             </div>
             <div class="col s12 m7">
+                <!-- Recipe instructions -->
                 <div id="instructions-container">
                     <div class="inner-container">
                         <h2 class="center">Instructions</h2>
@@ -164,14 +166,11 @@
 
 {% block scripts %}
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        let elems = document.querySelectorAll('.modal');
-        M.Modal.init(elems);
-    });
-</script>
+<!-- Initialize MaterializeCSS confirm delete recipe modal -->
+<script src="{{ url_for('static', filename='js/init-materializecss-modal.js') }}"></script>
 
 {% if current_user.is_authenticated and not is_owned_by_user %}
+<!-- Script can't be in own js file because of {{ url_for }} -->
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         let saveRecipeButton = document.getElementById("save-recipe-button");
