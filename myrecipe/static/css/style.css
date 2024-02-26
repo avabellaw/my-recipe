@@ -32,9 +32,13 @@ html {
     font-size: 2em;
 }
 
-@media screen and (max-width: 600px) {
+.center-on-mobile {
+    text-align: center;
+}
+
+@media screen and (min-width: 600px) {
     .center-on-mobile {
-        text-align: center;
+        text-align: inherit;
     }
 }
 
@@ -333,9 +337,6 @@ input#search_bar:focus {
 /* My recipes */
 
 .recipe-card>.card>.card-image {
-    max-width: 250px;
-
-    max-height: 250px;
     /* Fallback aspect ratio of 1:1 */
     aspect-ratio: 4/3;
     overflow: hidden;
@@ -351,50 +352,54 @@ input#search_bar:focus {
     margin-top: 0.4em;
 }
 
-.card_created-by {
-    margin: 0;
-}
-
 .card-action>a.view-recipe-btn {
     /* Important to override MaterializeCSS styles */
     color: rgb(122 67 0) !important;
 }
 
+.card.horizontal {
+    display: block;
+}
 
-@media screen and (max-width: 600px) {
-    .card.horizontal {
-        display: block;
-    }
+.card.horizontal>.card-image {
+    max-width: 100%;
+}
 
-    .card.horizontal>.card-image {
-        max-width: 100%;
-    }
+.card-action {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 
-    .card-action {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
+.card_created-by {
+    margin-top: 0.5em;
+}
 
-    .card-action>a.view-recipe-btn {
-        /* "Important" needed to overright extremely specific Materialize styles */
-        margin: 0 !important;
-    }
-
-    .card_created-by {
-        margin-top: 0.5em;
-    }
-
-    .recipe-card {
-        max-width: 350px;
-        margin: auto;
-    }
+.card-action>a.view-recipe-btn {
+    /* "Important" needed to overright extremely specific Materialize styles */
+    margin: 0 !important;
 }
 
 @media screen and (min-width: 600px) {
     .card-content {
         text-align: left;
+    }
+    .card.horizontal {
+        display: flex;
+    }
+
+    .recipe-card>.card>.card-image {
+        max-width: 250px;
+        max-height: 250px;
+    }    
+
+    .card-action {
+        display: block;
+    }
+
+    .card_created-by {
+        margin: 0;
     }
 }
 
