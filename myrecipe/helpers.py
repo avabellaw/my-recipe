@@ -235,7 +235,7 @@ def user_owns_recipe(user_id, recipe):
     """
     if is_modified_recipe(recipe):
         # If modified recipe, check the modified_by_id with user_id
-        return recipe.modified_by_id == user_id  # type: ignore
+        return recipe.modified_by_id == user_id
     else:
         # If normal recipe, just check the user_id with user_id
         return recipe.user_id == user_id
@@ -259,9 +259,9 @@ def search_all_recipes(search_query, *args):
 
     # Get all modified recipes that match the search query
     modified_recipes = ModifiedRecipe.query.join(ModifiedRecipe.original_recipe).filter(
-        Recipe.title.ilike(f"%{search_query}%")).all()  # type: ignore
+        Recipe.title.ilike(f"%{search_query}%")).all() 
     modified_recipes.extend(ModifiedRecipe.query.join(ModifiedRecipe.original_recipe).filter(
-        Recipe.desc.ilike(f"%{search_query}%")).all())  # type: ignore
+        Recipe.desc.ilike(f"%{search_query}%")).all())
     add_recipe_data_to_modified_recipes(modified_recipes)
 
     # Extend recipes with modified recipes

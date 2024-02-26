@@ -322,11 +322,11 @@ def add_modified_recipe(recipe_id):
             db.session.commit()
             return redirect(url_for("view_modified_recipe", recipe_id=modified_recipe.id))
 
-    form.ingredients.data = original_recipe.ingredients  # type: ignore
-    form.instructions.data = original_recipe.instructions  # type: ignore
+    form.ingredients.data = original_recipe.ingredients
+    form.instructions.data = original_recipe.instructions
     add_dietary_tags_to_recipes([original_recipe])
     form.dietary_tags.data = dietary_tag_bools_to_data(
-        get_recipe_dietary_tags_bools(original_recipe))  # type: ignore
+        get_recipe_dietary_tags_bools(original_recipe))
 
     return render_template("add-modified-recipe.html", form=form, original_recipe=original_recipe)
 
@@ -375,16 +375,16 @@ def edit_recipe(recipe_id, modified_recipe):
         set_form_dietary_tags(form, dietary_tag_bools_to_data(
             get_recipe_dietary_tags_bools(recipe)))
 
-        form.ingredients.data = recipe.ingredients  # type: ignore
-        form.instructions.data = recipe.instructions  # type: ignore
+        form.ingredients.data = recipe.ingredients
+        form.instructions.data = recipe.instructions
 
         if is_modified_recipe(recipe):
-            form.extended_desc.data = recipe.extended_desc  # type: ignore
+            form.extended_desc.data = recipe.extended_desc
             return render_template("edit-modified-recipe.html", form=form, recipe=recipe)
         else:
-            form.title.data = recipe.title  # type: ignore
-            form.desc.data = recipe.desc  # type: ignore
-            form.image.data = recipe.image_url  # type: ignore
+            form.title.data = recipe.title
+            form.desc.data = recipe.desc
+            form.image.data = recipe.image_url
             return render_template("edit-recipe.html", form=form, recipe=recipe)
     flash("You can only edit your own recipes.", "danger")
     return redirect(url_for("my_recipes"))
@@ -452,7 +452,7 @@ def toggle_save_recipe(recipe_id):
         db.session.delete(saved_recipe)
     else:
         saved_recipe = SavedRecipe(
-            user_id=current_user.id, recipe_id=recipe_id)  # type: ignore
+            user_id=current_user.id, recipe_id=recipe_id)
         db.session.add(saved_recipe)
 
     db.session.commit()
