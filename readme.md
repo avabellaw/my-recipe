@@ -7,7 +7,7 @@ It builds on my knowledge gained from previous modules and showcases my skills i
 
 <a href="https://my-recipe-project-3-0dce9d94a33a.herokuapp.com/" target="_blank">View the live project here.</a>
 
-<img src="docs/multi-device-website-presentation.webp" style="max-width:900px" alt="Multi-Device Mockup" >
+<img src="docs/multi-device-website-presentation.webp" width="75%" alt="Multi-Device Mockup" >
 
 ## User Experience (UX)
 
