@@ -1,5 +1,5 @@
 <!-- Displays recipe dietary tags -->
-{% macro displayDietaryTags(recipe) %}
+{% macro display_dietary_tags(recipe) %}
 
 {% if recipe.has_dietary_tags %}
 
@@ -52,7 +52,7 @@
 {% endmacro %}
 
 <!-- Displays all recipes passed to it -->
-{% macro displayRecipes(recipes) %}
+{% macro display_recipes(recipes) %}
 
 {% for recipe in recipes %}
 <div class="row">
@@ -65,7 +65,7 @@
                 {% endif %}
             </h3>
             <!-- Display dietary tags -->
-            {{ displayDietaryTags(recipe) }}
+            {{ display_dietary_tags(recipe) }}
             <div class="card horizontal">
                 <div class="card-image">
                     {% if recipe.image_url == None %}
@@ -111,7 +111,7 @@
 
 <!-- Displays the search box -->
 
-{% macro displaySearchBox(search_form) %}
+{% macro display_search_box(search_form) %}
 
 <div id="search-box">
     <form action="{{ url_for('search') }}" method="GET">
@@ -153,7 +153,7 @@
 
 <!-- Load preview image function for image-upload.onchange to use -->
 
-{% macro loadPreviewImageFunction() %}
+{% macro load_preview_image_function() %}
 <script>
     function previewImage(event) {
         // Preview image before upload from StackOverflow[https://stackoverflow.com/questions/4459379/preview-an-image-before-it-is-uploaded]

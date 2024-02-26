@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% from "macros.html" import displayDietaryTags %}
+{% from "macros.html" import display_dietary_tags %}
 
 <!-- Initialize is_modified_recipe -->
 {% if recipe.original_recipe == null %}
@@ -34,7 +34,7 @@
                 </div>
 
                 <!-- Recipe dietary tags -->
-                {{ displayDietaryTags(recipe) }}
+                {{ display_dietary_tags(recipe) }}
             </div>
             <div class="col s12 m7">
                 <div id="recipe-heading-container">

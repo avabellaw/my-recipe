@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% from "macros.html" import displayRecipes, displaySearchBox %}
+{% from "macros.html" import display_recipes, display_search_box %}
 
 {% block content %}
 
@@ -26,9 +26,9 @@
             </div>
             {% endif %}
         </div>
-        {{ displaySearchBox(search_form) }}
+        {{ display_search_box(search_form) }}
 
-        {{ displayRecipes(recipes) }}
+        {{ display_recipes(recipes) }}
     </div>
 </section>
 
