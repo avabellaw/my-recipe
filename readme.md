@@ -1,9 +1,9 @@
 # **MyRecipe** - Milestone Project 3
 
-"MyRecipe" is a place to discover new recipes, and share your own. You can also use other people's recipes as a template for creating your own version.
+"MyRecipe" is a place to discover new recipes, and share your own. You can also use other people's recipes as a template for creating your version.
 
 This project demonstrates my ability to use Python, Flask, and SQLAlchemy. It also includes the use of Google's CSS framework "Materialize".
-It builds on my knowledge gained from previous modules and showcases my skills in creating a website that incorporates database functionilty.
+It builds on my knowledge gained from previous modules and showcases my skills in creating a website that incorporates database functionality.
 
 <a href="https://my-recipe-project-3-0dce9d94a33a.herokuapp.com/" target="_blank">View the live project here.</a>
 
@@ -13,15 +13,15 @@ It builds on my knowledge gained from previous modules and showcases my skills i
 
 ### Project Goals
 
-The goal is to create a website where users can search recipies and share their own.
-A main feature is that users are able to use existing recipes as a template that they are able to modify to their liking.
+The goal is to create a website where users can search for recipes and share their own.
+A main feature is that users can use existing recipes as a template that they can modify to their liking.
 
 ### User Stories
 
 **As a first-time and recurring user**
 1. I want to be able to easily search recipes with filters.
-2. I want to be able to create my own recipes.
-3. I want to view all of my own recipes.
+2. I want to be able to create my recipes.
+3. I want to view all of my recipes.
 4. I want to use other user's recipes as a template.
 5. I want to be able to save/unsave recipes.
 6. I want to view my saved recipes.
@@ -31,16 +31,16 @@ A main feature is that users are able to use existing recipes as a template that
 
 #### User Goals
 
-The target audience is aimed soley at anyone who likes to cook and modify recipes.
-The goal is for users to be able to search recipies and share their own. 
+The target audience is aimed solely at anyone who likes to cook and modify recipes.
+The goal is for users to be able to search for recipes and share their own. 
 
 User goals:
-1. Share, edit and delete their own recipes
+1. Share, edit and delete their recipes
 2. Copy a recipe as a template, with the original owner being credited.
 3. Search for recipes using filters.
 
 Site owner goals:
-3. Generate traffic to the website through it's users sharing recipes.
+3. Generate traffic to the website through its users sharing recipes.
 4. Successful website with an abundance of recipes.
 
 #### Research
@@ -50,8 +50,8 @@ Site owner goals:
 Features to include:
 * Home page with a search bar and an unordered list of recipes underneath.
 * A page for saved recipes.
-* A page for your own recipes, including ones you've taken and modified.
-* A tag system where you can tag recipes with dietry meta data such as "vegan", "dairy-free", etc...
+* A page for your recipes, including ones you've taken and modified.
+* A tag system where you can tag recipes with dietary metadata such as "vegan", "dairy-free", etc...
 * Search functionality that includes the tag system to filter recipes.
 * Ability to log in.
 
@@ -76,7 +76,7 @@ It will then have the following menu items:
 
 Users will be able to click on "Add a Recipe" within the page "My Recipes".
 
-The footer will contain a link to the about page and links to socials.
+The footer will contain a link to the About page and links to socials.
 
 #### Research
 
@@ -88,7 +88,7 @@ I have created my wireframe in Figma. To see the comments I've made, you will ne
 
 You can find my [Figma wireframe design here](https://www.figma.com/file/g2XzHo2jGnEIlY4wayi499/MyRecipe)
 
-For the mapping out the database structure, [I created an entity relationship diagram using lucid.app](https://lucid.app/documents/view/b86f4c01-76f8-480c-be3f-36c04e2dae36)
+For the mapping out the database structure, [I created an entity relationship diagram using Lucid.app](https://lucid.app/documents/view/b86f4c01-76f8-480c-be3f-36c04e2dae36)
 
 ### Surface Plane
 
@@ -121,13 +121,13 @@ I will use a simple and light colour scheme.
 * Pylance extension 
     * IntelliSense
     * Errors and warnings
-    * Code navigatio
+    * Code navigation
     * Semantic colourization
 * autopep8 extension/package
     * Package to automatically format to PEP8 standards.
 * Pylint extension
     * GUI to validate my code against PEP8 standards.
-    * Informs me warnings, errors and formatting issues
+    * Informs me of warnings, errors and formatting issues
 * pycodestyle package
     * Commandline package for further validation to PEP8 standards.
 * Google Fonts
@@ -172,7 +172,7 @@ I will use a simple and light colour scheme.
 | URL                       | Page                 | Logged in | Comments            | Results                |
 |---------------------------|----------------------|-----------|---------------------|------------------------|
 | /                         | Homepage             | No        | aria-label is used for hint.css tooltip text | [Only warnings for aria-label](https://validator.w3.org/nu/?doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2F)|
-| /                         | Homepage             | Yes       | There are 13 errors created by the wtforms SelectMultipleFields. In future, I would find away to remove these but the project functions with them as they are bad attribute errors. #account-dropdown-menu is repeated twice because of the mobile-sidenav but this is required for MaterializeCSS. | [Only MaterializeCSS and Wtforms errors](docs/validation/html/homepage_logged-in.webp) |
+| /                         | Homepage             | Yes       | There are 13 errors created by the wtforms SelectMultipleFields. In future, I would find a way to remove these but the project functions with them as they are bad attribute errors. #account-dropdown-menu is repeated twice because of the mobile-sidenav but this is required for MaterializeCSS. | [Only MaterializeCSS and Wtforms errors](docs/validation/html/homepage_logged-in.webp) |
 | /login                    | Log in               | No        | | [No errors or warnings](https://validator.w3.org/nu/?showsource=yes&showoutline=yes&doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Flogin)|
 | /register                 | Register             | No        | | [No errors or warnings](https://validator.w3.org/nu/?showsource=yes&showoutline=yes&doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Fregister)|
 | /my-recipes               | View user recipes    | Yes       | Two elements with same ID is for the MaterializeCSS nav + mobile side nav styling | [All passed apart from ID used twice for materialize](docs/validation/html/my-recipes.webp)|
@@ -181,7 +181,7 @@ I will use a simple and light colour scheme.
 | /recipe/4                 | View recipe          | No        | Only validations warnings due to hint.css aria-labels | [No errors](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Frecipe%2F4)|
 | /recipe/modified-recipe/2 | View modified recipe | No        | Only hint.css warnings | [No errors](https://validator.w3.org/nu/?showsource=yes&showoutline=yes&doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Fmodified-recipe%2F2)|
 | /edit-recipe/             | Edit recipe          | Yes       | Same aforementioned MaterializeCSS and wtforms SelectMultipleFields errors. Warnings for misuse of aria-label but this is for hint.css | [All passed apart from explained errors](docs/validation/html/edit-recipe.webp)|
-| /add-recipe               | Add recipe           | Yes       | Same already explained errors/warnings. Also has error for no src on image but this is added though JS to show preview of uploaded image | [All passed apart from explained errors](docs/validation/html/add-recipe.webp)|
+| /add-recipe               | Add recipe           | Yes       | Same already explained errors/warnings. Also has an error for no src on the image but this is added through JS to show a preview of the uploaded image | [All passed apart from explained errors](docs/validation/html/add-recipe.webp)|
 | /add-modified-recipe/2    | Add modified recipe  | Yes       | No new errors/warnings | [No errors](docs/validation/html/add-modified-recipe.webp)|
 | /profile                  | Profile              | Yes       | Only the Materialize error and warning | [All passed apart from explained](docs/validation/html/profile.webp)|
 | /view-saved-recipes       | View saved recipes   | Yes       | Only the Materialize error and warning | [All passed apart from explained](docs/validation/html/view-saved-recipes.webp)|
@@ -192,7 +192,7 @@ I will use a simple and light colour scheme.
 
 [No validation errors for style.css](https://jigsaw.w3.org/css-validator/validator?uri=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Fstatic%2Fcss%2Fstyle.css&profile=css3svg&usermedium=all&warning=1&vextwarning=&lang=en)
 
-There are 2 warnings but that's because I am using a vendor extenstion for MateralizeCSS.
+There are 2 warnings but that's because I am using a vendor extension for MateralizeCSS.
 
 ### PEP8 Validation
 
@@ -209,7 +209,7 @@ The import in the init file is unable to be added to the top.
 This is due to routes using variables configured in the __init__ module.
 
 There's also a line in the helpers module that is 2 characters over the line length limit.
-This is due to a link attributing my knowledge of wtforms' SelectMultipleField to a stackoverflow post.
+This is due to a link attributing my knowledge of wtforms' SelectMultipleField to a Stackoverflow post.
 
 
 ### Testing User Stories From The User Experience Section
@@ -225,15 +225,15 @@ This is due to a link attributing my knowledge of wtforms' SelectMultipleField t
 
         ![Search by filter only](docs/testing-user-stories/search-results-only-filter.webp)
 
-2. "I want to be able to create my own recipes."
-    * Users can add new recipes my going to the "My Recipes" page under there account. Next, click "Add new recipe".
+2. "I want to be able to create my recipes."
+    * Users can add new recipes by going to the "My Recipes" page under their account. Next, click "Add a new recipe".
 
         ![Add new recipe](docs/testing-user-stories/add-new-recipe.webp)
     * The user will be brought to their newly created recipe.
 
         ![Created recipe](docs/testing-user-stories/chilli-recipe.webp)
-3. "I want to view all of my own recipes."
-    * Users can view there own recipes by clicking "My Recipes" under there account tab.
+3. "I want to view all of my recipes."
+    * Users can view their recipes by clicking "My Recipes" under their account tab.
 
         ![My recipes](docs/testing-user-stories/my-recipes.webp)
 4. "I want to use other user's recipes as a template."
@@ -248,11 +248,11 @@ This is due to a link attributing my knowledge of wtforms' SelectMultipleField t
 
         ![Save/unsave recipe](docs/testing-user-stories/save-unsave-recipe.webp)
 6. "I want to view my saved recipes."
-    * Users can view their saved recipes by clicking the link under there account tab.
+    * Users can view their saved recipes by clicking the link under their account tab.
 
         ![View saved recipes](docs/testing-user-stories/view-saved-recipes.webp)
 7. "I want to be able to edit my recipes."
-    * Users can edit their own recipes by clicking "Edit" under the settings cog.
+    * Users can edit their recipes by clicking "Edit" under the settings cog.
 
         ![Edit recipe cog](docs/testing-user-stories/edit-recipe.webp)
         ![Edit recipe page](docs/testing-user-stories/edit-recipe-page.webp)
@@ -261,19 +261,19 @@ This is due to a link attributing my knowledge of wtforms' SelectMultipleField t
 
 * I tested file formats on the image upload field when adding a new recipe.
     * I attempted uploading all the allowed formats to ensure they were successful.
-    * I tested that invalid file formats were rejected in the back-end and the front-end.
+    * I tested that invalid file formats were rejected in the back end and the front end.
 * Tested that the backend validation works to ensure only the authorized users can delete.
-    * I did this by editing the url to try delete recipes I don't own.
+    * I did this by editing the URL to try to delete recipes I don't own.
 * I switched filesystem provider from Cloudcube s3 bucket to cloudinary.
-    * I needed to increase the size of the string column "image_url" to accomodate a longer url.
+    * I needed to increase the size of the string column "image_url" to accommodate a longer URL.
     * I used the following SQL to alter the size of the column in the production and local database:
     ```
     ALTER TABLE recipes ALTER COLUMN image_url TYPE VARCHAR(300);
     ```
     * I edited a recipe and replaced a recipe image with the same image. 
-        * I inspected the url and saw that the url was local. 
-        * I remembered I hadn't yet set the enivroment variables in production.
-        * After setting them, I edited the image again and inspected the url. It was set to the intended cloudinary url:
+        * I inspected the URL and saw that the URL was local. 
+        * I remembered I hadn't yet set the environment variables in production.
+        * After setting them, I edited the image again and inspected the URL. It was set to the intended Cloudinary URL:
 
             ![Correct cloudinary image](docs/manual-testing/correct-cloudinary-url.webp)
 
@@ -315,17 +315,17 @@ Performance - Accessibility - Best practices - SEO
 
 ### Known Issues/Bugs
 
-* A user can save their own recipes by editing the url.
-    * There's no backend code to stop you doing this but it's also not a problem.
-    * To stop this would mean querying the database an extra time before saving/unsaving recipes which isn't worth it. If someone wants to save their own recipe by manually editing the url that's up to them.
+* A user can save their recipes by editing the URL.
+    * There's no backend code to stop you from doing this but it's also not a problem.
+    * To stop this would mean querying the database an extra time before saving/unsaving recipes which isn't worth it. If someone wants to save their recipe by manually editing the url that's up to them.
 * Can't save modified recipes.
     * This is due to an oversight with the database model.
     * Saved_Recipes contains the foreign key for only a standard Recipe
 * "A form field element should have an id or name attribute"
     * The dietary tag fields are created by wtforms.
 * If there is a validation error when searching recipes, it returns to the homepage with the validation message.
-    * It does this when searching using the search box on the search results page when really it should return to the same page.
-* For this release of the project, I'm unable to check image exists on cloudinary and delete.
+    * It does this when searching using the search box on the search results page when it should return to the same page.
+* For this release of the project, I'm unable to check if the image exists on Cloudinary and delete it.
     * This means there will be undeleted images. These are handled if stored locally.
 
 ### Deployment
@@ -334,14 +334,14 @@ Performance - Accessibility - Best practices - SEO
 
 I deployed to Heroku using the following steps:
 
-1. Create a production branch based of "main". The main branch will be merged into this branch in order to deploy to production.
+1. Create a production branch based on "main". The main branch will be merged into this branch to deploy to production.
 2. On the production branch, run "pip3 freeze --local > requirements.txt" to create the requirements file.
-3. On the production branch, add a utf-8 encoded file, named "Procfile" with no extenstion.
+3. On the production branch, add a UTF-8 encoded file, named "Procfile" with no extension.
     * Enter "web: python run.py" into the Procfile
 4. On Heroku, add a new project.
 5. Within the new project, go to the "Deploy" tab. 
 6. Choose "GitHub" and connect the repo containing the project. Set the branch to "production".
-7. Add all the enviroment variables.
+7. Add all the environment variables.
     * IP
     * PORT
     * SECRET_KEY
@@ -395,13 +395,13 @@ $ git clone https://github.com/avabellaw/my-recipe
 
 #### Recipes
 
-* Chilli con carnne
-    * [Image from unspash by Micheile Henderson](https://unsplash.com/photos/red-and-green-chili-peppers-in-white-ceramic-bowl-FhMB8pMge5U)
+* Chilli Con Carne
+    * [Image from Unsplash by Micheile Henderson](https://unsplash.com/photos/red-and-green-chili-peppers-in-white-ceramic-bowl-FhMB8pMge5U)
     * [Content based on recipe by bbcgoodfood](https://www.bbcgoodfood.com/recipes/chilli-con-carne-recipe)
-* Simple pasta
-    * [Image from unsplash by Ben Lei](https://unsplash.com/photos/potato-fries-on-white-ceramic-plate-flFd8L7_B3g)
+* Simple Pasta
+    * [Image from Unsplash by Ben Lei](https://unsplash.com/photos/potato-fries-on-white-ceramic-plate-flFd8L7_B3g)
 * Pizza
-    [Image from pixabay by igorovsyannykov](https://pixabay.com/photos/pizza-italian-homemade-cheese-3007395/)
+    [Image from Pixabay by igorovsyannykov](https://pixabay.com/photos/pizza-italian-homemade-cheese-3007395/)
 
 ### Code
 
@@ -411,12 +411,12 @@ $ git clone https://github.com/avabellaw/my-recipe
 * [Registering users with Flask](https://www.youtube.com/watch?v=71EU8gnZqZQ)
     * I originally just inputted new users into the database.
     * I watched this video to learn about how to properly handle user registration in Flask.
-    * Taught me how to encrypt and check encrypted password.
-    * Taught me how to keep track of whether user is logged in within Flask using LoginManager. 
+    * Taught me how to encrypt and check the encrypted password.
+    * Taught me how to keep track of whether the user is logged in within Flask using LoginManager. 
 
 * bcrypt wasn't able to check_password "Invalid salt".
-    * This is because postgres already encodes the hash.
-    * [I decode the hash to utf-8 before adding](https://stackoverflow.com/questions/34548846/flask-bcrypt-valueerror-invalid-salt)
+    * This is because Postgres already encodes the hash.
+    * [I decode the hash to UTF-8 before adding](https://stackoverflow.com/questions/34548846/flask-bcrypt-valueerror-invalid-salt)
 
 * flask_wtf 
     * [How to create forms](https://flask-wtf.readthedocs.io/en/1.2.x/quickstart/#creating-forms)
@@ -433,11 +433,11 @@ $ git clone https://github.com/avabellaw/my-recipe
 
 #### Images
 
-* Default image if not uploaded with recipe.
+* Default image if not uploaded with the recipe.
     * [From Pixabay](https://www.pexels.com/photo/closeup-photography-of-sauteed-garlic-263022/)
 
 * Footer icons.
-    [GitHub svg from FontAwesome](https://fontawesome.com/icons/github?f=brands&s=solid)
+    [GitHub SVG from FontAwesome](https://fontawesome.com/icons/github?f=brands&s=solid)
 
 * Dietary icons
     * [Vegan icon from Flaticon by Pixel Perfect](https://www.flaticon.com/free-icon/vegetarian_723633?term=vegetarian&page=1&position=3&origin=tag&related_id=723633)
