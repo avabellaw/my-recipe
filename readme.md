@@ -5,7 +5,7 @@
 This project demonstrates my ability to use Python, Flask, and SQLAlchemy. It also includes the use of Google's CSS framework "Materialize".
 It builds on my knowledge gained from previous modules and showcases my skills in creating a website that incorporates database functionilty.
 
-[View the live project here.]()
+<a href="https://my-recipe-project-3-0dce9d94a33a.herokuapp.com/" target="_blank">View the live project here.</a>
 
 <img src="" alt="Multi-Device Mockup" width="50%">
 
@@ -118,6 +118,18 @@ I will use a simple and light colour scheme.
 * Hint.css
     * A pure CSS library for tooltips.
     * Used to label what each dietary icon means
+* Pylance extension 
+    * IntelliSense
+    * Errors and warnings
+    * Code navigatio
+    * Semantic colourization
+* autopep8 extension/package
+    * Package to automatically format to PEP8 standards.
+* Pylint extension
+    * GUI to validate my code against PEP8 standards.
+    * Informs me warnings, errors and formatting issues
+* pycodestyle package
+    * Commandline package for further validation to PEP8 standards.
 * Google Fonts
     * Easy access to many fonts supplied from a CDN that is close to the user, increasing download speed.
     * The @font-faces are in my stylesheet. This is quicker than the browser making two requests, the first being for the aforementioned stylesheet containing each @font-face.
@@ -182,6 +194,24 @@ I will use a simple and light colour scheme.
 
 There are 2 warnings but that's because I am using a vendor extenstion for MateralizeCSS.
 
+### PEP8 Validation
+
+I used pylint and pycodestyle (formally known as pep8) to validate my Python code to PEP8 standards.
+I also used autopep8 to quickly format my code first.
+
+I decided to keep my line length at a cap of 100. This fits my project needs well and is the default for pylint.
+I followed every other PEP8 guideline.
+
+This is the output from pylint:
+![pylint output](docs/validation/python/final-results.webp)
+
+The import in the init file is unable to be added to the top.
+This is due to routes using variables configured in the __init__ module.
+
+There's also a line in the helpers module that is 2 characters over the line length limit.
+This is due to a link attributing my knowledge of wtforms' SelectMultipleField to a stackoverflow post.
+
+
 ### Testing User Stories From The User Experience Section
 
 1. "I want to be able to easily search recipes with filters."
@@ -233,8 +263,19 @@ There are 2 warnings but that's because I am using a vendor extenstion for Mater
     * I attempted uploading all the allowed formats to ensure they were successful.
     * I tested that invalid file formats were rejected in the back-end and the front-end.
 * Tested that the backend validation works to ensure only the authorized users can delete.
+    * I did this by editing the url to try delete recipes I don't own.
+* I switched filesystem provider from Cloudcube s3 bucket to cloudinary.
+    * I needed to increase the size of the string column "image_url" to accomodate a longer url.
+    * I used the following SQL to alter the size of the column in the production and local database:
+    ```
+    ALTER TABLE recipes ALTER COLUMN image_url TYPE VARCHAR(300);
+    ```
+    * I edited a recipe and replaced a recipe image with the same image. 
+        * I inspected the url and saw that the url was local. 
+        * I remembered I hadn't yet set the enivroment variables in production.
+        * After setting them, I edited the image again and inspected the url. It was set to the intended cloudinary url:
 
-### Further Testing
+            ![Correct cloudinary image](docs/manual-testing/correct-cloudinary-url.webp)
 
 #### Google Lighthouse
 
@@ -284,6 +325,8 @@ Performance - Accessibility - Best practices - SEO
     * The dietary tag fields are created by wtforms.
 * If there is a validation error when searching recipes, it returns to the homepage with the validation message.
     * It does this when searching using the search box on the search results page when really it should return to the same page.
+* For this release of the project, I'm unable to check image exists on cloudinary and delete.
+    * This means there will be undeleted images. These are handled if stored locally.
 
 ### Deployment
 
@@ -353,19 +396,19 @@ $ git clone https://github.com/avabellaw/my-recipe
 #### Recipes
 
 * Chilli con carnne
-    * Image from unspash by Micheile Henderson [https://unsplash.com/photos/red-and-green-chili-peppers-in-white-ceramic-bowl-FhMB8pMge5U]
-    * Content based on recipe by bbcgoodfood [https://www.bbcgoodfood.com/recipes/chilli-con-carne-recipe]
+    * [Image from unspash by Micheile Henderson](https://unsplash.com/photos/red-and-green-chili-peppers-in-white-ceramic-bowl-FhMB8pMge5U)
+    * [Content based on recipe by bbcgoodfood](https://www.bbcgoodfood.com/recipes/chilli-con-carne-recipe)
 * Simple pasta
-    * Image from unsplash by Ben Lei [https://unsplash.com/photos/potato-fries-on-white-ceramic-plate-flFd8L7_B3g]
+    * [Image from unsplash by Ben Lei](https://unsplash.com/photos/potato-fries-on-white-ceramic-plate-flFd8L7_B3g)
 * Pizza
-    Image from pixabay by igorovsyannykov [https://pixabay.com/photos/pizza-italian-homemade-cheese-3007395/]
+    [Image from pixabay by igorovsyannykov](https://pixabay.com/photos/pizza-italian-homemade-cheese-3007395/)
 
 ### Code
 
-* "# type: ignore" will ignore errors [https://stackoverflow.com/questions/58936116/pycharm-warns-about-unexpected-arguments-for-sqlalchemy-user-model] 
+* ["# type: ignore" will ignore errors](https://stackoverflow.com/questions/58936116/pycharm-warns-about-unexpected-arguments-for-sqlalchemy-user-model)
     * Otherwise there is an error for unexpected arguments when using models.
-
-* For registering users [https://www.youtube.com/watch?v=71EU8gnZqZQ]
+    * I avoided having to use this by changing linter configurations.
+* [Registering users with Flask](https://www.youtube.com/watch?v=71EU8gnZqZQ)
     * I originally just inputted new users into the database.
     * I watched this video to learn about how to properly handle user registration in Flask.
     * Taught me how to encrypt and check encrypted password.
@@ -373,34 +416,33 @@ $ git clone https://github.com/avabellaw/my-recipe
 
 * bcrypt wasn't able to check_password "Invalid salt".
     * This is because postgres already encodes the hash.
-    * I decode the hash to utf-8 before adding [https://stackoverflow.com/questions/34548846/flask-bcrypt-valueerror-invalid-salt]
+    * [I decode the hash to utf-8 before adding](https://stackoverflow.com/questions/34548846/flask-bcrypt-valueerror-invalid-salt)
 
 * flask_wtf 
-    * [https://flask-wtf.readthedocs.io/en/1.2.x/quickstart/#creating-forms]
-    * [https://wtforms.readthedocs.io/en/3.0.x/validators/]
+    * [How to create forms](https://flask-wtf.readthedocs.io/en/1.2.x/quickstart/#creating-forms)
+    * [wtforms validators](https://wtforms.readthedocs.io/en/3.0.x/validators/)
 
-* Add classes to flask_wtf form elements.
-    * [https://stackoverflow.com/questions/22084886/add-a-css-class-to-a-field-in-wtform]
+* [Add classes to flask_wtf form elements](https://stackoverflow.com/questions/22084886/add-a-css-class-to-a-field-in-wtform)
 
 * I learnt how to handle file uploads from flask.palletspro9jects.com and flask-wtf.readthedocs.io
-    * [https://flask.palletsprojects.com/en/2.0.x/patterns/fileuploads/#uploading-files]
-    * [https://flask-wtf.readthedocs.io/en/0.15.x/form/]
-    * I worked out how to point to the 'image-uploads' folder through this Stackoverflow post [https://stackoverflow.com/questions/37901716/flask-uploads-ioerror-errno-2-no-such-file-or-directory] 
+    * https://flask.palletsprojects.com/en/2.0.x/patterns/fileuploads/#uploading-files
+    * https://flask-wtf.readthedocs.io/en/0.15.x/form/
+    * I worked out how to point to the 'image-uploads' folder through [this Stackoverflow post](https://stackoverflow.com/questions/37901716/flask-uploads-ioerror-errno-2-no-such-file-or-directory)
 
 ### Media
 
 #### Images
 
 * Default image if not uploaded with recipe.
-    * From Pixabay [https://www.pexels.com/photo/closeup-photography-of-sauteed-garlic-263022/]
+    * [From Pixabay](https://www.pexels.com/photo/closeup-photography-of-sauteed-garlic-263022/)
 
 * Footer icons.
-    GitHub svg from FontAwesome [https://fontawesome.com/icons/github?f=brands&s=solid]
+    [GitHub svg from FontAwesome](https://fontawesome.com/icons/github?f=brands&s=solid)
 
 * Dietary icons
-    * Vegan icon from Flaticon by Pixel Perfect [https://www.flaticon.com/free-icon/vegetarian_723633?term=vegetarian&page=1&position=3&origin=tag&related_id=723633]
-    * Vegetarian icon from Freepik by Valeria [https://www.freepik.com/icon/lettuce_12114434#fromView=search&term=vegetarian+&track=ais&page=1&position=76&uuid=f94071d6-1b72-4559-b054-b4b8ecfc2af6]
-    * Gluten-free icon from Flaticon by Freepik [https://www.flaticon.com/free-icon/gluten-free_4807774?term=gluten+free&page=1&position=4&origin=search&related_id=4807774]
-    * Dairy-free icon from Freepik by bsd [https://www.freepik.com/icon/milk-free_12954588#fromView=search&term=dairy+free&track=ais&page=1&position=14&uuid=86065469-2655-4257-97b3-60711af88994]
-    * Nut-free icon from Freepik by Freepik [https://www.freepik.com/icon/fruit_652405#fromView=search&term=nut+free&track=ais&page=1&position=4&uuid=500039e3-cbd4-42b9-bfeb-2361c3d32dd2]
-    * Egg-free icon from Freepik by Freepik [https://www.freepik.com/icon/no-egg_1807571#fromView=search&term=egg+free&track=ais&page=1&position=3&uuid=ac4be750-70f5-4dd6-95ac-02f3ed3769c6]
+    * [Vegan icon from Flaticon by Pixel Perfect](https://www.flaticon.com/free-icon/vegetarian_723633?term=vegetarian&page=1&position=3&origin=tag&related_id=723633)
+    * [Vegetarian icon from Freepik by Valeria](https://www.freepik.com/icon/lettuce_12114434#fromView=search&term=vegetarian+&track=ais&page=1&position=76&uuid=f94071d6-1b72-4559-b054-b4b8ecfc2af6)
+    * [Gluten-free icon from Flaticon by Freepik](https://www.flaticon.com/free-icon/gluten-free_4807774?term=gluten+free&page=1&position=4&origin=search&related_id=4807774)
+    * [Dairy-free icon from Freepik by bsd](https://www.freepik.com/icon/milk-free_12954588#fromView=search&term=dairy+free&track=ais&page=1&position=14&uuid=86065469-2655-4257-97b3-60711af88994)
+    * [Nut-free icon from Freepik by Freepik](https://www.freepik.com/icon/fruit_652405#fromView=search&term=nut+free&track=ais&page=1&position=4&uuid=500039e3-cbd4-42b9-bfeb-2361c3d32dd2)
+    * [Egg-free icon from Freepik by Freepik](https://www.freepik.com/icon/no-egg_1807571#fromView=search&term=egg+free&track=ais&page=1&position=3&uuid=ac4be750-70f5-4dd6-95ac-02f3ed3769c6)

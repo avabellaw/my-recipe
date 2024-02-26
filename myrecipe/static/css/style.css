@@ -135,10 +135,6 @@ form > .input-field textarea:not(.browser-default):focus:not([readonly])+label {
 
 /* Profile */
 
-#profile-form {
-    padding: 2em;
-}
-
 #profile-form_update-password {
     font-size: 1.5em;
     margin-bottom: 1.2em;
@@ -204,7 +200,6 @@ i.right.arrow-dropdown-icon {
     margin-left: auto;
 }
 
-
 #account-options-title {
     padding: 0 32px;
     display: flex;
@@ -223,6 +218,12 @@ span.login-btn {
 #mobile-sidenav #account-dropdown_menu {
     width: 80%;
     margin: auto;
+}
+
+@media screen and (min-width: 600px) {
+    #profile-form {
+        padding: 2em;
+    }
 }
 
 /* End of Navbar */
@@ -301,8 +302,12 @@ input#search_bar:focus {
     box-shadow: 0 1px 0 0 var(--main-colour);
 }
 
-#search-box>.row {
+#search-box .container > .row {
     margin-bottom: 0;
+}
+
+#search-box .container > .row:last-child > .col {
+    margin-top: 0.8em;
 }
 
 #search-box_header {
@@ -579,6 +584,7 @@ p#created-by {
     font-family: "Karla", sans-serif;
     font-weight: 500;
     display: inline-flex;
+    flex-wrap: wrap;
 }
 
 .recipe-card_title>span.recipe-title {
