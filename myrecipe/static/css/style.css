@@ -113,6 +113,12 @@ form>.input-field textarea:not(.browser-default):focus:not([readonly])+label {
     color: var(--main-colour);
 }
 
+[type="checkbox"]:checked+span:not(.lever):before {
+    /* Override MaterializeCSS */
+    border-right: 2px solid rgb(255, 115, 0);
+    border-bottom: 2px solid rgb(255, 115, 0);
+}
+
 @media screen and (min-width: 600px) {
     .center-on-mobile {
         text-align: inherit;
