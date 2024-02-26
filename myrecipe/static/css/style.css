@@ -70,17 +70,17 @@ body {
     font-family: "Crimson Text", serif;
 }
 
-form > .input-field input:not(.browser-default):focus:not([readonly]), 
-form > .input-field textarea:not(.browser-default):focus:not([readonly]),
-form > .input-field .select-wrapper input.select-dropdown:focus {
+form>.input-field input:not(.browser-default):focus:not([readonly]),
+form>.input-field textarea:not(.browser-default):focus:not([readonly]),
+form>.input-field .select-wrapper input.select-dropdown:focus {
     /* Override MaterializeCSS */
     border-bottom: 1px solid var(--main-colour);
     -webkit-box-shadow: 0 1px 0 0 var(--main-colour);
     box-shadow: 0 1px 0 0 var(--main-colour);
 }
 
-form > .input-field input:not(.browser-default):focus:not([readonly])+label, 
-form > .input-field textarea:not(.browser-default):focus:not([readonly])+label {
+form>.input-field input:not(.browser-default):focus:not([readonly])+label,
+form>.input-field textarea:not(.browser-default):focus:not([readonly])+label {
     /* Override MaterializeCSS */
     color: var(--main-colour);
 }
@@ -140,7 +140,7 @@ form > .input-field textarea:not(.browser-default):focus:not([readonly])+label {
     margin-bottom: 1.2em;
 }
 
-#profile-form > .row {
+#profile-form>.row {
     margin-bottom: 0;
 }
 
@@ -160,7 +160,8 @@ nav>.nav-wrapper>.container {
     position: relative;
 }
 
-nav>.nav-wrapper a, .login-btn {
+nav>.nav-wrapper a,
+.login-btn {
     color: rgb(0, 0, 0);
 }
 
@@ -240,7 +241,7 @@ body {
     flex-direction: column;
 }
 
-body > section {
+body>section {
     flex: 1 0 auto;
 }
 
@@ -302,11 +303,11 @@ input#search_bar:focus {
     box-shadow: 0 1px 0 0 var(--main-colour);
 }
 
-#search-box .container > .row {
+#search-box .container>.row {
     margin-bottom: 0;
 }
 
-#search-box .container > .row:last-child > .col {
+#search-box .container>.row:last-child>.col {
     margin-top: 0.8em;
 }
 
@@ -342,11 +343,12 @@ input#search_bar:focus {
 
 .card-content {
     padding: 1em;
-}
-
-.card-content>p {
     text-align: center;
     font-size: 1.1em;
+}
+
+.card .card-content>a+p {
+    margin-top: 0.4em;
 }
 
 .card_created-by {
@@ -391,7 +393,7 @@ input#search_bar:focus {
 }
 
 @media screen and (min-width: 600px) {
-    .card-content>p {
+    .card-content {
         text-align: left;
     }
 }
@@ -587,14 +589,14 @@ p#created-by {
     flex-wrap: wrap;
 }
 
-.recipe-card_title>span.recipe-title {
-    margin-right: 0.3em;
-}
-
 @media screen and (min-width: 600px) {
     .recipe-card .dietary-tag-container {
         height: 1.1em;
         margin-top: 0;
+    }
+
+    .recipe-card_title>span.recipe-title {
+        margin-right: 0.3em;
     }
 }
 
