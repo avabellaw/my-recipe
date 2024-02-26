@@ -386,6 +386,7 @@ This is due to a link attributing my knowledge of wtforms' SelectMultipleField t
 * I clicked all the links.
     * GitHub link opens a new tab because it's an external link.
 * I had my partner test the website on their phone.
+* I used Responsinator to double check how everything looks on different devices. 
 
 #### Google Lighthouse
 

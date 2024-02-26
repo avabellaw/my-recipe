@@ -479,7 +479,7 @@ input#search_bar:focus {
 }
 
 #recipe-content h2 {
-    font-size: 1.5em;
+    font-size: 1em;
     margin-top: 0;
 }
 
@@ -508,7 +508,8 @@ input#search_bar:focus {
     /* Sticky element from w3schools [https://www.w3schools.com/howto/howto_css_sticky_element.asp] */
     position: -webkit-sticky; /* Safari */
     position: sticky;
-    top: 0;
+    top: 2vh;
+    /* Media query at bottom contains styles for scroll bar if too big */
 }
 
 #ingredients-container ul {
@@ -598,8 +599,13 @@ p#created-by {
 
 @media screen and (min-width: 600px) {
     #recipe-content {
-        font-size: 1.5em;
+        font-size: 1em;
         padding: 1.5em 0;
+    }
+
+    #ingredients-container {
+        max-height: 96vh;
+        overflow: auto;
     }
 }
 
@@ -673,7 +679,6 @@ p#created-by {
 
 .validation-message {
     color: red;
-    margin-bottom: 0.2em;
     display: flex;
     align-items: center;
 }
