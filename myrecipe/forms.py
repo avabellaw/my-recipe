@@ -29,7 +29,7 @@ class RegistrationForm(FlaskForm):
                              DataRequired(), Length(min=8, max=20)])
     confirm_password = PasswordField(
         "Confirm your password:",
-        validators=[DataRequired(), EqualTo("password")])
+        validators=[DataRequired(), EqualTo("password", message="Passwords must match.")])
 
     def validate_username(self, username):
         """Raises a ValidationError if username is already taken."""
