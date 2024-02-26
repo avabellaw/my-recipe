@@ -259,7 +259,7 @@ def search_all_recipes(search_query, *args):
 
     # Get all modified recipes that match the search query
     modified_recipes = ModifiedRecipe.query.join(ModifiedRecipe.original_recipe).filter(
-        Recipe.title.ilike(f"%{search_query}%")).all() 
+        Recipe.title.ilike(f"%{search_query}%")).all()
     modified_recipes.extend(ModifiedRecipe.query.join(ModifiedRecipe.original_recipe).filter(
         Recipe.desc.ilike(f"%{search_query}%")).all())
     add_recipe_data_to_modified_recipes(modified_recipes)

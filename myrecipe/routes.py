@@ -484,7 +484,9 @@ def search():
             if url_part.startswith("dietary_tags"):
                 dietary_tags.append(url_part.split("=")[1])
 
+        search_query = search_query.replace("+", " ")
         recipes = search_all_recipes(search_query, dietary_tags)
+
         add_created_by_to_recipes(recipes)
         search_form = SearchForm()
         dietary_tags = dietary_tag_data_to_names(dietary_tags)
