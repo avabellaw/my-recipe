@@ -351,7 +351,7 @@ def edit_recipe(recipe_id, modified_recipe):
         form = AddRecipeForm() if not is_modified_recipe(
             recipe) else AddModifiedRecipeForm()
         if request.method == "POST":
-            if form.validate_on_submit() and False:
+            if form.validate_on_submit():
                 ingredients = form.ingredients.data.strip()
                 instructions = form.instructions.data.strip()
 
