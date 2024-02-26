@@ -32,16 +32,6 @@ html {
     font-size: 2em;
 }
 
-.center-on-mobile {
-    text-align: center;
-}
-
-@media screen and (min-width: 600px) {
-    .center-on-mobile {
-        text-align: inherit;
-    }
-}
-
 /* From Stackoverflow [https://stackoverflow.com/questions/44846068/css-equal-height-columns] */
 .equal-height-cols {
     display: flex;
@@ -74,6 +64,14 @@ body {
     font-family: "Crimson Text", serif;
 }
 
+a.btn.orange {
+    color: black;
+}
+
+.center-on-mobile {
+    text-align: center;
+}
+
 form>.input-field input:not(.browser-default):focus:not([readonly]),
 form>.input-field textarea:not(.browser-default):focus:not([readonly]),
 form>.input-field .select-wrapper input.select-dropdown:focus {
@@ -87,6 +85,12 @@ form>.input-field input:not(.browser-default):focus:not([readonly])+label,
 form>.input-field textarea:not(.browser-default):focus:not([readonly])+label {
     /* Override MaterializeCSS */
     color: var(--main-colour);
+}
+
+@media screen and (min-width: 600px) {
+    .center-on-mobile {
+        text-align: inherit;
+    }
 }
 
 /* End of general page styles */
@@ -354,7 +358,7 @@ input#search_bar:focus {
 
 .card-action>a.view-recipe-btn {
     /* Important to override MaterializeCSS styles */
-    color: rgb(122 67 0) !important;
+    color: rgb(180 81 0) !important;
 }
 
 .card.horizontal {
@@ -535,7 +539,6 @@ p#created-by {
 #template-button {
     width: fit-content;
     margin: 0.5em 0;
-    color: black;
 }
 
 /* For admin */
