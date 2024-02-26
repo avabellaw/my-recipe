@@ -36,6 +36,10 @@ html {
     font-size: 1.5em;
 }
 
+.input-field>label {
+    color: #575757;
+}
+
 /* From Stackoverflow [https://stackoverflow.com/questions/44846068/css-equal-height-columns] */
 .equal-height-cols {
     display: flex;
@@ -84,13 +88,10 @@ body {
     font-family: "Crimson Text", serif;
 }
 
-.btn.orange:not(.darken-3) {
-    color: black;
-}
-
 .btn.orange {
     font-weight: 600;
     font-family: "Karla", sans-serif;
+    color: black;
 }
 
 .center-on-mobile {
