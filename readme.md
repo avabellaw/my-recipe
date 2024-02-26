@@ -16,6 +16,16 @@ It builds on my knowledge gained from previous modules and showcases my skills i
 The goal is to create a website where users can search for recipes and share their own.
 A main feature is that users can use existing recipes as a template that they can modify to their liking.
 
+It is preferred that modified recipes be private to the user. However, I decided to make them public for demonstration purposes.
+
+The following are features that help MyRecipe users:
+* Sticky ingredients list.
+    * If the ingredients list scrolls out of view, it sticks to the top of the page.
+* Dietary tags.
+    * Each recipe has dietary tag icons.
+    * Hovering over them reveals a tooltip for clarity to what it represents.
+    * Recipes can be filtered by their tags by applying dietary filters when searching.
+
 ### User Stories
 
 **As a first-time and recurring user**
