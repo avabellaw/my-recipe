@@ -79,7 +79,7 @@
                     <div class="card-content">
                         {% if recipe.original_recipe != null %}
                         <a href="{{ url_for('view_recipe', recipe_id=recipe.original_recipe.id)}}">View original recipe,
-                            created by {{ recipe.created_by }}</recipe></a>
+                            created by {{ recipe.created_by }}</a>
                         <p>"{{ recipe.desc }}"</p>
                         <p><em>{{ recipe.extended_desc }}</em></p>
                         {% else %}

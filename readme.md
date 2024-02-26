@@ -90,6 +90,27 @@ You can find my [Figma wireframe design here](https://www.figma.com/file/g2XzHo2
 
 For the mapping out the database structure, [I created an entity relationship diagram using Lucid.app](https://lucid.app/documents/view/b86f4c01-76f8-480c-be3f-36c04e2dae36)
 
+* users 
+    * User includes the Flask mixin UserMixin to manage users.
+* recipes 
+    * Contains 2 foreign keys:
+        * User ID - The user who created the recipe as a foreign key.
+        * Dietary tag ID - The ID of the dietary tags record associated with this recipe.
+* saved_recipes
+    * Contains 2 foreign keys:
+        * Recipe ID
+        * User ID
+    * The combined foreign keys create a primary key for this table.
+    * A primary key "ID" is added to future-proof the table. 
+        * A primary key would be needed to properly index the table.
+* modified_recipes
+    * Contains 3 foreign keys:
+        * User ID - The user who modified the recipe.
+        * Recipe ID - The original recipe
+        * Dietary tag ID - The ID of the dietary tags record associated with this recipe.
+* dietary_tags
+    * The ID is added as a foreign key to either a recipe or a modified recipe.
+
 ### Surface Plane
 
 I want to have an attractive design that doesn't overwhelm the user. I will do this by adding lots of whitespace and not overcrowding pages with recipes.
@@ -130,6 +151,8 @@ I will use a simple and light colour scheme.
     * Informs me of warnings, errors and formatting issues
 * pycodestyle package
     * Commandline package for further validation to PEP8 standards.
+* Bcrypt
+    * Used to encrypt and validate passwords.
 * Google Fonts
     * Easy access to many fonts supplied from a CDN that is close to the user, increasing download speed.
     * The @font-faces are in my stylesheet. This is quicker than the browser making two requests, the first being for the aforementioned stylesheet containing each @font-face.
@@ -166,25 +189,38 @@ I will use a simple and light colour scheme.
 
 ### [W3C Markup Validator](https://validator.w3.org)
 
+* Common validator warnings.
+    *  Section lacks heading.
+        * I shoudn't be using section as there are no headings.
+        * However, there are headings for each recipe within containers. 
+        * In future, I would use a div instead.
+    * hint.css warnings.
+        * Possible misuse of aria-label.
+        * aria-label is used for hint.css tooltip text.
+* Common validator errors.
+    * WTForms errors.
+        * There are 13 errors created by the wtforms SelectMultipleFields.
+        * In future, I would find a way to remove these but the project functions with them as they are bad attribute errors.
+
 <details>
 <summary>HTML validation results table</summary>
 
 | URL                       | Page                 | Logged in | Comments            | Results                |
 |---------------------------|----------------------|-----------|---------------------|------------------------|
-| /                         | Homepage             | No        | aria-label is used for hint.css tooltip text | [Only warnings for aria-label](https://validator.w3.org/nu/?doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2F)|
-| /                         | Homepage             | Yes       | There are 13 errors created by the wtforms SelectMultipleFields. In future, I would find a way to remove these but the project functions with them as they are bad attribute errors. #account-dropdown-menu is repeated twice because of the mobile-sidenav but this is required for MaterializeCSS. | [Only MaterializeCSS and Wtforms errors](docs/validation/html/homepage_logged-in.webp) |
+| /                         | Homepage             | No        | hint.css warning    | [All passed apart from explained](https://validator.w3.org/nu/?doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2F)|
+| /                         | Homepage             | Yes       | WTForms errors.     | [All passed apart from explained](docs/validation/html/homepage_logged-in.webp) |
 | /login                    | Log in               | No        | | [No errors or warnings](https://validator.w3.org/nu/?showsource=yes&showoutline=yes&doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Flogin)|
 | /register                 | Register             | No        | | [No errors or warnings](https://validator.w3.org/nu/?showsource=yes&showoutline=yes&doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Fregister)|
-| /my-recipes               | View user recipes    | Yes       | Two elements with same ID is for the MaterializeCSS nav + mobile side nav styling | [All passed apart from ID used twice for materialize](docs/validation/html/my-recipes.webp)|
-| /search?...               | Search results       | Yes       | Same aforementioned MaterializeCSS and wtforms SelectMultipleFields errors. Warnings for misuse of aria-label but this is for hint.css | [All passed apart from explained errors/warnings](docs/validation/html/search-results-page_logged-in.webp)|
-| /search?...               | Search results       | No        | Only validation warnings due to hint.css aria-labels | [No errors](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Fsearch%3Fsearch_bar%3D%26action%3D%26dietary_tags%3Dvv)|
-| /recipe/4                 | View recipe          | No        | Only validations warnings due to hint.css aria-labels | [No errors](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Frecipe%2F4)|
-| /recipe/modified-recipe/2 | View modified recipe | No        | Only hint.css warnings | [No errors](https://validator.w3.org/nu/?showsource=yes&showoutline=yes&doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Fmodified-recipe%2F2)|
-| /edit-recipe/             | Edit recipe          | Yes       | Same aforementioned MaterializeCSS and wtforms SelectMultipleFields errors. Warnings for misuse of aria-label but this is for hint.css | [All passed apart from explained errors](docs/validation/html/edit-recipe.webp)|
-| /add-recipe               | Add recipe           | Yes       | Same already explained errors/warnings. Also has an error for no src on the image but this is added through JS to show a preview of the uploaded image | [All passed apart from explained errors](docs/validation/html/add-recipe.webp)|
-| /add-modified-recipe/2    | Add modified recipe  | Yes       | No new errors/warnings | [No errors](docs/validation/html/add-modified-recipe.webp)|
-| /profile                  | Profile              | Yes       | Only the Materialize error and warning | [All passed apart from explained](docs/validation/html/profile.webp)|
-| /view-saved-recipes       | View saved recipes   | Yes       | Only the Materialize error and warning | [All passed apart from explained](docs/validation/html/view-saved-recipes.webp)|
+| /my-recipes               | View user's recipes  | Yes       | | [No errors or warnings](docs/validation/html/my-recipes.webp)|
+| /search?...               | Search results       | Yes       | WTForms errors. hint.css warning. | [All passed apart from explained](docs/validation/html/search-results-page_logged-in.webp)|
+| /search?...               | Search results       | No        | hint.css warnings. Section lacks headings. Must change "/search%3Fsearch_bar=" to "/search?search_bar=" otherwise validator recieves 404. | [No errors](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Fsearch?search_bar%3D%26action%3D%26dietary_tags%3Dvv)|
+| /recipe/4                 | View recipe          | No        | hint.css warnings | [No errors](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Frecipe%2F4)|
+| /recipe/modified-recipe/2 | View modified recipe | No        | hint.css warnings | [No errors](https://validator.w3.org/nu/?showsource=yes&showoutline=yes&doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Fmodified-recipe%2F2)|
+| /edit-recipe/             | Edit recipe          | Yes       | WTForms errors. hint.css warnings. | [All passed apart from explained](docs/validation/html/edit-recipe.webp)|
+| /add-recipe               | Add recipe           | Yes       | WTForms errors. hint.css warnings. Also has an error for no src on the image but this is added through JS to show a preview of the uploaded image. | [All passed apart from explained](docs/validation/html/add-recipe.webp)|
+| /add-modified-recipe/2    | Add modified recipe  | Yes       | WTForms errors. Duplicate ID error now resolved. | [No errors](docs/validation/html/add-modified-recipe.webp)|
+| /profile                  | Profile              | Yes       | | [All passed](docs/validation/html/profile.webp)|
+| /view-saved-recipes       | View saved recipes   | Yes       | | [All passed](docs/validation/html/view-saved-recipes.webp)|
    
 </details>
 
@@ -212,6 +248,17 @@ There are 2 warnings but that's because I am using a vendor extension for Matera
 
 </details>
 
+### Security features
+
+* Flask_login is used to manage users.
+    * This helps block users from pages where a login is required.
+    * Manages users and allows me to authentucate them.
+        * It's then decided whether the user is allowed to view certain pages or perform certain actions.
+* User passwords are encrypted in SQL using Bcrypt.
+* The admin is asked to change the default password if they haven't already.
+* Validation of data is performed both at the front and back end.
+* secure_filename is used on images to ensure the filename isn't malicious.
+
 ### PEP8 Validation
 
 I used pylint and pycodestyle (formally known as pep8) to validate my Python code to PEP8 standards.
@@ -219,6 +266,8 @@ I also used autopep8 to quickly format my code first.
 
 I decided to keep my line length at a cap of 100. This fits my project needs well and is the default for pylint.
 I followed every other PEP8 guideline.
+
+I used Google's doc string format for functions.
 
 This is the output from pylint:
 ![pylint output](docs/validation/python/final-results.webp)
@@ -351,6 +400,15 @@ Performance - Accessibility - Best practices - SEO
     * Image deletion is handled if stored locally.
 
 ### Deployment
+
+#### Deployment dependencies 
+
+In order to deploy to Heroku, a Procfile and requirements.txt file is needed.
+
+* The Procfile tells Heroku how to run the app.
+* The requirements.txt file lists the dependecies needed to be installed for the project.
+
+I have kept both these files **only** on the production branch. Both branches are identical apart from these two files.
 
 #### Heroku
 
