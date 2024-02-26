@@ -164,14 +164,11 @@
 
 {% block scripts %}
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        let elems = document.querySelectorAll('.modal');
-        M.Modal.init(elems);
-    });
-</script>
+<!-- Initialize MaterializeCSS confirm delete recipe modal -->
+<script src="{{ url_for('static', filename='js/init-materializecss-modal.js') }}"></script>
 
 {% if current_user.is_authenticated and not is_owned_by_user %}
+<!-- Script can't be in own js file because of {{ url_for }} -->
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         let saveRecipeButton = document.getElementById("save-recipe-button");
