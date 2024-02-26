@@ -350,7 +350,7 @@ def edit_recipe(recipe_id, modified_recipe):
         form = AddRecipeForm() if not is_modified_recipe(
             recipe) else AddModifiedRecipeForm()
         if request.method == "POST":
-            if form.validate_on_submit():
+            if form.validate_on_submit() and False:
                 ingredients = form.ingredients.data.strip()
                 instructions = form.instructions.data.strip()
 
@@ -369,8 +369,10 @@ def edit_recipe(recipe_id, modified_recipe):
                 update_dietary_tags(recipe, form.dietary_tags.data)
                 return redirect(url_for("view_modified_recipe" if is_modified_recipe(recipe)
                                         else "view_recipe", recipe_id=recipe.id))
+            if not is_modified_recipe(recipe):
+                form.image.data = recipe.image_url
             return render_template("edit-modified-recipe.html" if is_modified_recipe(recipe)
-                                        else "edit-recipe", form=form)
+                                   else "edit-recipe.html", form=form, recipe=recipe)
 
         set_form_dietary_tags(form, dietary_tag_bools_to_data(
             get_recipe_dietary_tags_bools(recipe)))
