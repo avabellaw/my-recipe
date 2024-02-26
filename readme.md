@@ -375,6 +375,15 @@ Performance - Accessibility - Best practices - SEO
 
 ### Deployment
 
+#### Deployment dependencies 
+
+In order to deploy to Heroku, a Procfile and requirements.txt file is needed.
+
+* The Procfile tells Heroku how to run the app.
+* The requirements.txt file lists the dependecies needed to be installed for the project.
+
+I have kept both these files **only** on the production branch. Both branches are identical apart from these two files.
+
 #### Heroku
 
 I deployed to Heroku using the following steps:
