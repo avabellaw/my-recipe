@@ -408,6 +408,14 @@ Performance - Accessibility - Best practices - SEO
 * For this release of the project, I'm unable to check if the image exists on Cloudinary and delete it.
     * This means there will be undeleted images.
     * Image deletion is handled if stored locally.
+*  "field element should have an id or name attribute"
+    * Violating nodes:
+        * Dietary tag input with the placeholder "Add dietary filters".
+        * All the dietary tags that are displayed as inputs.
+    * Materialize uses JavaScript to create the violating nodes.
+    * The original select tag, that they're based off, has got ID and name attributes.
+    * It is not possible to add the ID and name fields without doing so manually using JavaScript.
+
 
 ### Deployment
 
