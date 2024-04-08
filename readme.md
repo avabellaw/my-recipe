@@ -98,6 +98,17 @@ You can find my [Figma wireframe design here](https://www.figma.com/file/g2XzHo2
 
 For the mapping out the database structure, [I created an entity relationship diagram using Lucid.app](https://lucid.app/documents/view/b86f4c01-76f8-480c-be3f-36c04e2dae36)
 
+Each recipe will have the ID of the user who owns it and a foreign key pointing to the dietary requirements record. This would allow easier modification of the dietary tags in future.
+Modified recipes contain their own copy of "instuctions" and "ingrediants". This is to allow the user to edit the information without affecting the original.
+The Saved Recipes table links the recipe to be saved with the User who saved it.
+
+The password data is encrypted to protect against potential data breaches.
+
+Images shouldn't be stored in SQL and therefore are stored either locally or in Cloudinary. The image url is saved to each recipe.
+
+Data size restrictions are placed on each column depending on their use case. This, combined with local and server-side validation, helps to ensure that data is appropriate. For example, the title only needs to contain a maximum of 40 charactures. This restriction will ensure it fits within the layout of the recipe. 
+The password column for users isn't restricted as it is hashed and could increase it size.
+
 Data structure explained:
 
 * users 
