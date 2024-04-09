@@ -439,6 +439,7 @@ This is due to a link attributing where I learned more information on WTForms' S
         * Changed "top:1em" to "top:2vh". 
     
     ![Ingredients container scroll bar](docs/manual-testing/sticky-ingredients-overflow.webp)
+* I tested to ensure that when a recipe is deleted, the recipe's image on Cloudinary is deleted too.
 
 #### Google Lighthouse
 
@@ -494,9 +495,6 @@ Performance - Accessibility - Best practices - SEO
     * Modified recipes should be private but for demonstration purposes, they are public.
 * If there is a validation error when searching recipes, it returns to the homepage with the validation message.
     * It does this when searching using the search box on the search results page when it should return to the same page.
-* For this release of the project, I'm unable to check if the image exists on Cloudinary and delete it.
-    * This means there will be undeleted images.
-    * Image deletion is handled if stored locally.
 * "A form field element should have an id or name attribute"
     * The dietary tag input fields are created by MaterializeCSS from the WTForms select element.
     * Violating nodes:
