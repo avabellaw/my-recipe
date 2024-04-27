@@ -98,13 +98,13 @@ You can find my [Figma wireframe design here](https://www.figma.com/file/g2XzHo2
 
 For the mapping out the database structure, [I created an entity relationship diagram using Lucid.app](https://lucid.app/documents/view/b86f4c01-76f8-480c-be3f-36c04e2dae36)
 
-Each recipe will have the ID of the user who owns it and a foreign key pointing to the dietary requirements record. This would allow easier modification of the dietary tags in future.
+Each recipe will have the ID of the user who owns it and a foreign key pointing to the dietary requirements record. This will facilitate the modification and addition of dietary tags in future.
 Modified recipes contain their own copy of "instructions" and "ingredients". This allows the user to edit the information without affecting the original.
 The Saved Recipes table links the recipe to be saved with the User who saved it.
 
 The password data is encrypted to protect against potential data breaches.
 
-Images shouldn't be stored in SQL and therefore are stored either locally or in Cloudinary. The image URL is saved to each recipe.
+Images shouldn't be stored in SQL and are therefore either stored either locally or in Cloudinary. The image URL is saved to each recipe.
 This is best practice because SQL is not designed for images and storing them will begin to slow down the database as it grows. Storing them in a specially made directory will also make relocating the data easier in future if needed.
 
 Data size restrictions are placed on each column depending on their use case. This, combined with local and server-side validation, helps to ensure that data is appropriate. For example, the title only needs to contain a maximum of 40 characters. This restriction has the secondary benefit of ensuring it fits within the layout of the recipe page. 
@@ -237,10 +237,10 @@ I read this article by Behance to decide on fonts to use:
 There will be a series of manual tests conducted throughout the development of the project.
 * Code validation - Prevents unexpected results caused by minor errors. Validating code also enforces best practices.
     * I will use validators to statically check that code standards are met:
-		    * HTML5
-		    * CSS3
-		    * JavaScript
-		    * Python
+      * HTML5
+      * CSS3
+      * JavaScript
+      * Python
 * Testing user stories - To ensure they have all been implemented and work properly.
 	* I embody the role of the user by performing the actions required to achieve each user story.
 * General manual tests - I will take the role of the user and test each of the website's features.
@@ -396,6 +396,7 @@ This is due to a link attributing where I learned more information on WTForms' S
     * Users can edit their recipes by clicking "Edit" under the settings cog.
 
         ![Edit recipe cog](docs/testing-user-stories/edit-recipe.webp)
+
         ![Edit recipe page](docs/testing-user-stories/edit-recipe-page.webp)
 
 ### Manual Testing
@@ -528,6 +529,10 @@ Performance - Accessibility - Best practices - SEO
 
 ### Deployment
 
+#### Preparing for production
+
+A larger dataset of recipes should be uploaded to accompany the five already present. This will allow initial users to properly benefit from MyRecipe. However, as the user base grows so will the recipe count.
+
 #### Deployment dependencies 
 
 To deploy to Heroku, a Procfile and requirements.txt file is needed.
@@ -559,7 +564,6 @@ I deployed to Heroku using the following steps:
     * IP
     * PORT
     * SECRET_KEY
-    * DEBUG
     * DATABASE_URL
     * DEFAULT_ADMIN_PASSWORD
     * api_key _for Cloudinary_
@@ -610,8 +614,8 @@ $ git clone https://github.com/avabellaw/my-recipe
 
 * Flask_login is used to manage users.
     * This helps block users from pages where a login is required using the decorator: @login_required.
-* Manages users and allows me to authenticate them.
-    * It's then decided whether the user is allowed to view certain pages or perform certain actions.
+    * Manages users and allows me to authenticate them.
+        * It's then decided whether the user is allowed to view certain pages or perform certain actions.
 * Authentication checks are performed before allowing certain actions. For example:
   * To delete a recipe, ownership of the recipe is checked unless the user is an admin.
   * Ownership of the recipe is also checked to update the recipe.
@@ -627,7 +631,7 @@ $ git clone https://github.com/avabellaw/my-recipe
   * They are prompted to change this password upon logging in for the first time and until it has been changed.
 * I tested to ensure that editing the URL wouldn't allow access to actions the user is unauthorised to use.
 * To change your password, your current password is required first.
-* The default value for DEBUG mode is False. To enable it, you must add the environment variable "DEBUG".
+* The default value for DEBUG mode is False. To enable it, you must add the environment variable "DEBUG" and set it to True.
 
 ## Credits
 
@@ -677,7 +681,7 @@ $ git clone https://github.com/avabellaw/my-recipe
     * [From Pixabay](https://www.pexels.com/photo/closeup-photography-of-sauteed-garlic-263022/)
 
 * Footer icons.
-    [GitHub SVG from FontAwesome](https://fontawesome.com/icons/github?f=brands&s=solid)
+    * [GitHub SVG from FontAwesome](https://fontawesome.com/icons/github?f=brands&s=solid)
 
 * Dietary icons
 	* [Vegan icon from Flaticon by Pixel Perfect](https://www.flaticon.com/free-icon/vegetarian_723633?term=vegetarian&page=1&position=3&origin=tag&related_id=723633)
