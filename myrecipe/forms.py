@@ -20,6 +20,13 @@ from wtforms.validators import DataRequired, Length, EqualTo, ValidationError
 from myrecipe.routes import bcrypt, get_user
 from myrecipe.models import User
 
+DIETARY_TAG_OPTIONS = [("vv", "Vegan"),
+                       ("v", "Vegetarian"),
+                       ("gf", "Gluten-free"),
+                       ("df", "Dairy-free"),
+                       ("nf", "Nut-free"),
+                       ("ef", "Egg-free")]
+
 
 class RegistrationForm(FlaskForm):
     """Flask form for user registration."""
@@ -29,7 +36,8 @@ class RegistrationForm(FlaskForm):
                              DataRequired(), Length(min=8, max=20)])
     confirm_password = PasswordField(
         "Confirm your password:",
-        validators=[DataRequired(), EqualTo("password", message="Passwords must match.")])
+        validators=[DataRequired(), EqualTo("password",
+                                            message="Passwords must match.")])
 
     def validate_username(self, username):
         """Raises a ValidationError if username is already taken."""
@@ -75,8 +83,7 @@ class AddRecipeForm(FlaskForm):
                                 'Please only upload an image (jpg, png, or webp).')])
 
     # Dietary tags
-    dietary_tags = SelectMultipleField(choices=[("vv", "Vegan"), ("v", "Vegetarian"), (
-        "gf", "Gluten-free"), ("df", "Dairy-free"), ("nf", "Nut-free"), ("ef", "Egg-free")])
+    dietary_tags = SelectMultipleField(choices=DIETARY_TAG_OPTIONS)
 
 
 class AddModifiedRecipeForm(FlaskForm):
@@ -89,16 +96,14 @@ class AddModifiedRecipeForm(FlaskForm):
                                  validators=[DataRequired(), Length(min=10, max=1000)])
 
     # Dietary tags
-    dietary_tags = SelectMultipleField(choices=[("vv", "Vegan"), ("v", "Vegetarian"), (
-        "gf", "Gluten-free"), ("df", "Dairy-free"), ("nf", "Nut-free"), ("ef", "Egg-free")])
+    dietary_tags = SelectMultipleField(choices=DIETARY_TAG_OPTIONS)
 
 
 class SearchForm(FlaskForm):
     """Flask form for searching for a recipe"""
     search_bar = StringField("Search:")
     # Dietary tags
-    dietary_tags = SelectMultipleField(choices=[("vv", "Vegan"), ("v", "Veggie"), (
-        "gf", "GF"), ("df", "Dairy-free"), ("nf", "Nut-free"), ("ef", "Egg-free")])
+    dietary_tags = SelectMultipleField(choices=DIETARY_TAG_OPTIONS)
 
     def validate_search_bar(self, search_bar):
         """If search bar is empty without any dietary filters applied, raise ValidationError."""
