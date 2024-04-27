@@ -202,8 +202,8 @@ def my_recipes():
     Returns:
         Rendered template: The my recipes page.
     """
-    recipes = [recipe for recipe in get_all_recipes(
-    ) if user_owns_recipe(current_user.id, recipe)]
+    recipes = [recipe for recipe in get_all_recipes()
+               if user_owns_recipe(current_user.id, recipe)]
     add_created_by_to_recipes(recipes)
     return render_template("my-recipes.html", recipes=recipes)
 
@@ -320,7 +320,8 @@ def add_modified_recipe(recipe_id):
 
             db.session.add(modified_recipe)
             db.session.commit()
-            return redirect(url_for("view_modified_recipe", recipe_id=modified_recipe.id))
+            return redirect(url_for("view_modified_recipe",
+                                    recipe_id=modified_recipe.id))
 
     form.ingredients.data = original_recipe.ingredients
     form.instructions.data = original_recipe.instructions
@@ -328,11 +329,13 @@ def add_modified_recipe(recipe_id):
     form.dietary_tags.data = dietary_tag_bools_to_data(
         get_recipe_dietary_tags_bools(original_recipe))
 
-    return render_template("add-modified-recipe.html", form=form, original_recipe=original_recipe)
+    return render_template("add-modified-recipe.html", form=form,
+                           original_recipe=original_recipe)
 
 
 # Edit recipe
-@app.route("/edit-recipe/<int:recipe_id>/<int:modified_recipe>", methods=["GET", "POST"])
+@app.route("/edit-recipe/<int:recipe_id>/<int:modified_recipe>",
+           methods=["GET", "POST"])
 @login_required
 def edit_recipe(recipe_id, modified_recipe):
     """Updates recipe in the database.
@@ -516,7 +519,8 @@ def get_image(filename):
         (image): The image file as an attachment.
 
     """
-    return send_from_directory(app.config["UPLOAD_FOLDER"], filename, as_attachment=True)
+    return send_from_directory(app.config["UPLOAD_FOLDER"], filename,
+                               as_attachment=True)
 
 
 # Error handling

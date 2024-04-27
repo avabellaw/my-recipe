@@ -9,6 +9,7 @@ from werkzeug.utils import secure_filename
 from myrecipe.models import DietaryTags, User, Recipe, SavedRecipe, ModifiedRecipe
 from myrecipe import app, db, UserType, DIETARY_TAGS
 
+
 def get_user(username):
     """Retrieve user from database using their username.
 
@@ -155,14 +156,16 @@ def save_image(image):
 def upload_image(image):
     """Uploads an image to cloudinary and returns the URL of the uploaded image.
 
-    Parameters:
+    Args:
     image (str): The image to be saved.
 
     Returns: 
         str: The URL of the uploaded image.
     """
+
+    filename = remove_filename_extension(image.filename)
     result = cloudinary.uploader.upload(
-        image, public_id=image.filename, folder="myrecipe/image-uploads")
+        image, public_id=filename, folder="myrecipe/image-uploads")
     image_url = result['secure_url']
     return image_url
 
@@ -198,6 +201,31 @@ def save_image_locally(image):
     return "/" + app.config["UPLOAD_FOLDER"] + "/" + filename
 
 
+def remove_filename_extension(filename):
+    """Removes the file extension from a filename.
+
+    Args:
+        filename (str): The filename to remove the extension from.
+
+    returns: Filename without the extension.
+    """
+    return ".".join(filename.split(".")[:-1])
+
+
+def get_public_id(image_url):
+    """Returns the Cloudinary public id from image url.
+
+    Args:
+        image_url (str): The image url from database.
+
+    returns: Cloudinary public id.
+    """
+    upload_folder = f"{
+        app.config["PACKAGE_NAME"]}/{app.config["UPLOAD_FOLDER"]}"
+    image_name = remove_filename_extension(image_url.split("/")[-1])
+    return f"{upload_folder}/{image_name}"
+
+
 def delete_image(image_url):
     """Deletes an image from the local storage or cloud storage.
 
@@ -207,7 +235,8 @@ def delete_image(image_url):
     if app.config["SAVE_IMAGES_LOCALLY"]:
         os.remove(app.config["PACKAGE_NAME"] + "/" + image_url)
     else:
-        cloudinary.uploader.destroy(image_url)
+        public_id = get_public_id(image_url)
+        cloudinary.uploader.destroy(public_id)
 
 
 def image_exists(image_url):
@@ -221,6 +250,15 @@ def image_exists(image_url):
     """
     if app.config["SAVE_IMAGES_LOCALLY"]:
         return os.path.exists(app.config["PACKAGE_NAME"] + "/" + image_url)
+    else:
+        try:
+            public_id = get_public_id(image_url)
+
+            # Will raise exception if not found
+            cloudinary.uploader.explicit(public_id, type="upload")
+            return True
+        except Exception:
+            return False
 
 
 def user_owns_recipe(user_id, recipe):
