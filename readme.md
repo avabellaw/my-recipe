@@ -42,7 +42,7 @@ The following are additional features that set MyRecipe apart from its competiti
 
 #### User Goals
 
-The target audience is aimed solely at anyone who likes to cook and modify recipes.
+The target audience is anyone who likes to cook and modify recipes.
 The goal is for users to be able to search for recipes and share their own. 
 
 User goals:
@@ -99,15 +99,16 @@ You can find my [Figma wireframe design here](https://www.figma.com/file/g2XzHo2
 For the mapping out the database structure, [I created an entity relationship diagram using Lucid.app](https://lucid.app/documents/view/b86f4c01-76f8-480c-be3f-36c04e2dae36)
 
 Each recipe will have the ID of the user who owns it and a foreign key pointing to the dietary requirements record. This would allow easier modification of the dietary tags in future.
-Modified recipes contain their own copy of "instuctions" and "ingrediants". This is to allow the user to edit the information without affecting the original.
+Modified recipes contain their own copy of "instructions" and "ingredients". This allows the user to edit the information without affecting the original.
 The Saved Recipes table links the recipe to be saved with the User who saved it.
 
 The password data is encrypted to protect against potential data breaches.
 
-Images shouldn't be stored in SQL and therefore are stored either locally or in Cloudinary. The image url is saved to each recipe.
+Images shouldn't be stored in SQL and therefore are stored either locally or in Cloudinary. The image URL is saved to each recipe.
+This is best practice because SQL is not designed for images and storing them will begin to slow down the database as it grows. Storing them in a specially made directory will also make relocating the data easier in future if needed.
 
-Data size restrictions are placed on each column depending on their use case. This, combined with local and server-side validation, helps to ensure that data is appropriate. For example, the title only needs to contain a maximum of 40 charactures. This restriction will ensure it fits within the layout of the recipe. 
-The password column for users isn't restricted as it is hashed and could increase it size.
+Data size restrictions are placed on each column depending on their use case. This, combined with local and server-side validation, helps to ensure that data is appropriate. For example, the title only needs to contain a maximum of 40 characters. This restriction has the secondary benefit of ensuring it fits within the layout of the recipe page. 
+The password column for users isn't restricted as it is hashed and could increase in size.
 
 Data structure explained:
 
@@ -131,6 +132,9 @@ Data structure explained:
         * Dietary tag ID - The ID of the dietary tags record associated with this recipe.
 * dietary_tags
     * The ID is added as a foreign key to either a recipe or a modified recipe.
+    * Creating a table solely for dietary tags aids in the addition of new tags in future.
+
+I recognize that I could have improved this model by fully normalizing the data. A modified recipe should have remained as a recipe, containing a field or foreign key to distinguish it once set.
 
 ### Surface Plane
 
@@ -148,7 +152,7 @@ I read this article by Behance to decide on fonts to use:
 
 ### Languages Used
 
-* HTML5  
+* HTML5 
 * CSS3
 * JavaScript
 * Python
@@ -231,23 +235,40 @@ I read this article by Behance to decide on fonts to use:
 ### Test plan
 
 There will be a series of manual tests conducted throughout the development of the project.
-* Code validation - I will use validators to statically ensure code standards are met:
-    * HTML5
-    * CSS3
-    * JavaScript
-    * Python
+* Code validation - Prevents unexpected results caused by minor errors. Validating code also enforces best practices.
+    * I will use validators to statically check that code standards are met:
+		    * HTML5
+		    * CSS3
+		    * JavaScript
+		    * Python
 * Testing user stories - To ensure they have all been implemented and work properly.
+	* I embody the role of the user by performing the actions required to achieve each user story.
 * General manual tests - I will take the role of the user and test each of the website's features.
-    * I will ensure CRUD functionality for each feature. For example; I will create create, view, update and delete a recipe.
-    * I will test the that each user has the correct permissions, including the admin account.
-    * Webpage responsiveness will be continually tested as pages as changed.
-    * I will view the website on multiple devices to ensure cross-platform compatability.
-    * I will try to break the site using unexpected file formats and by manipulating the url.
-* Testing using Google Lighthouse - This tool will help me to assess: 
-    * Performance
-    * Accessibility
-    * Best practices
-    * SEO
+	* I will ensure CRUD functionality for each feature. For example; I will create create, view, update and delete a recipe.
+		* I will also perform these actions on a modified recipe as they have similar features that should behave differently.
+		* I will save and unsave a recipe and ensure the correct data is added to the database using SQL.
+	* I will test that each user has the correct permissions, including the admin account.
+	* Webpage responsiveness will be continually tested as pages change.
+	* I will view the website on multiple devices to ensure cross-platform compatibility.
+	* I will try to break the site using unexpected file formats and by manipulating the URL.
+* Testing that the website conforms to Google Lighthouse standards.
+	* This tool will help me to assess: 
+		* Performance
+		* Accessibility
+		* Best practices
+		* SEO
+	* Lighthouse can help detect issues that otherwise would've been missed or could've been forgotten.
+	* It is a suite of tests that can teach you a lot about different settings and features of your hosting platform, programming languages and frameworks used.
+
+It would be valuable to incorporate automatic tests in future. These are some examples of why:
+* Testing security permissions such as whether different users could access unauthorized pages. A bug could easily be introduced that could affect authorization.
+	* Logged-in users - Can they edit their recipes and are they blocked from editing/deleting recipes owned by other users?
+	* Unauthenticated users - Can they access pages/actions they aren't supposed to?
+	* Admins - can admins access the appropriate actions?
+		* Additional tests could be implemented if a hierarchy of admins is established in future to ensure they have the correct level of access.
+* Testing that both front-end and back-end validation works correctly. Package updates and code changes could break this validation.
+
+This continual testing would ensure the integrity of the website's security. Tests would only have to be written once, and updated accordingly, to catch issues before they become a problem.
 
 ### [W3C Markup Validator](https://validator.w3.org)
 
@@ -268,23 +289,23 @@ There will be a series of manual tests conducted throughout the development of t
 <details>
 <summary>HTML validation results table</summary>
 
-| URL                       | Page                 | Logged in | Comments            | Results                |
+| URL           | Page        | Logged in | Comments      | Results        |
 |---------------------------|----------------------|-----------|---------------------|------------------------|
-| /                         | Homepage             | No        | __Hint.css warning__    | [All passed apart from explained](https://validator.w3.org/nu/?doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2F)|
-| /                         | Homepage             | Yes       | __Materialize errors.__     | [All passed apart from explained](docs/validation/html/homepage_logged-in.webp) |
-| /login                    | Log in               | No        | | [No errors or warnings](https://validator.w3.org/nu/?showsource=yes&showoutline=yes&doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Flogin)|
-| /register                 | Register             | No        | | [No errors or warnings](https://validator.w3.org/nu/?showsource=yes&showoutline=yes&doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Fregister)|
-| /my-recipes               | View user's recipes  | Yes       | | [No errors or warnings](docs/validation/html/my-recipes.webp)|
-| /search?...               | Search results       | Yes       | __Materialize errors. Hint.css warning.__ | [All passed apart from explained](docs/validation/html/search-results-page_logged-in.webp)|
-| /search?...               | Search results       | No        | __Hint.css warnings. Section lacks headings.__ Must change "/search%3Fsearch_bar=" to "/search?search_bar=" otherwise validator receives 404. | [No errors](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Fsearch?search_bar%3D%26action%3D%26dietary_tags%3Dvv)|
-| /recipe/4                 | View recipe          | No        | __Hint.css warnings__ | [No errors](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Frecipe%2F4)|
-| /recipe/modified-recipe/2 | View modified recipe | No        | __Hint.css warnings__ | [No errors](https://validator.w3.org/nu/?showsource=yes&showoutline=yes&doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Fmodified-recipe%2F2)|
-| /edit-recipe/             | Edit recipe          | Yes       | __Materialize errors. Hint.css warnings.__ | [All passed apart from explained](docs/validation/html/edit-recipe.webp)|
-| /add-recipe               | Add recipe           | Yes       | __Materialize errors. Hint.css warnings.__ Also has an error for no src on the image but this is added through JS to show a preview of the uploaded image. | [All passed apart from explained](docs/validation/html/add-recipe.webp)|
-| /add-modified-recipe/2    | Add modified recipe  | Yes       | __Materialize errors.__ The duplicate ID error is now resolved. | [No errors](docs/validation/html/add-modified-recipe.webp)|
-| /profile                  | Profile              | Yes       | | [All passed](docs/validation/html/profile.webp)|
-| /view-saved-recipes       | View saved recipes   | Yes       | | [All passed](docs/validation/html/view-saved-recipes.webp)|
-   
+| /            | Homepage      | No    | __Hint.css warning__  | [All passed apart from explained](https://validator.w3.org/nu/?doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2F)|
+| /            | Homepage      | Yes   | __Materialize errors.__  | [All passed apart from explained](docs/validation/html/homepage_logged-in.webp) |
+| /login          | Log in       | No    | | [No errors or warnings](https://validator.w3.org/nu/?showsource=yes&showoutline=yes&doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Flogin)|
+| /register        | Register      | No    | | [No errors or warnings](https://validator.w3.org/nu/?showsource=yes&showoutline=yes&doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Fregister)|
+| /my-recipes       | View user's recipes | Yes   | | [No errors or warnings](docs/validation/html/my-recipes.webp)|
+| /search?...       | Search results   | Yes   | __Materialize errors. Hint.css warning.__ | [All passed apart from explained](docs/validation/html/search-results-page_logged-in.webp)|
+| /search?...       | Search results   | No    | __Hint.css warnings. The section lacks headings.__ Must change "/search%3Fsearch_bar=" to "/search?search_bar=" otherwise validator receives 404. | [No errors](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Fsearch?search_bar%3D%26action%3D%26dietary_tags%3Dvv)|
+| /recipe/4        | View recipe     | No    | __Hint.css warnings__ | [No errors](https://validator.w3.org/nu/?showsource=yes&doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Frecipe%2F4)|
+| /recipe/modified-recipe/2 | View modified recipe | No    | __Hint.css warnings__ | [No errors](https://validator.w3.org/nu/?showsource=yes&showoutline=yes&doc=https%3A%2F%2Fmy-recipe-project-3-0dce9d94a33a.herokuapp.com%2Fmodified-recipe%2F2)|
+| /edit-recipe/      | Edit recipe     | Yes   | __Materialize errors. Hint.css warnings.__ | [All passed apart from explained](docs/validation/html/edit-recipe.webp)|
+| /add-recipe       | Add recipe     | Yes   | __Materialize errors. Hint.css warnings.__ Also has an error for no src on the image but this is added through JS to show a preview of the uploaded image. | [All passed apart from explained](docs/validation/html/add-recipe.webp)|
+| /add-modified-recipe/2  | Add modified recipe | Yes   | __Materialize errors.__ The duplicate ID error is now resolved. | [No errors](docs/validation/html/add-modified-recipe.webp)|
+| /profile         | Profile       | Yes   | | [All passed](docs/validation/html/profile.webp)|
+| /view-saved-recipes   | View saved recipes | Yes   | | [All passed](docs/validation/html/view-saved-recipes.webp)|
+  
 </details>
 
 ### [W3C CSS Validator](https://jigsaw.w3.org/css-validator)
@@ -302,12 +323,12 @@ There are 2 warnings but that's because I am using a vendor extension for Matera
 <details>
 <summary>JavaScript validation results</summary>
 
-| JS filename                   | Results                                                                      |
+| JS filename         | Results                                   |
 |-------------------------------|------------------------------------------------------------------------------|
-| base.js                       | Passed                                                                       |
+| base.js           | Passed                                   |
 | front-end-image-validation.js | Passed - After adding the missing semi-colon and adding "let" to the variable declaration |
-| init-materializecss-modal.js  | Passed                                                                       |
-| init-select-field.js          | Passed                                                                       |
+| init-materializecss-modal.js | Passed                                   |
+| init-select-field.js     | Passed                                   |
 | load-preview-image-function.js| Passed - After adding the missing semi-colon and removing one unnecessary semi-colon |
 
 </details>
@@ -323,6 +344,7 @@ I followed every other PEP8 guideline.
 I used Google's doc string format for functions.
 
 This is the output from pylint:
+
 ![pylint output](docs/validation/python/final-results.webp)
 
 The import in the init file is unable to be added to the top.
@@ -517,8 +539,8 @@ To deploy to Heroku, a Procfile and requirements.txt file is needed.
 **requirements.txt**
 * lists the dependencies needed to be installed by Heroku for the project.
 * Generate this file by running "pip freeze --local > requirements.txt"
-* Install the project's packages to a virtual Python environment. This will mean your requirements file only has the project's dependencies.
-    * It is best practice to do this for all projects.
+* Install the project's packages in a virtual Python environment. This will mean your requirements file only has the project's dependencies.
+	* It is best practice to do this for all projects.
 
 I have kept both these files **only** on the production branch. Both branches are identical apart from these two files.
 
@@ -587,13 +609,25 @@ $ git clone https://github.com/avabellaw/my-recipe
 ## Security features
 
 * Flask_login is used to manage users.
-    * This helps block users from pages where a login is required.
-    * Manages users and allows me to authenticate them.
-        * It's then decided whether the user is allowed to view certain pages or perform certain actions.
+    * This helps block users from pages where a login is required using the decorator: @login_required.
+* Manages users and allows me to authenticate them.
+    * It's then decided whether the user is allowed to view certain pages or perform certain actions.
+* Authentication checks are performed before allowing certain actions. For example:
+  * To delete a recipe, ownership of the recipe is checked unless the user is an admin.
+  * Ownership of the recipe is also checked to update the recipe.
 * User passwords are encrypted in SQL using Bcrypt.
 * The admin is asked to change the default password if they haven't already.
 * Validation of data is performed both at the front and back end.
-* secure_filename is used on images to ensure the filename isn't malicious.
+* secure_filename is used to check an image's filename to see if it contains malicious code. 
+  * If any is found then it is removed.
+  * Certain special characters are also removed.
+* WTForms ensures that there is front-end and back-end validation. 
+  * You can create your own functions for validation within the form class creation.
+* An admin is automatically created with a default password.
+  * They are prompted to change this password upon logging in for the first time and until it has been changed.
+* I tested to ensure that editing the URL wouldn't allow access to actions the user is unauthorised to use.
+* To change your password, your current password is required first.
+* The default value for DEBUG mode is False. To enable it, you must add the environment variable "DEBUG".
 
 ## Credits
 
@@ -646,9 +680,9 @@ $ git clone https://github.com/avabellaw/my-recipe
     [GitHub SVG from FontAwesome](https://fontawesome.com/icons/github?f=brands&s=solid)
 
 * Dietary icons
-    * [Vegan icon from Flaticon by Pixel Perfect](https://www.flaticon.com/free-icon/vegetarian_723633?term=vegetarian&page=1&position=3&origin=tag&related_id=723633)
-    * [Vegetarian icon from Freepik by Valeria](https://www.freepik.com/icon/lettuce_12114434#fromView=search&term=vegetarian+&track=ais&page=1&position=76&uuid=f94071d6-1b72-4559-b054-b4b8ecfc2af6)
-    * [Gluten-free icon from Flaticon by Freepik](https://www.flaticon.com/free-icon/gluten-free_4807774?term=gluten+free&page=1&position=4&origin=search&related_id=4807774)
-    * [Dairy-free icon from Freepik by bsd](https://www.freepik.com/icon/milk-free_12954588#fromView=search&term=dairy+free&track=ais&page=1&position=14&uuid=86065469-2655-4257-97b3-60711af88994)
-    * [Nut-free icon from Freepik by Freepik](https://www.freepik.com/icon/fruit_652405#fromView=search&term=nut+free&track=ais&page=1&position=4&uuid=500039e3-cbd4-42b9-bfeb-2361c3d32dd2)
-    * [Egg-free icon from Freepik by Freepik](https://www.freepik.com/icon/no-egg_1807571#fromView=search&term=egg+free&track=ais&page=1&position=3&uuid=ac4be750-70f5-4dd6-95ac-02f3ed3769c6)
+	* [Vegan icon from Flaticon by Pixel Perfect](https://www.flaticon.com/free-icon/vegetarian_723633?term=vegetarian&page=1&position=3&origin=tag&related_id=723633)
+	* [Vegetarian icon from Freepik by Valeria](https://www.freepik.com/icon/lettuce_12114434#fromView=search&term=vegetarian+&track=ais&page=1&position=76&uuid=f94071d6-1b72-4559-b054-b4b8ecfc2af6)
+	* [Gluten-free icon from Flaticon by Freepik](https://www.flaticon.com/free-icon/gluten-free_4807774?term=gluten+free&page=1&position=4&origin=search&related_id=4807774)
+	* [Dairy-free icon from Freepik by bsd](https://www.freepik.com/icon/milk-free_12954588#fromView=search&term=dairy+free&track=ais&page=1&position=14&uuid=86065469-2655-4257-97b3-60711af88994)
+	* [Nut-free icon from Freepik by Freepik](https://www.freepik.com/icon/fruit_652405#fromView=search&term=nut+free&track=ais&page=1&position=4&uuid=500039e3-cbd4-42b9-bfeb-2361c3d32dd2)
+	* [Egg-free icon from Freepik by Freepik](https://www.freepik.com/icon/no-egg_1807571#fromView=search&term=egg+free&track=ais&page=1&position=3&uuid=ac4be750-70f5-4dd6-95ac-02f3ed3769c6)
