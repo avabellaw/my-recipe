@@ -12,5 +12,5 @@ if __name__ == "__main__":
         host=os.environ.get("IP"),
         port=int(os.environ.get("PORT", 5000)),
         # Debug is set to False by default, unless set otherwise, for security.
-        debug=bool(os.environ.get("DEBUG", False))
+        debug=eval(os.environ.get("DEBUG", False))
     )
